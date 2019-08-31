@@ -17,10 +17,30 @@
 const Route = use('Route')
 
 Route.group(() => {
+
+// Users
+  //login + register
   Route.post('auth/register', 'UserController.register')
   Route.post('auth/login', 'UserController.login')
 
-  Route.get('gunbuilds', 'GunbuildController')
+  // get all
+  Route.get('users', 'UserController.index')
+  Route.get('users/:id', 'UserController.show')
+  
+
+// Gunbuilds
+  // get all
+  Route.get('gunbuilds', 'GunbuildController.index')
+  // get one
+  Route.get('gunbuilds/:id', 'GunbuildController.show')
+
+  // create one
+  Route.post('gunbuilds', 'GunbuildController.create').middleware('auth')
+  // update one
+  Route.patch('gunbuilds/:id', 'GunbuildController.update').middleware('auth')
+  // delete one
+  Route.delete('gunbuilds/:id', 'GunbuildController.delete').middleware('auth')
 
 })
   .prefix('api')
+  

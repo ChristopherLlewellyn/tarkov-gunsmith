@@ -13,7 +13,7 @@ class GunSchema extends Schema {
       table.integer('vertical_recoil_base')
       table.integer('ergonomics_base')
       table.integer('rpm')
-      table.integer('calibre')
+      table.string('calibre')
       table.integer('effective_range')
     })
   }

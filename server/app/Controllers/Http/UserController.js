@@ -3,23 +3,54 @@
 const User = use('App/Models/User')
 
 class UserController {
+
   //log the user in using email and password from post request
   async login({ request, auth }) {
-    const { email, password, } = request.all()
+    const { email, password } = request.all()
     const token = await auth.attempt(email, password)
     return token
   }
 
   //get the email and password from post request and create a new User
   async register({ request }) {
-    const { email, password } = request.all()
-    const user = await User.create({
-      email,
-      password,
-      username: email
+    const { email, password, username } = request.all()
+    const user = await User.create({ 
+      email, 
+      password, 
+      username,
     })
     return this.login(...arguments)
   }
+
+  // return all users
+  async index({ response }) {
+    const users = await User.all()
+
+    response.status(200).json({
+      message: 'Here is every user',
+      data: users
+    })
+  }
+
+  // return one user
+  async show({ response, params: { id } }) {
+    const user = await User.find(id)
+
+    if (user) {
+      response.status(200).json({
+        message: 'Here is your user',
+        data: user
+      })
+    }
+
+    else {
+      response.status(404).json({
+        message: 'User not found',
+        id
+      })
+    }
+  }
+
 }
 
 module.exports = UserController
