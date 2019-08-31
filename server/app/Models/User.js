@@ -35,8 +35,8 @@ class User extends Model {
     return this.hasMany('App/Models/Token')
   }
 
-  gunBuilds () {
-    return this.hasMany('App/Models/GunBuild')
+  gunbuilds () {
+    return this.hasMany('App/Models/Gunbuild')
   }
 }
 

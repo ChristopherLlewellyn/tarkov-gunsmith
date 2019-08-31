@@ -5,8 +5,8 @@ const Model = use('Model')
 
 class Attachment extends Model {
 
-  gunBuilds () {
-    return this.belongsToMany('App/Models/GunBuild')
+  gunbuilds () {
+    return this.belongsToMany('App/Models/Gunbuild')
   }
 
   slot () {

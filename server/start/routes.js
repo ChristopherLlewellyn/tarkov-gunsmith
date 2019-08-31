@@ -20,5 +20,7 @@ Route.group(() => {
   Route.post('auth/register', 'UserController.register')
   Route.post('auth/login', 'UserController.login')
 
+  Route.get('gunbuilds', 'GunbuildController')
+
 })
   .prefix('api')

@@ -3,7 +3,7 @@
 /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
 const Model = use('Model')
 
-class GunBuild extends Model {
+class Gunbuild extends Model {
   
   user () {
     return this.belongsTo('App/Models/User')
@@ -18,4 +18,4 @@ class GunBuild extends Model {
   }
 }
 
-module.exports = GunBuild
+module.exports = Gunbuild

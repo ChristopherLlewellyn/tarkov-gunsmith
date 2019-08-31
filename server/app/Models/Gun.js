@@ -9,8 +9,8 @@ class Gun extends Model {
     return this.belongsToMany('App/Models/Slot')
   }
 
-  gunBuilds () {
-    return this.hasMany('App/Models/GunBuilds')
+  gunbuilds () {
+    return this.hasMany('App/Models/Gunbuilds')
   }
 }
 
