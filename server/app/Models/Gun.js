@@ -4,6 +4,11 @@
 const Model = use('Model')
 
 class Gun extends Model {
+  
+  static boot () {
+    super.boot()
+    this.addTrait('NoTimestamp')
+  }
 
   slots () {
     return this.belongsToMany('App/Models/Slot')

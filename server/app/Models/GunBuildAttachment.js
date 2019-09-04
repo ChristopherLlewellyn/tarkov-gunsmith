@@ -4,6 +4,12 @@
 const Model = use('Model')
 
 class GunbuildAttachment extends Model {
+
+  static boot () {
+    super.boot()
+    this.addTrait('NoTimestamp')
+  }
+
 }
 
 module.exports = GunbuildAttachment
