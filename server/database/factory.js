@@ -35,3 +35,9 @@ Factory.blueprint('App/Models/Gun', (faker, i, data) => {
     effective_range:          data.effective_range,
   }
 })
+
+Factory.blueprint('App/Models/Slot', (faker, i, data) => {
+  return {
+    name: data.name
+  }
+})
