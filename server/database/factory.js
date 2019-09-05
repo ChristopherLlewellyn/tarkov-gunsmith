@@ -42,7 +42,7 @@ Factory.blueprint('App/Models/Slot', (faker, i, data) => {
   }
 })
 
-Factory.blueprint('App/Models/Attachment', async (faker, i, data) => {
+Factory.blueprint('App/Models/Attachment', (faker, i, data) => {
   return {
     name:                 data.name,
     slot_id:              data.slotId,
