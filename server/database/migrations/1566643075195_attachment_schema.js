@@ -9,8 +9,7 @@ class AttachmentSchema extends Schema {
       table.increments()
       table.string('name', 255)
       table.integer('slot_id').unsigned().references('id').inTable('slots')
-      table.integer('horizontal_recoil_modifier')
-      table.integer('vertical_recoil_modifier')
+      table.integer('recoil_modifier')
       table.integer('ergonomics_modifier')
     })
   }

@@ -32,12 +32,21 @@ Factory.blueprint('App/Models/Gun', (faker, i, data) => {
     ergonomics_base:          data.ergonomics_base,
     rpm:                      data.rpm,
     calibre:                  data.calibre,
-    effective_range:          data.effective_range,
+    effective_range:          data.effective_range
   }
 })
 
 Factory.blueprint('App/Models/Slot', (faker, i, data) => {
   return {
     name: data.name
+  }
+})
+
+Factory.blueprint('App/Models/Attachment', async (faker, i, data) => {
+  return {
+    name:                 data.name,
+    slot_id:              data.slotId,
+    recoil_modifier:      data.recoil,
+    ergonomics_modifier:  data.ergonomics
   }
 })

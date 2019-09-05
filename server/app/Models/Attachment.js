@@ -5,6 +5,11 @@ const Model = use('Model')
 
 class Attachment extends Model {
 
+  static boot () {
+    super.boot()
+    this.addTrait('NoTimestamp')
+  }
+
   gunbuilds () {
     return this.belongsToMany('App/Models/Gunbuild')
   }
