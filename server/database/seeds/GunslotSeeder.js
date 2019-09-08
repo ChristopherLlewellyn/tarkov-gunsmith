@@ -26,6 +26,8 @@ class GunslotSeeder {
       const gun = await Gun.findBy('name', gunSlots[gunSlot].gun)
       const slot = await Slot.findBy('name', gunSlots[gunSlot].slot)
 
+      /* We insert directly to the database rather than using a factory blueprint
+      because blueprints don't work properly with pivot tables */ 
       await Database.table('gun_slot')
         .insert([{ 
           gun_id: gun.id, 
