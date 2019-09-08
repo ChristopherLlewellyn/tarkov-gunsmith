@@ -6,6 +6,7 @@ const Schema = use('Schema')
 class GunSlotSchema extends Schema {
   up () {
     this.create('gun_slot', (table) => {
+      table.increments()
       table.integer('gun_id').unsigned().index('gun_id')
       table.integer('slot_id').unsigned().index('slot_id')
       
