@@ -2,6 +2,7 @@
 
 const Gunbuild = use('App/Models/Gunbuild')
 const Gun = use('App/Models/Gun')
+const AuthService = use('App/Services/AuthService')
 
 class GunbuildController {
 
@@ -28,8 +29,7 @@ class GunbuildController {
   // create a new gunbuild (requires authentication)
   async create({ auth, request, response }) {
     const user = await auth.getUser()
-    const { 
-      user_id, 
+    const {  
       gun_id, 
       name,
       horizontal_recoil_final,
@@ -38,8 +38,7 @@ class GunbuildController {
       } 
       = request.all()
 
-    const gunbuild = await Gunbuild.create({
-      user_id, 
+    const gunbuild = await user.gunbuilds().create({
       gun_id, 
       name,
       horizontal_recoil_final,
@@ -60,6 +59,8 @@ class GunbuildController {
   async update({ auth, request, response, params: { id } }) {
     const user = await auth.getUser()
     const gunbuild = request.gunbuild
+    AuthService.verifyPermission(gunbuild, user)
+    
     const { 
       gun_id, 
       name,
@@ -92,6 +93,7 @@ class GunbuildController {
     const user = await auth.getUser()
     const gunbuild = request.gunbuild
 
+    AuthService.verifyPermission(gunbuild, user)
     await gunbuild.delete()
 
     response.status(200).json({
