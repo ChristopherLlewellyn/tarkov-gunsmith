@@ -33,22 +33,13 @@ class UserController {
   }
 
   // return one user
-  async show({ response, params: { id } }) {
-    const user = await User.find(id)
+  async show({ request, response, params: { id } }) {
+    const user = request.user
 
-    if (user) {
-      response.status(200).json({
-        message: 'Here is your user',
-        data: user
-      })
-    }
-
-    else {
-      response.status(404).json({
-        message: 'User not found',
-        id
-      })
-    }
+    response.status(200).json({
+      message: 'Here is your user',
+      data: user
+    })
   }
 
 }

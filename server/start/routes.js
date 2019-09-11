@@ -25,7 +25,7 @@ Route.group(() => {
 
   // get all
   Route.get('users', 'UserController.index')
-  Route.get('users/:id', 'UserController.show')
+  Route.get('users/:id', 'UserController.show').middleware(['findUser'])
   
 
 // Gunbuilds
