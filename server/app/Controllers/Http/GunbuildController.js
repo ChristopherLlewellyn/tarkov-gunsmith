@@ -53,14 +53,11 @@ class GunbuildController {
   }
 
   // update a gunbuild (requires authentication)
-  /* TODO: create AuthorisationService and verifyPermission
-    AuthorizationService.verifyPermission(gunbuild, user);
-    */
   async update({ auth, request, response, params: { id } }) {
     const user = await auth.getUser()
     const gunbuild = request.gunbuild
     AuthService.verifyPermission(gunbuild, user)
-    
+
     const { 
       gun_id, 
       name,
@@ -86,9 +83,6 @@ class GunbuildController {
   }
 
   // delete a gunbuild (requires authentication)
-  /* TODO: create AuthorisationService and verifyPermission
-    AuthorizationService.verifyPermission(gunbuild, user);
-    */
   async delete({ request, auth, response, params: { id } }) {
     const user = await auth.getUser()
     const gunbuild = request.gunbuild
