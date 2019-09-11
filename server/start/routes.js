@@ -32,14 +32,14 @@ Route.group(() => {
   // get all
   Route.get('gunbuilds', 'GunbuildController.index')
   // get one
-  Route.get('gunbuilds/:id', 'GunbuildController.show')
+  Route.get('gunbuilds/:id', 'GunbuildController.show').middleware(['findGunbuild'])
 
   // create one
-  Route.post('gunbuilds', 'GunbuildController.create').middleware('auth')
+  Route.post('gunbuilds', 'GunbuildController.create').middleware(['auth'])
   // update one
-  Route.patch('gunbuilds/:id', 'GunbuildController.update').middleware('auth')
+  Route.patch('gunbuilds/:id', 'GunbuildController.update').middleware(['auth', 'findGunbuild'])
   // delete one
-  Route.delete('gunbuilds/:id', 'GunbuildController.delete').middleware('auth')
+  Route.delete('gunbuilds/:id', 'GunbuildController.delete').middleware(['auth', 'findGunbuild'])
 
 })
   .prefix('api')

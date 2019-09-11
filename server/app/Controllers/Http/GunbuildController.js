@@ -16,22 +16,13 @@ class GunbuildController {
   }
 
   // return one gunbuild
-  async show({ response, params: { id } }) {
-    const gunbuild = await Gunbuild.find(id)
-
-    if (gunbuild) {
-      response.status(200).json({
-        message: 'Here is your gunbuild',
-        data: gunbuild
-      })
-    }
-
-    else {
-      response.status(404).json({
-        message: 'Gunbuild not found',
-        id
-      })
-    }
+  async show({ request, response, params: { id } }) {
+    const gunbuild = request.gunbuild
+    
+    response.status(200).json({
+      message: 'Here is your gunbuild',
+      data: gunbuild
+    })
   }
 
   // create a new gunbuild (requires authentication)
@@ -67,8 +58,8 @@ class GunbuildController {
     AuthorizationService.verifyPermission(gunbuild, user);
     */
   async update({ auth, request, response, params: { id } }) {
-    const user = await auth.getUser();
-    const gunbuild = await Gunbuild.find(id)
+    const user = await auth.getUser()
+    const gunbuild = request.gunbuild
     const { 
       gun_id, 
       name,
@@ -78,11 +69,11 @@ class GunbuildController {
     } = request.post()
 
     gunbuild.merge({
-      gun_id: gun_id,
-      name: name,
+      gun_id:                  gun_id,
+      name:                    name,
       horizontal_recoil_final: horizontal_recoil_final,
-      vertical_recoil_final: vertical_recoil_final,
-      ergonomics_final: ergonomics_final
+      vertical_recoil_final:   vertical_recoil_final,
+      ergonomics_final:        ergonomics_final
     })
 
     await gunbuild.save()
@@ -97,11 +88,11 @@ class GunbuildController {
   /* TODO: create AuthorisationService and verifyPermission
     AuthorizationService.verifyPermission(gunbuild, user);
     */
-  async delete({ auth, response, params: { id } }) {
-    const user = await auth.getUser();
-    const gunbuild = await Gunbuild.find(id);
+  async delete({ request, auth, response, params: { id } }) {
+    const user = await auth.getUser()
+    const gunbuild = request.gunbuild
 
-    await gunbuild.delete();
+    await gunbuild.delete()
 
     response.status(200).json({
       message: 'Successfully deleted this gunbuild',
