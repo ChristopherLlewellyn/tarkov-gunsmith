@@ -18,28 +18,50 @@ const Route = use('Route')
 
 Route.group(() => {
 
-// Users
-  //login + register
-  Route.post('auth/register', 'UserController.register')
-  Route.post('auth/login', 'UserController.login')
+// ----- Users -----
+  // register
+  Route
+    .post('auth/register', 'UserController.register')
+    .validator('RegisterUser')
+
+  // login
+  Route
+    .post('auth/login', 'UserController.login')
+    .validator('LoginUser')
 
   // get all
-  Route.get('users', 'UserController.index')
-  Route.get('users/:id', 'UserController.show').middleware(['findUser'])
-  
+  Route
+    .get('users', 'UserController.index')
 
-// Gunbuilds
-  // get all
-  Route.get('gunbuilds', 'GunbuildController.index')
   // get one
-  Route.get('gunbuilds/:id', 'GunbuildController.show').middleware(['findGunbuild'])
+  Route
+    .get('users/:id', 'UserController.show')
+    .middleware(['findUser'])
+
+// ----- Gunbuilds -----
+  // get all
+  Route
+    .get('gunbuilds', 'GunbuildController.index')
+
+  // get one
+  Route
+    .get('gunbuilds/:id', 'GunbuildController.show')
+    .middleware(['findGunbuild'])
 
   // create one
-  Route.post('gunbuilds', 'GunbuildController.create').middleware(['auth'])
+  Route
+    .post('gunbuilds', 'GunbuildController.create')
+    .middleware(['auth'])
+
   // update one
-  Route.patch('gunbuilds/:id', 'GunbuildController.update').middleware(['auth', 'findGunbuild'])
+  Route
+    .patch('gunbuilds/:id', 'GunbuildController.update')
+    .middleware(['auth', 'findGunbuild'])
+
   // delete one
-  Route.delete('gunbuilds/:id', 'GunbuildController.delete').middleware(['auth', 'findGunbuild'])
+  Route
+    .delete('gunbuilds/:id', 'GunbuildController.delete')
+    .middleware(['auth', 'findGunbuild'])
 
 })
   .prefix('api')
