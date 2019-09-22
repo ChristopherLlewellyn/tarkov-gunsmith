@@ -52,7 +52,7 @@ class GunbuildController {
     })
   }
 
-  // update a gunbuild (requires authentication)
+  // update a gunbuild (requires authentication and permission)
   async update({ auth, request, response, params: { id } }) {
     const user = await auth.getUser()
     const gunbuild = request.gunbuild
@@ -82,12 +82,12 @@ class GunbuildController {
     })
   }
 
-  // delete a gunbuild (requires authentication)
+  // delete a gunbuild (requires authentication and permission)
   async delete({ request, auth, response, params: { id } }) {
     const user = await auth.getUser()
     const gunbuild = request.gunbuild
-
     AuthService.verifyPermission(gunbuild, user)
+
     await gunbuild.delete()
 
     response.status(200).json({
