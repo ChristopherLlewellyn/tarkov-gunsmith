@@ -1,7 +1,6 @@
 'use strict'
 
 const Gunbuild = use('App/Models/Gunbuild')
-const Gun = use('App/Models/Gun')
 const AuthService = use('App/Services/AuthService')
 
 class GunbuildController {
