@@ -19,8 +19,8 @@ class GunSeeder {
     const workbook = XLSX.readFile('Database/Seeds/seeds.xlsx')
     let guns = XLSX.utils.sheet_to_json(workbook.Sheets['Guns']) //json object
     
-    for (var gun in guns) {
-      const newGun = await Factory.model('App/Models/Gun').create(guns[gun])
+    for (var i in guns) {
+      const newGun = await Factory.model('App/Models/Gun').create(guns[i])
     }
   }
 }

@@ -20,10 +20,10 @@ class AttachmentSeeder {
     const workbook = XLSX.readFile('Database/Seeds/seeds.xlsx')
     let attachments = XLSX.utils.sheet_to_json(workbook.Sheets['Attachments']) //json object
     
-    for (var attachment in attachments) {
-      const slot = await Slot.findBy('name', attachments[attachment].slot)
-      attachments[attachment].slotId = slot.id
-      const newAttachment = await Factory.model('App/Models/Attachment').create(attachments[attachment])
+    for (var i in attachments) {
+      const slot = await Slot.findBy('name', attachments[i].slot)
+      attachments[i].slotId = slot.id
+      const newAttachment = await Factory.model('App/Models/Attachment').create(attachments[i])
     }
   }
 }

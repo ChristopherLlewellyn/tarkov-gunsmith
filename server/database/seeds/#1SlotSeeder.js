@@ -19,8 +19,8 @@ class SlotSeeder {
     const workbook = XLSX.readFile('Database/Seeds/seeds.xlsx')
     let slots = XLSX.utils.sheet_to_json(workbook.Sheets['Slots']) //json object
     
-    for (var slot in slots) {
-      const newSlot = await Factory.model('App/Models/Slot').create(slots[slot])
+    for (var i in slots) {
+      const newSlot = await Factory.model('App/Models/Slot').create(slots[i])
     }
   }
 }
