@@ -22,9 +22,9 @@ class GunslotSeeder {
     const workbook = XLSX.readFile('Database/Seeds/seeds.xlsx')
     let gunSlots = XLSX.utils.sheet_to_json(workbook.Sheets['GunSlots']) //json object
     
-    for (var i in gunSlots) {
-      const gun = await Gun.findBy('name', gunSlots[i].gun)
-      const slot = await Slot.findBy('name', gunSlots[i].slot)
+    for (var row in gunSlots) {
+      const gun = await Gun.findBy('name', gunSlots[row].gun)
+      const slot = await Slot.findBy('name', gunSlots[row].slot)
 
       /* We insert directly to the database rather than using a factory blueprint
       because blueprints don't work properly with pivot tables */ 
