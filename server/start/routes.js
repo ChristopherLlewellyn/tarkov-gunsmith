@@ -23,6 +23,20 @@ Route.group(() => {
   Route
     .post('auth/register', 'UserController.register')
     .validator('RegisterUser')
+  
+  // confirm email address
+  Route
+    .get('auth/register/confirm/:token', 'UserController.confirmEmail')
+
+  // request password reset
+  Route
+    .post('auth/password/email', 'UserController.sendPasswordResetEmail')
+    .validator('PasswordResetEmail')
+  
+  // confirm password reset
+  Route
+    .post('auth/password/reset', 'UserController.resetPassword')
+    .validator('PasswordReset')
 
   // login
   Route
