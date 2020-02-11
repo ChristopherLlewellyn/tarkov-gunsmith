@@ -44,9 +44,12 @@ Factory.blueprint('App/Models/Slot', (faker, i, data) => {
 
 Factory.blueprint('App/Models/Attachment', (faker, i, data) => {
   return {
-    name:                 data.name,
-    slot_id:              data.slotId,
-    recoil_modifier:      data.recoil,
-    ergonomics_modifier:  data.ergonomics
+    name:                       data.name,
+    slot_id:                    data.slotId,
+    recoil_modifier:            data.recoil,
+    ergonomics_modifier:        data.ergonomics,
+    accuracy_modifier:          data.accuracy,
+    muzzle_velocity_modifier:   data.muzzle_velocity,
+    image:                      data.image
   }
 })

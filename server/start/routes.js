@@ -77,6 +77,11 @@ Route.group(() => {
     .delete('gunbuilds/:id', 'GunbuildController.delete')
     .middleware(['auth', 'findGunbuild'])
 
+// ----- Attachments -----
+  // get all
+  Route
+    .get('attachments', 'AttachmentController.index')
+
 })
   .prefix('api')
   

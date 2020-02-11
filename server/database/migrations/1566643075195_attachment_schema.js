@@ -11,6 +11,9 @@ class AttachmentSchema extends Schema {
       table.integer('slot_id').unsigned().references('id').inTable('slots')
       table.integer('recoil_modifier')
       table.integer('ergonomics_modifier')
+      table.integer('accuracy_modifier')
+      table.integer('muzzle_velocity_modifier')
+      table.string('image')
     })
   }
 
