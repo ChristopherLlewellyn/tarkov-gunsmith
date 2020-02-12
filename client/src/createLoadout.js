@@ -4,10 +4,11 @@ import router from './router'
 export default {
   namespaced: true,
   state: {
+    availableWeapons: [],
     availableAttachments: [],
 
     weapon: {
-      title: "ADAR 2-15",
+      name: "ADAR 2-15",
       src: "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/3/3c/ADAR2-15Image.png?version=5ce4ce8faa56a1c54bdb1cbab889f0d0",
     },
 
@@ -22,6 +23,13 @@ export default {
       .then(({ data }) => {
         commit('setAvailableAttachments', data.data)
       })
+    },
+
+    fetchWeapons({ commit }) {
+      return HTTP().get('/guns')
+      .then(({ data }) => {
+        commit('setAvailableWeapons', data.data)
+      })
     }
   },
 
@@ -31,11 +39,12 @@ export default {
 
   mutations: {
     // Weapon selector
-    setWeaponTitle(state, title) {
-      state.weapon.title = title
+    setAvailableWeapons(state, availableWeapons) {
+      state.availableWeapons = availableWeapons
     },
-    setWeaponSrc(state, src) {
-      state.weapon.src = src
+    setWeapon(state, weapon) {
+      state.weapon.name = weapon.name
+      state.weapon.src = weapon.image
     },
 
     // Attachments selector

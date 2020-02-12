@@ -7,7 +7,7 @@
         <v-container fluid>
           <v-img v-if="weapon.src !== null" :src="weapon.src" class="white--text align-end" gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
             max-height="180">
-            <v-card-title v-if="weapon.title !== null">{{weapon.title}}</v-card-title>
+            <v-card-title v-if="weapon.name !== null">{{weapon.name}}</v-card-title>
           </v-img>
         </v-container>
         <v-card-actions class="justify-center">

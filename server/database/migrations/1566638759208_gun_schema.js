@@ -7,6 +7,7 @@ class GunSchema extends Schema {
   up () {
     this.create('guns', (table) => {
       table.increments()
+      table.string('image')
       table.string('name', 255)
       table.string('type', 255)
       table.integer('horizontal_recoil_base')
@@ -14,7 +15,6 @@ class GunSchema extends Schema {
       table.integer('ergonomics_base')
       table.integer('rpm')
       table.string('calibre')
-      table.integer('effective_range')
     })
   }
 

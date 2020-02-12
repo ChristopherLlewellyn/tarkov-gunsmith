@@ -26,6 +26,7 @@ Factory.blueprint('App/Models/User', async (faker) => {
 
 Factory.blueprint('App/Models/Gun', (faker, i, data) => {
   return {
+    image:                    data.image,
     name:                     data.name,
     type:                     data.type,
     horizontal_recoil_base:   data.horizontal_recoil_base,
@@ -33,7 +34,6 @@ Factory.blueprint('App/Models/Gun', (faker, i, data) => {
     ergonomics_base:          data.ergonomics_base,
     rpm:                      data.rpm,
     calibre:                  data.calibre,
-    effective_range:          data.effective_range
   }
 })
 

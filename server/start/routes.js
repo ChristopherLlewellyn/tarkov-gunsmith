@@ -82,6 +82,11 @@ Route.group(() => {
   Route
     .get('attachments', 'AttachmentController.index')
 
+// ----- Guns -----
+  // get all
+  Route
+    .get('guns', 'GunController.index')
+
 })
   .prefix('api')
   
