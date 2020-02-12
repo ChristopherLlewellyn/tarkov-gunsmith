@@ -18,7 +18,7 @@
                 </div>
               </template>
               <template v-slot:item.action="{ item }">
-                <v-btn color="red" @click="deleteAttachment(item)">
+                <v-btn color="red" @click="deleteAttachment(item), calculateWeaponStats()">
                   <v-icon>mdi-delete</v-icon>
                 </v-btn>
               </template>
@@ -45,6 +45,7 @@
     methods: {
       ...mapMutations('createLoadout', [
         'deleteAttachment',
+        'calculateWeaponStats',
       ]),
     },
 
@@ -77,14 +78,6 @@
         {
           text: 'Recoil (%)',
           value: 'recoil_modifier',
-        },
-        {
-          text: 'Accuracy',
-          value: 'accuracy_modifier',
-        },
-        {
-          text: 'Muzzle Velocity',
-          value: 'muzzle_velocity_modifier',
         },
         {
           text: '',

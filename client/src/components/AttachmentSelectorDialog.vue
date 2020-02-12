@@ -15,7 +15,7 @@
           </div>
         </template>
         <template v-slot:item.action="{ item }">
-          <v-btn color="green" @click="addAttachment(item), updateAlert(item.name)">
+          <v-btn color="green" @click="addAttachment(item), updateAlert(item.name), calculateWeaponStats()">
             <v-icon>mdi-plus-circle-outline</v-icon>
           </v-btn>
         </template>
@@ -42,6 +42,7 @@
       ...mapMutations('createLoadout', [
         'addAttachment',
         'updateAlert',
+        'calculateWeaponStats',
       ]),
 
       ...mapActions('createLoadout', [
@@ -81,14 +82,6 @@
         {
           text: 'Recoil (%)',
           value: 'recoil_modifier'
-        },
-        {
-          text: 'Accuracy',
-          value: 'accuracy_modifier'
-        },
-        {
-          text: 'Muzzle Velocity',
-          value: 'muzzle_velocity_modifier'
         },
         {
           text: '',

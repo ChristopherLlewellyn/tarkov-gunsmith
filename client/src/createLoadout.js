@@ -10,6 +10,18 @@ export default {
     weapon: {
       name: "ADAR 2-15",
       src: "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/3/3c/ADAR2-15Image.png?version=5ce4ce8faa56a1c54bdb1cbab889f0d0",
+      type: "Assault rifle",
+      calibre: "5.56x45mm NATO",
+      rpm: 800,
+      ergonomics: 59,
+      horizontal_recoil: 407,
+      vertical_recoil: 149,
+    },
+
+    weaponStatsCalculated: {
+      ergonomics: 59,
+      horizontal_recoil: 407,
+      vertical_recoil: 149,
     },
 
     attachments: [],
@@ -30,14 +42,31 @@ export default {
       .then(({ data }) => {
         commit('setAvailableWeapons', data.data)
       })
-    }
-  },
-
-  getters: {
-
+    },
   },
 
   mutations: {
+    calculateWeaponStats(state) {
+      var ergonomics = state.weapon.ergonomics
+      var horizontal_recoil = state.weapon.horizontal_recoil
+      var vertical_recoil = state.weapon.vertical_recoil
+
+      state.attachments.forEach(function(attachment) {
+        if(attachment.ergonomics_modifier !== null) {
+          ergonomics = ergonomics + attachment.ergonomics_modifier
+        }
+
+        if(attachment.recoil_modifier !== null && attachment.recoil_modifier !== 0) {
+          horizontal_recoil = Math.round(horizontal_recoil * ( (100 + attachment.recoil_modifier) / 100 ))
+          vertical_recoil = Math.round(vertical_recoil * ( (100 + attachment.recoil_modifier) / 100 ))
+        }
+      })
+
+      state.weaponStatsCalculated.ergonomics = ergonomics
+      state.weaponStatsCalculated.horizontal_recoil = horizontal_recoil
+      state.weaponStatsCalculated.vertical_recoil = vertical_recoil
+    },
+
     // Weapon selector
     setAvailableWeapons(state, availableWeapons) {
       state.availableWeapons = availableWeapons
@@ -45,6 +74,12 @@ export default {
     setWeapon(state, weapon) {
       state.weapon.name = weapon.name
       state.weapon.src = weapon.image
+      state.weapon.type = weapon.type
+      state.weapon.calibre = weapon.calibre
+      state.weapon.ergonomics = weapon.ergonomics_base
+      state.weapon.vertical_recoil = weapon.vertical_recoil_base
+      state.weapon.horizontal_recoil = weapon.horizontal_recoil_base
+      state.weapon.rpm = weapon.rpm
     },
 
     // Attachments selector
