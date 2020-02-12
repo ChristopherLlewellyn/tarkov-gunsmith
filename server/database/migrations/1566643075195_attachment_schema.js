@@ -7,8 +7,8 @@ class AttachmentSchema extends Schema {
   up () {
     this.create('attachments', (table) => {
       table.increments()
+      table.string('type')
       table.string('name', 255)
-      table.integer('slot_id').unsigned().references('id').inTable('slots')
       table.integer('recoil_modifier')
       table.integer('ergonomics_modifier')
       table.integer('accuracy_modifier')

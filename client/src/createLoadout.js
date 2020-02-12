@@ -20,7 +20,7 @@ export default {
     fetchAttachments({ commit }) {
       return HTTP().get('/attachments')
       .then(({ data }) => {
-        commit('setAvailableAttachments', data.data[0])
+        commit('setAvailableAttachments', data.data)
       })
     }
   },

@@ -19,7 +19,8 @@ Factory.blueprint('App/Models/User', async (faker) => {
   return {
     username: faker.username(),
     email: faker.email(),
-    password: await Hash.make(faker.password())
+    password: await Hash.make(faker.password()),
+    is_active: 1
   }
 })
 
@@ -36,20 +37,14 @@ Factory.blueprint('App/Models/Gun', (faker, i, data) => {
   }
 })
 
-Factory.blueprint('App/Models/Slot', (faker, i, data) => {
-  return {
-    name: data.name
-  }
-})
-
 Factory.blueprint('App/Models/Attachment', (faker, i, data) => {
   return {
     name:                       data.name,
-    slot_id:                    data.slotId,
-    recoil_modifier:            data.recoil,
-    ergonomics_modifier:        data.ergonomics,
-    accuracy_modifier:          data.accuracy,
-    muzzle_velocity_modifier:   data.muzzle_velocity,
+    type:                       data.type,
+    recoil_modifier:            data.recoil_modifier,
+    ergonomics_modifier:        data.ergonomics_modifier,
+    accuracy_modifier:          data.accuracy_modifier,
+    muzzle_velocity_modifier:   data.muzzle_velocity_modifier,
     image:                      data.image
   }
 })

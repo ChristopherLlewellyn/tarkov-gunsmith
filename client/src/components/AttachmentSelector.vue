@@ -68,7 +68,7 @@
         },
         {
           text: 'Type',
-          value: 'slot',
+          value: 'type',
         },
         {
           text: 'Ergonomics',

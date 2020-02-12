@@ -9,14 +9,6 @@ class Attachment extends Model {
     super.boot()
     this.addTrait('NoTimestamp')
   }
-
-  gunbuilds () {
-    return this.belongsToMany('App/Models/Gunbuild')
-  }
-
-  slot () {
-    return this.belongsTo('App/Models/Slot')
-  }
 }
 
 module.exports = Attachment

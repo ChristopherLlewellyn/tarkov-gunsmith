@@ -10,10 +10,6 @@ class Gun extends Model {
     this.addTrait('NoTimestamp')
   }
 
-  slots () {
-    return this.belongsToMany('App/Models/Slot')
-  }
-
   gunbuilds () {
     return this.hasMany('App/Models/Gunbuilds')
   }

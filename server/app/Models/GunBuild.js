@@ -12,10 +12,6 @@ class Gunbuild extends Model {
   gun () {
     return this.hasOne('App/Models/Gun')
   }
-
-  attachments () {
-    return this.belongsToMany('App/Models/Attachment')
-  }
 }
 
 module.exports = Gunbuild
