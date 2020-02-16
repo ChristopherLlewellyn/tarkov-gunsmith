@@ -33,7 +33,8 @@ class GunbuildController {
       name,
       horizontal_recoil_final,
       vertical_recoil_final,
-      ergonomics_final
+      ergonomics_final,
+      attachments
       } 
       = request.all()
 
@@ -44,10 +45,16 @@ class GunbuildController {
       vertical_recoil_final,
       ergonomics_final
     })
+
+    const attachmentIds = []
+    for (var i = 0; i < attachments.length; i++) {
+      attachmentIds.push(attachments[i].id)
+    }
+    const gunbuildAttachments = await gunbuild.attachments().attach(attachmentIds)
     
     response.status(201).json({
       message: 'Successfully created a new gunbuild',
-      data: gunbuild
+      data: { gunbuild, gunbuildAttachments }
     })
   }
 

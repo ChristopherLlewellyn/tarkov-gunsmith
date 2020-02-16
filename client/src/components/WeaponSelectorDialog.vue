@@ -15,6 +15,61 @@
             <v-img :src="item.image" alt="No image" max-height="125" max-width="300" contain></v-img>
           </div>
         </template>
+
+        <template v-slot:item.ergonomics_base="{ item }">
+          <v-chip color="green">
+            <v-avatar left class="green darken-4">
+              <v-icon>mdi-hand</v-icon>
+            </v-avatar>
+            {{ item.ergonomics_base }}
+          </v-chip>
+        </template>
+
+        <template v-slot:item.horizontal_recoil_base="{ item }">
+          <v-chip color="blue">
+                <v-avatar left class="blue darken-4">
+                  <v-icon>mdi-arrow-split-vertical</v-icon>
+                </v-avatar>
+                {{ item.horizontal_recoil_base }}
+              </v-chip>
+        </template>
+
+        <template v-slot:item.vertical_recoil_base="{ item }">
+          <v-chip color="blue">
+                <v-avatar left class="blue darken-4">
+                  <v-icon>mdi-arrow-split-horizontal</v-icon>
+                </v-avatar>
+                {{ item.vertical_recoil_base }}
+              </v-chip>
+        </template>
+
+        <template v-slot:item.rpm="{ item }">
+          <v-chip color="brown">
+                <v-avatar left class="brown darken-4">
+                  <v-icon>mdi-chevron-triple-right</v-icon>
+                </v-avatar>
+                {{ item.rpm }}
+              </v-chip>
+        </template>
+
+        <template v-slot:item.calibre="{ item }">
+          <v-chip color="purple">
+                <v-avatar left class="purple darken-4">
+                  <v-icon>mdi-bullet</v-icon>
+                </v-avatar>
+                {{ item.calibre }}
+              </v-chip>
+        </template>
+
+        <template v-slot:item.type="{ item }">
+          <v-chip color="red darken-1">
+                <v-avatar left class="red darken-4">
+                  <v-icon>mdi-axis</v-icon>
+                </v-avatar>
+                {{ item.type }}
+              </v-chip>
+        </template>
+
         <template v-slot:item.action="{ item }">
           <v-btn color="green" @click="setWeapon(item), calculateWeaponStats(), dialog=false">
             <v-icon>mdi-plus-circle-outline</v-icon>
@@ -27,7 +82,11 @@
 </template>
 
 <script>
-import { mapMutations, mapActions, mapState } from 'vuex'
+  import {
+    mapMutations,
+    mapActions,
+    mapState
+  } from 'vuex'
 
   export default {
     mounted() {
@@ -75,12 +134,12 @@ import { mapMutations, mapActions, mapState } from 'vuex'
           value: 'ergonomics_base'
         },
         {
-          text: 'Horizontal Recoil',
-          value: 'horizontal_recoil_base'
-        },
-        {
           text: 'Vertical Recoil',
           value: 'vertical_recoil_base'
+        },
+        {
+          text: 'Horizontal Recoil',
+          value: 'horizontal_recoil_base'
         },
         {
           text: 'RPM',

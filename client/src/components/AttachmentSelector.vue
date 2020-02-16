@@ -2,7 +2,7 @@
   <v-container>
     <v-layout row wrap>
       <v-flex xs12>
-        <v-card tile color="grey darken-4">
+        <v-card color="grey darken-4">
           <v-card-title class="blue-grey darken-2">Attachments</v-card-title>
           <v-container fluid>
             <v-toolbar flat>
