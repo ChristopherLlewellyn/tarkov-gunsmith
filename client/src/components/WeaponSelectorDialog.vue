@@ -9,7 +9,7 @@
         <v-text-field v-model="search" prepend-icon="mdi-magnify" label="Search table" class="pb-2 pt-2" single-line hide-details>
         </v-text-field>
       </v-toolbar>
-      <v-data-table :headers="headers" :items="availableWeapons" :search="search" :items-per-page="10" class="elevation-1">
+      <v-data-table :headers="headers" :items="availableWeapons" :search="search" :items-per-page="5" class="elevation-1">
         <template v-slot:item.image="{ item }">
           <div class="pt-1 pb-1 pl-1 pr-1">
             <v-img :src="item.image" alt="No image" max-height="125" max-width="300" contain></v-img>
