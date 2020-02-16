@@ -15,80 +15,83 @@
           </v-card-actions>
 
           <v-divider></v-divider>
+          <v-card-actions class="justify-center">
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on }">
+                <v-chip class="ma-2" color="red darken-1" v-on="on">
+                  <v-avatar left class="red darken-4">
+                    <v-icon>mdi-axis</v-icon>
+                  </v-avatar>
+                  {{ weapon.type }}
+                </v-chip>
+              </template>
+              <span>Type</span>
+            </v-tooltip>
 
-          <v-tooltip bottom>
-            <template v-slot:activator="{ on }">
-              <v-chip class="ma-2" color="red darken-1" v-on="on">
-                <v-avatar left class="red darken-4">
-                  <v-icon>mdi-axis</v-icon>
-                </v-avatar>
-                {{ weapon.type }}
-              </v-chip>
-            </template>
-            <span>Type</span>
-          </v-tooltip>
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on }">
+                <v-chip class="ma-2" color="brown" v-on="on">
+                  <v-avatar left class="brown darken-4">
+                    <v-icon>mdi-chevron-triple-right</v-icon>
+                  </v-avatar>
+                  {{ weapon.rpm }}
+                </v-chip>
+              </template>
+              <span>RPM</span>
+            </v-tooltip>
 
-          <v-tooltip bottom>
-            <template v-slot:activator="{ on }">
-              <v-chip class="ma-2" color="brown" v-on="on">
-                <v-avatar left class="brown darken-4">
-                  <v-icon>mdi-chevron-triple-right</v-icon>
-                </v-avatar>
-                {{ weapon.rpm }}
-              </v-chip>
-            </template>
-            <span>RPM</span>
-          </v-tooltip>
-
-          <v-tooltip bottom>
-            <template v-slot:activator="{ on }">
-              <v-chip class="ma-2" color="purple" v-on="on">
-                <v-avatar left class="purple darken-4">
-                  <v-icon>mdi-bullet</v-icon>
-                </v-avatar>
-                {{ weapon.calibre }}
-              </v-chip>
-            </template>
-            <span>Calibre</span>
-          </v-tooltip>
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on }">
+                <v-chip class="ma-2" color="purple" v-on="on">
+                  <v-avatar left class="purple darken-4">
+                    <v-icon>mdi-bullet</v-icon>
+                  </v-avatar>
+                  {{ weapon.calibre }}
+                </v-chip>
+              </template>
+              <span>Calibre</span>
+            </v-tooltip>
+          </v-card-actions>
 
           <v-divider></v-divider>
 
-          <v-tooltip bottom>
-            <template v-slot:activator="{ on }">
-              <v-chip class="ma-2" color="green" v-on="on">
-                <v-avatar left class="green darken-4">
-                  <v-icon>mdi-hand</v-icon>
-                </v-avatar>
-                {{ weaponStatsCalculated.ergonomics }}
-              </v-chip>
-            </template>
-            <span>Ergonomics</span>
-          </v-tooltip>
+          <v-card-actions class="justify-center">
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on }">
+                <v-chip class="ma-2" color="green" v-on="on">
+                  <v-avatar left class="green darken-4">
+                    <v-icon>mdi-hand</v-icon>
+                  </v-avatar>
+                  {{ weaponStatsCalculated.ergonomics }}
+                </v-chip>
+              </template>
+              <span>Ergonomics</span>
+            </v-tooltip>
 
-          <v-tooltip bottom>
-            <template v-slot:activator="{ on }">
-              <v-chip class="ma-2" color="blue" v-on="on">
-                <v-avatar left class="blue darken-4">
-                  <v-icon>mdi-arrow-split-horizontal</v-icon>
-                </v-avatar>
-                {{ weaponStatsCalculated.vertical_recoil }}
-              </v-chip>
-            </template>
-            <span>Vertical Recoil</span>
-          </v-tooltip>
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on }">
+                <v-chip class="ma-2" color="blue" v-on="on">
+                  <v-avatar left class="blue darken-4">
+                    <v-icon>mdi-arrow-split-horizontal</v-icon>
+                  </v-avatar>
+                  {{ weaponStatsCalculated.vertical_recoil }}
+                </v-chip>
+              </template>
+              <span>Vertical Recoil</span>
+            </v-tooltip>
 
-          <v-tooltip bottom>
-            <template v-slot:activator="{ on }">
-              <v-chip class="ma-2" color="blue" v-on="on">
-                <v-avatar left class="blue darken-4">
-                  <v-icon>mdi-arrow-split-vertical</v-icon>
-                </v-avatar>
-                {{ weaponStatsCalculated.horizontal_recoil }}
-              </v-chip>
-            </template>
-            <span>Horizontal Recoil</span>
-          </v-tooltip>
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on }">
+                <v-chip class="ma-2" color="blue" v-on="on">
+                  <v-avatar left class="blue darken-4">
+                    <v-icon>mdi-arrow-split-vertical</v-icon>
+                  </v-avatar>
+                  {{ weaponStatsCalculated.horizontal_recoil }}
+                </v-chip>
+              </template>
+              <span>Horizontal Recoil</span>
+            </v-tooltip>
+          </v-card-actions>
 
         </v-card>
       </v-flex>
