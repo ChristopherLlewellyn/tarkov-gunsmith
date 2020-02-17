@@ -3,6 +3,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import authentication from './authentication';
 import createLoadout from './createLoadout';
+import myLoadouts from './myLoadouts';
 
 Vue.use(Vuex);
 
@@ -14,6 +15,7 @@ export default new Vuex.Store({
   modules: {
     authentication,
     createLoadout,
+    myLoadouts,
   },
   mutations: {
 
@@ -22,6 +24,6 @@ export default new Vuex.Store({
 
   },
   plugins: [
-    createPersistedState(),
+    //createPersistedState(),
   ],
 });

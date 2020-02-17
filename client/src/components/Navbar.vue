@@ -92,9 +92,10 @@ export default {
     return {
       drawer: false,
       notRequiresSignIn: [
-        { title: 'Loadouts', icon: 'mdi-pistol', route: '/' },
+        { title: 'Search Loadouts', icon: 'mdi-crosshairs', route: '/' },
       ],
       requiresSignIn: [
+        { title: 'My Loadouts', icon: 'mdi-pistol', route: '/my-loadouts' },
         { title: 'Create Loadout', icon: 'mdi-hammer', route: '/create-loadout' },
         { title: 'Account', icon: 'mdi-account', route: null },
       ]

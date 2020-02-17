@@ -1,6 +1,7 @@
 'use strict'
 
 const Gunbuild = use('App/Models/Gunbuild')
+const Database = use('Database')
 const AuthService = use('App/Services/AuthService')
 
 class GunbuildController {
@@ -11,6 +12,27 @@ class GunbuildController {
 
     response.status(200).json({
       message: 'Here is every gunbuild',
+      data: gunbuilds
+    })
+  }
+
+  // return all gunbuilds for logged in user
+  async indexMine({ auth, response }) {
+    const user = await auth.getUser()
+    const gunbuilds = await Database.raw(
+      `SELECT user.username, gunbuild.*, gun.name AS gun_name, gun.image AS gun_image, gun.calibre AS gun_calibre, gun.rpm AS gun_rpm, gun.type AS gun_type 
+      FROM Gunbuilds AS gunbuild 
+      INNER JOIN Guns AS gun 
+      ON gunbuild.gun_id = gun.id
+      INNER JOIN Users AS user
+      ON user.id = gunbuild.user_id
+      WHERE gunbuild.user_id = ${user.id}`
+    )
+
+    gunbuilds.pop()
+
+    response.status(200).json({
+      message: 'Here is every gunbuild for this user',
       data: gunbuilds
     })
   }

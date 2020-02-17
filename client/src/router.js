@@ -4,6 +4,7 @@ import Home from './views/Home.vue';
 import SignIn from './views/SignIn.vue'
 import SignUp from './views/SignUp.vue'
 import CreateLoadout from './views/CreateLoadout.vue'
+import MyLoadouts from './views/MyLoadouts.vue'
 
 Vue.use(Router);
 
@@ -28,6 +29,11 @@ export default new Router({
       path: '/create-loadout',
       name: 'create-loadout',
       component: CreateLoadout,
+    },
+    {
+      path: '/my-loadouts',
+      name: 'my-loadouts',
+      component: MyLoadouts,
     },
   ],
 });
