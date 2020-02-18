@@ -269,7 +269,6 @@ export default {
 
       search: '',
       itemsPerPageArray: [8, 12, 16, 20],
-      search: '',
       filter: {},
       sortDesc: false,
       page: 1,
