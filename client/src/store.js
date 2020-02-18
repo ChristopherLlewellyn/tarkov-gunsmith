@@ -4,6 +4,7 @@ import Vuex from 'vuex';
 import authentication from './authentication';
 import createLoadout from './createLoadout';
 import myLoadouts from './myLoadouts';
+import editLoadout from './editLoadout';
 
 Vue.use(Vuex);
 
@@ -16,6 +17,7 @@ export default new Vuex.Store({
     authentication,
     createLoadout,
     myLoadouts,
+    editLoadout,
   },
   mutations: {
 

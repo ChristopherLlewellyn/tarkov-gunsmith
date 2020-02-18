@@ -4,6 +4,7 @@ import router from './router'
 export default {
   namespaced: true,
   state: {
+    loadoutId: null,
     availableWeapons: [],
     availableAttachments: [],
     loadoutName: '',
@@ -32,6 +33,23 @@ export default {
   },
 
   actions: {
+
+    fillLoadoutDetails({ commit, state }) {
+      return HTTP().get(`/gunbuilds/${state.loadoutId}`)
+      .then(({ data }) => {
+        commit('setLoadoutDetails', data)
+        commit('calculateWeaponStats')
+      })
+      .catch(function(error) {
+        if(error.response.status == '404') {
+          router.push('/my-loadouts')
+        }
+        else {
+          router.push('/my-loadouts')
+        }
+      })
+    },
+
     fetchAttachments({ commit }) {
       return HTTP().get('/attachments')
       .then(({ data }) => {
@@ -46,8 +64,8 @@ export default {
       })
     },
 
-    createLoadout({ commit, state }) {
-      return HTTP().post('/gunbuilds', {
+    editLoadout({ commit, state }) {
+      return HTTP().patch(`/gunbuilds/${state.loadoutId}`, {
         gun_id: state.weapon.id,
         name: state.loadoutName,
         ergonomics_final: state.weaponStatsCalculated.ergonomics,
@@ -57,12 +75,31 @@ export default {
       })
       .then(({ data }) => {
         commit('reset')
-        router.push('/')
+        router.push('/my-loadouts')
       })
     },
   },
 
   mutations: {
+
+    setLoadoutDetails(state, data) {
+      state.weapon.id = data.gun[0][0].id
+      state.weapon.name = data.gun[0][0].name
+      state.weapon.src = data.gun[0][0].image
+      state.weapon.type = data.gun[0][0].type
+      state.weapon.calibre = data.gun[0][0].calibre
+      state.weapon.rpm = data.gun[0][0].rpm
+      state.weapon.ergonomics = data.gun[0][0].ergonomics_base
+      state.weapon.horizontal_recoil = data.gun[0][0].horizontal_recoil_base
+      state.weapon.vertical_recoil = data.gun[0][0].vertical_recoil_base
+
+      data.gunbuild[0].attachments.forEach(attachment => {
+        state.attachments.push(attachment)
+      });
+
+      state.loadoutName = data.gunbuild[0].name
+    },
+
     reset(state) {
       state.availableWeapons = []
       state.availableAttachments = []
@@ -141,10 +178,13 @@ export default {
     },
     updateAlert(state, item) {
       let message = item + ' has been added'
-      state.alert = message
+      state.alert = message;
     },
     setLoadoutName(state, name) {
       state.loadoutName = name
+    },
+    setLoadoutId(state, id) {
+      state.loadoutId = id
     },
   },
 }

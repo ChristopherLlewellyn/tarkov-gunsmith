@@ -29,7 +29,7 @@ class GunbuildController {
       WHERE gunbuild.user_id = ${user.id}`
     )
 
-    gunbuilds.pop()
+    gunbuilds.pop() // clean up junk from RAW query
 
     response.status(200).json({
       message: 'Here is every gunbuild for this user',
@@ -37,13 +37,23 @@ class GunbuildController {
     })
   }
 
-  // return one gunbuild
-  async show({ request, response, params: { id } }) {
-    const gunbuild = request.gunbuild
+  // return one gunbuild with attachments
+  async show({ response, params: { id } }) {
+    const gunbuild = await Gunbuild
+      .query()
+      .with('attachments')
+      .where('id', id)
+      .fetch()
+    
+    const gun = await Database.raw(
+      `SELECT gun.* FROM Guns AS gun INNER JOIN Gunbuilds AS gunbuild ON gunbuild.gun_id = gun.id WHERE gunbuild.id = ${id}`
+    )
+    gun.pop() // clean up junk from RAW query
     
     response.status(200).json({
       message: 'Here is your gunbuild',
-      data: gunbuild
+      gunbuild,
+      gun
     })
   }
 
@@ -91,7 +101,8 @@ class GunbuildController {
       name,
       horizontal_recoil_final,
       vertical_recoil_final,
-      ergonomics_final
+      ergonomics_final,
+      attachments
     } = request.post()
 
     gunbuild.merge({
@@ -104,9 +115,16 @@ class GunbuildController {
 
     await gunbuild.save()
 
+    const attachmentIds = []
+    for (var i = 0; i < attachments.length; i++) {
+      attachmentIds.push(attachments[i].id)
+    }
+    await gunbuild.attachments().detach()
+    const gunbuildAttachments = await gunbuild.attachments().attach(attachmentIds)
+
     response.status(200).json({
       message: 'Successfully updated this gunbuild',
-      data: gunbuild
+      data: { gunbuild, gunbuildAttachments }
     })
   }
 

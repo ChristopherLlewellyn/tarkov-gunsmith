@@ -7,14 +7,14 @@
       </v-flex>
 
       <v-flex xs12 md4>
-        <weapon-selector></weapon-selector>
+        <edit-weapon-selector></edit-weapon-selector>
       </v-flex>
 
       <v-flex xs12 md8>
-        <attachment-selector></attachment-selector>
+        <edit-attachment-selector></edit-attachment-selector>
       </v-flex>
 
-      <v-btn color="blue-grey darken-2" @click="createLoadout()">Publish</v-btn>
+      <v-btn color="blue-grey darken-2" @click="editLoadout()">Publish</v-btn>
 
     </v-layout>
   </v-container>
@@ -28,14 +28,18 @@
   } from 'vuex'
 
   import router from '../router'
-  import WeaponSelector from '@/components/WeaponSelector.vue'
-  import AttachmentSelector from '@/components/AttachmentSelector.vue'
+  import EditWeaponSelector from '@/components/EditWeaponSelector.vue'
+  import EditAttachmentSelector from '@/components/EditAttachmentSelector.vue'
 
   export default {
+
     mounted() {
       if (!this.isSignedIn) {
         return router.push('/sign-in')
       }
+      this.reset()
+      this.setLoadoutId(this.$route.params.id)
+      this.fillLoadoutDetails()
     },
 
     computed: {
@@ -45,18 +49,21 @@
     },
 
     methods: {
-      ...mapActions('createLoadout', [
-        'createLoadout',
+      ...mapActions('editLoadout', [
+        'fillLoadoutDetails',
+        'editLoadout',
       ]),
-
-      ...mapMutations('createLoadout', [
+      
+      ...mapMutations('editLoadout', [
+        'reset',
         'setLoadoutName',
+        'setLoadoutId',
       ]),
     },
 
     components: {
-      WeaponSelector,
-      AttachmentSelector,
+      EditWeaponSelector,
+      EditAttachmentSelector,
     },
   };
 

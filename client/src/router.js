@@ -5,6 +5,7 @@ import SignIn from './views/SignIn.vue'
 import SignUp from './views/SignUp.vue'
 import CreateLoadout from './views/CreateLoadout.vue'
 import MyLoadouts from './views/MyLoadouts.vue'
+import EditLoadout from './views/EditLoadout.vue'
 
 Vue.use(Router);
 
@@ -34,6 +35,11 @@ export default new Router({
       path: '/my-loadouts',
       name: 'my-loadouts',
       component: MyLoadouts,
+    },
+    {
+      path: '/my-loadouts/edit/:id',
+      name: 'my-loadouts-edit',
+      component: EditLoadout,
     },
   ],
 });

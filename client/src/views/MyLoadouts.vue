@@ -128,7 +128,7 @@
               </v-card-actions>
 
               <v-card-actions class="justify-center">
-                <v-btn class="ma-1" color="blue">
+                <v-btn class="ma-1" color="blue" :to="'/my-loadouts/edit/' + loadout.id">
                   <span>Edit</span>
                   <v-icon right>mdi-pencil</v-icon>
                 </v-btn>
