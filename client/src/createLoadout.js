@@ -9,7 +9,7 @@ export default {
     loadoutName: '',
 
     weapon: {
-      id: 1,
+      id: 27,
       name: "ADAR 2-15",
       src: "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/3/3c/ADAR2-15Image.png?version=5ce4ce8faa56a1c54bdb1cbab889f0d0",
       type: "Assault rifle",
@@ -69,7 +69,7 @@ export default {
       state.loadoutName = ''
 
       state.weapon = {
-        id: 1,
+        id: 27,
         name: "ADAR 2-15",
         src: "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/3/3c/ADAR2-15Image.png?version=5ce4ce8faa56a1c54bdb1cbab889f0d0",
         type: "Assault rifle",

@@ -14,7 +14,7 @@
         <attachment-selector></attachment-selector>
       </v-flex>
 
-      <v-btn color="blue-grey darken-2" @click="createLoadout">Publish</v-btn>
+      <v-btn color="blue-grey darken-2" @click="createLoadout()">Publish</v-btn>
 
     </v-layout>
   </v-container>
