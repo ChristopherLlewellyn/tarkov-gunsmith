@@ -1,7 +1,7 @@
 <template>
   <v-container grid-list-xs>
     <v-layout row wrap>
-      
+
       <v-flex xs12>
         <v-text-field v-on:input="setLoadoutName" prepend-icon="mdi-rename-box" label="Loadout name" class="pb-2 pt-2" single-line filled></v-text-field>
       </v-flex>
@@ -21,43 +21,43 @@
 </template>
 
 <script>
-  import {
-    mapActions, 
-    mapGetters,
-    mapMutations,
-  } from 'vuex'
+import {
+  mapActions,
+  mapGetters,
+  mapMutations,
+} from 'vuex';
 
-  import router from '../router'
-  import WeaponSelector from '@/components/WeaponSelector.vue'
-  import AttachmentSelector from '@/components/AttachmentSelector.vue'
+import router from '../router';
+import WeaponSelector from '@/components/WeaponSelector.vue';
+import AttachmentSelector from '@/components/AttachmentSelector.vue';
 
-  export default {
-    mounted() {
-      if (!this.isSignedIn) {
-        return router.push('/sign-in')
-      }
-    },
+export default {
+  mounted() {
+    if (!this.isSignedIn) {
+      return router.push('/sign-in');
+    }
+  },
 
-    computed: {
-      ...mapGetters('authentication', [
-        'isSignedIn'
-      ])
-    },
+  computed: {
+    ...mapGetters('authentication', [
+      'isSignedIn',
+    ]),
+  },
 
-    methods: {
-      ...mapActions('createLoadout', [
-        'createLoadout',
-      ]),
+  methods: {
+    ...mapActions('createLoadout', [
+      'createLoadout',
+    ]),
 
-      ...mapMutations('createLoadout', [
-        'setLoadoutName',
-      ]),
-    },
+    ...mapMutations('createLoadout', [
+      'setLoadoutName',
+    ]),
+  },
 
-    components: {
-      WeaponSelector,
-      AttachmentSelector,
-    },
-  };
+  components: {
+    WeaponSelector,
+    AttachmentSelector,
+  },
+};
 
 </script>

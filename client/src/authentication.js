@@ -1,5 +1,5 @@
-import HTTP from './http'
-import router from './router'
+import HTTP from './http';
+import router from './router';
 
 export default {
   namespaced: true,
@@ -17,79 +17,78 @@ export default {
   },
   actions: {
     register({ commit, state }) {
-      commit('setSignUpError', null)
+      commit('setSignUpError', null);
       return HTTP().post('/auth/register', {
         email: state.signUpEmail,
         password: state.signUpPassword,
         username: state.signUpUsername,
       })
-      .then(({ data }) => {
-        commit('setSignUpSuccess', data.message)
-      })
-      .catch(function(error) {
-        commit('setSignUpError', error.response.data[0].message) // message from response body
-      })
+        .then(({ data }) => {
+          commit('setSignUpSuccess', data.message);
+        })
+        .catch((error) => {
+          commit('setSignUpError', error.response.data[0].message); // message from response body
+        });
     },
 
     signIn({ commit, state }) {
-      commit('setSignInError', null)
+      commit('setSignInError', null);
       return HTTP().post('/auth/login', {
         email: state.signInEmail,
         password: state.signInPassword,
       })
-      .then(({ data }) => {
-        commit('setToken', data.token)
-        commit('setSignInError', null)
-        router.push('/')
-      })
-      .catch(function(error) {
-        if(error.response.status == '404') {
-          commit('setSignInError', error.response.data.message)
-        }
-        else {
-          commit('setSignInError', error.response.data[0].message) // message from response body
-        }
-      })
+        .then(({ data }) => {
+          commit('setToken', data.token);
+          commit('setSignInError', null);
+          router.push('/');
+        })
+        .catch((error) => {
+          if (error.response.status == '404') {
+            commit('setSignInError', error.response.data.message);
+          } else {
+            commit('setSignInError', error.response.data[0].message); // message from response body
+          }
+        });
     },
     signOut({ commit }) {
-      commit('setToken', null)
-      router.push('/sign-in')
+      commit('setToken', null);
+      router.push('/sign-in');
     },
   },
   getters: {
     isSignedIn(state) {
-      return !!state.token
+      return !!state.token;
     },
   },
   mutations: {
     setSignUpEmail(state, email) {
-      state.signUpEmail = email
+      state.signUpEmail = email;
     },
     setSignUpPassword(state, password) {
-      state.signUpPassword = password
+      state.signUpPassword = password;
     },
     setSignUpUsername(state, username) {
-      state.signUpUsername = username
+      state.signUpUsername = username;
     },
     setSignUpError(state, error) {
-      state.signUpError = error
-      state.signUpSuccess = null
+      state.signUpError = error;
+      state.signUpSuccess = null;
     },
     setSignUpSuccess(state, success) {
-      state.signUpSuccess = success
-      state.signUpError = null
+      state.signUpSuccess = success;
+      state.signUpError = null;
     },
     setSignInEmail(state, email) {
-      state.signInEmail = email
+      state.signInEmail = email;
     },
     setSignInPassword(state, password) {
-      state.signInPassword = password
+      state.signInPassword = password;
     },
     setSignInError(state, error) {
-      state.signInError = error
+      state.signInError = error;
     },
     setToken(state, token) {
-      state.token = token
+      state.token = token;
     },
-  }
-}
+  },
+};

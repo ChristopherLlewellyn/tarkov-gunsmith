@@ -42,37 +42,37 @@
 
 
 <script>
-  import {
-    mapState,
-    mapMutations,
-    mapActions
-  } from 'vuex';
+import {
+  mapState,
+  mapMutations,
+  mapActions,
+} from 'vuex';
 
-  export default {
-    computed: {
-      ...mapState('authentication', [
-        'signUpEmail',
-        'signUpPassword',
-        'signUpUsername',
-        'signUpError',
-        'signUpSuccess',
-      ]),
-    },
-    methods: {
-      ...mapMutations('authentication', [
-        'setSignUpEmail',
-        'setSignUpPassword',
-        'setSignUpUsername',
-      ]),
-      ...mapActions('authentication', [
-        'register',
-      ])
-    },
-    data() {
-      return {
+export default {
+  computed: {
+    ...mapState('authentication', [
+      'signUpEmail',
+      'signUpPassword',
+      'signUpUsername',
+      'signUpError',
+      'signUpSuccess',
+    ]),
+  },
+  methods: {
+    ...mapMutations('authentication', [
+      'setSignUpEmail',
+      'setSignUpPassword',
+      'setSignUpUsername',
+    ]),
+    ...mapActions('authentication', [
+      'register',
+    ]),
+  },
+  data() {
+    return {
 
-      }
-    }
-  };
+    };
+  },
+};
 
 </script>

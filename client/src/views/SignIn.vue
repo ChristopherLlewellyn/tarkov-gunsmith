@@ -24,7 +24,7 @@
             </v-btn>
             <v-spacer></v-spacer>
           </v-card-actions>
-          
+
           <v-card-text class="text-center">
             <span class="font-weight-medium">Don't have an account? <a href="#/sign-up" color="white" class="font-weight-bold"
                 style="text-decoration:none;">Sign up</a></span>
@@ -38,35 +38,35 @@
 
 
 <script>
-  import {
-    mapState,
-    mapMutations,
-    mapActions
-  } from 'vuex';
+import {
+  mapState,
+  mapMutations,
+  mapActions,
+} from 'vuex';
 
-  export default {
-    computed: {
-      ...mapState('authentication', [
-        'signInEmail',
-        'signInPassword',
-        'signInError',
-      ]),
-    },
-    methods: {
-      ...mapMutations('authentication', [
-        'setSignInEmail',
-        'setSignInPassword',
-      ]),
-      ...mapActions('authentication', [
-        'signIn',
-      ])
-    },
+export default {
+  computed: {
+    ...mapState('authentication', [
+      'signInEmail',
+      'signInPassword',
+      'signInError',
+    ]),
+  },
+  methods: {
+    ...mapMutations('authentication', [
+      'setSignInEmail',
+      'setSignInPassword',
+    ]),
+    ...mapActions('authentication', [
+      'signIn',
+    ]),
+  },
 
-    data() {
-      return {
-        
-      }
-    }
-  };
+  data() {
+    return {
+
+    };
+  },
+};
 
 </script>

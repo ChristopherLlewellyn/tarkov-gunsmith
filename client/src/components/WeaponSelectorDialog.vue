@@ -82,80 +82,80 @@
 </template>
 
 <script>
-  import {
-    mapMutations,
-    mapActions,
-    mapState
-  } from 'vuex'
+import {
+  mapMutations,
+  mapActions,
+  mapState,
+} from 'vuex';
 
-  export default {
-    mounted() {
-      this.fetchWeapons()
+export default {
+  mounted() {
+    this.fetchWeapons();
+  },
+
+  methods: {
+    ...mapMutations('createLoadout', [
+      'setWeapon',
+      'calculateWeaponStats',
+    ]),
+
+    ...mapActions('createLoadout', [
+      'fetchWeapons',
+    ]),
+  },
+
+  computed: {
+    ...mapState('createLoadout', [
+      'availableWeapons',
+    ]),
+  },
+
+  data: () => ({
+    dialog: false,
+
+    search: '',
+
+    headers: [{
+      text: 'Image',
+      value: 'image',
+      sortable: false,
+      filterable: false,
     },
-
-    methods: {
-      ...mapMutations('createLoadout', [
-        'setWeapon',
-        'calculateWeaponStats',
-      ]),
-
-      ...mapActions('createLoadout', [
-        'fetchWeapons',
-      ]),
+    {
+      text: 'Name',
+      value: 'name',
     },
-
-    computed: {
-      ...mapState('createLoadout', [
-        'availableWeapons',
-      ]),
+    {
+      text: 'Type',
+      value: 'type',
     },
-
-    data: () => ({
-      dialog: false,
-
-      search: '',
-
-      headers: [{
-          text: 'Image',
-          value: 'image',
-          sortable: false,
-          filterable: false
-        },
-        {
-          text: 'Name',
-          value: 'name'
-        },
-        {
-          text: 'Type',
-          value: 'type'
-        },
-        {
-          text: 'Ergonomics',
-          value: 'ergonomics_base'
-        },
-        {
-          text: 'Vertical Recoil',
-          value: 'vertical_recoil_base'
-        },
-        {
-          text: 'Horizontal Recoil',
-          value: 'horizontal_recoil_base'
-        },
-        {
-          text: 'RPM',
-          value: 'rpm'
-        },
-        {
-          text: 'Calibre',
-          value: 'calibre'
-        },
-        {
-          text: '',
-          value: 'action',
-          sortable: false
-        },
-      ],
-    }),
-  };
+    {
+      text: 'Ergonomics',
+      value: 'ergonomics_base',
+    },
+    {
+      text: 'Vertical Recoil',
+      value: 'vertical_recoil_base',
+    },
+    {
+      text: 'Horizontal Recoil',
+      value: 'horizontal_recoil_base',
+    },
+    {
+      text: 'RPM',
+      value: 'rpm',
+    },
+    {
+      text: 'Calibre',
+      value: 'calibre',
+    },
+    {
+      text: '',
+      value: 'action',
+      sortable: false,
+    },
+    ],
+  }),
+};
 
 </script>

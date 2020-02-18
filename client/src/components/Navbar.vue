@@ -73,12 +73,12 @@
 
 <!-- Script -->
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   computed: {
     ...mapGetters('authentication', [
-      'isSignedIn'
+      'isSignedIn',
     ]),
   },
 
@@ -98,7 +98,7 @@ export default {
         { title: 'My Loadouts', icon: 'mdi-pistol', route: '/my-loadouts' },
         { title: 'Create Loadout', icon: 'mdi-hammer', route: '/create-loadout' },
         { title: 'Account', icon: 'mdi-account', route: null },
-      ]
+      ],
     };
   },
 };

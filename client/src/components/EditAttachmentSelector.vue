@@ -31,62 +31,62 @@
 </template>
 
 <script>
-  import {
-    mapState,
-    mapMutations
-  } from 'vuex'
-  import EditAttachmentSelectorDialog from './EditAttachmentSelectorDialog.vue'
+import {
+  mapState,
+  mapMutations,
+} from 'vuex';
+import EditAttachmentSelectorDialog from './EditAttachmentSelectorDialog.vue';
 
-  export default {
-    components: {
-      EditAttachmentSelectorDialog,
+export default {
+  components: {
+    EditAttachmentSelectorDialog,
+  },
+
+  methods: {
+    ...mapMutations('editLoadout', [
+      'deleteAttachment',
+      'calculateWeaponStats',
+    ]),
+  },
+
+  computed: {
+    ...mapState('editLoadout', [
+      'attachments',
+    ]),
+  },
+
+  data: () => ({
+    search: '',
+    headers: [{
+      text: 'Image',
+      value: 'image',
+      sortable: false,
+      filterable: false,
     },
-
-    methods: {
-      ...mapMutations('editLoadout', [
-        'deleteAttachment',
-        'calculateWeaponStats',
-      ]),
+    {
+      text: 'Name',
+      value: 'name',
     },
-
-    computed: {
-      ...mapState('editLoadout', [
-        'attachments',
-      ]),
+    {
+      text: 'Type',
+      value: 'type',
     },
-
-    data: () => ({
-      search: '',
-      headers: [{
-          text: 'Image',
-          value: 'image',
-          sortable: false,
-          filterable: false,
-        },
-        {
-          text: 'Name',
-          value: 'name',
-        },
-        {
-          text: 'Type',
-          value: 'type',
-        },
-        {
-          text: 'Ergonomics',
-          value: 'ergonomics_modifier',
-        },
-        {
-          text: 'Recoil (%)',
-          value: 'recoil_modifier',
-        },
-        {
-          text: '',
-          value: 'action',
-          sortable: false,
-          filterable: false,
-        },
-      ],
-    }),
-  };
+    {
+      text: 'Ergonomics',
+      value: 'ergonomics_modifier',
+    },
+    {
+      text: 'Recoil (%)',
+      value: 'recoil_modifier',
+    },
+    {
+      text: '',
+      value: 'action',
+      sortable: false,
+      filterable: false,
+    },
+    ],
+  }),
+};
 
 </script>

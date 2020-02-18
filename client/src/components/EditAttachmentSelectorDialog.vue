@@ -26,70 +26,70 @@
 </template>
 
 <script>
-  import {
-    mapState,
-    mapMutations,
-    mapActions
-  } from 'vuex'
-  import HTTP from '../http'
+import {
+  mapState,
+  mapMutations,
+  mapActions,
+} from 'vuex';
+import HTTP from '../http';
 
-  export default {
-    mounted() {
-      this.fetchAttachments()
+export default {
+  mounted() {
+    this.fetchAttachments();
+  },
+
+  methods: {
+    ...mapMutations('editLoadout', [
+      'addAttachment',
+      'updateAlert',
+      'calculateWeaponStats',
+    ]),
+
+    ...mapActions('editLoadout', [
+      'fetchAttachments',
+    ]),
+  },
+
+  computed: {
+    ...mapState('editLoadout', [
+      'alert',
+      'availableAttachments',
+    ]),
+  },
+
+  data: () => ({
+    dialog: false,
+    search: '',
+
+    headers: [{
+      text: 'Image',
+      value: 'image',
+      sortable: false,
+      filterable: false,
     },
-
-    methods: {
-      ...mapMutations('editLoadout', [
-        'addAttachment',
-        'updateAlert',
-        'calculateWeaponStats',
-      ]),
-
-      ...mapActions('editLoadout', [
-        'fetchAttachments',
-      ]),
+    {
+      text: 'Name',
+      value: 'name',
     },
-
-    computed: {
-      ...mapState('editLoadout', [
-        'alert',
-        'availableAttachments',
-      ]),
+    {
+      text: 'Type',
+      value: 'type',
     },
-
-    data: () => ({
-      dialog: false,
-      search: '',
-
-      headers: [{
-          text: 'Image',
-          value: 'image',
-          sortable: false,
-          filterable: false
-        },
-        {
-          text: 'Name',
-          value: 'name'
-        },
-        {
-          text: 'Type',
-          value: 'type'
-        },
-        {
-          text: 'Ergonomics',
-          value: 'ergonomics_modifier'
-        },
-        {
-          text: 'Recoil (%)',
-          value: 'recoil_modifier'
-        },
-        {
-          text: '',
-          value: 'action',
-          sortable: false
-        },
-      ],
-    }),
-  }
+    {
+      text: 'Ergonomics',
+      value: 'ergonomics_modifier',
+    },
+    {
+      text: 'Recoil (%)',
+      value: 'recoil_modifier',
+    },
+    {
+      text: '',
+      value: 'action',
+      sortable: false,
+    },
+    ],
+  }),
+};
 
 </script>

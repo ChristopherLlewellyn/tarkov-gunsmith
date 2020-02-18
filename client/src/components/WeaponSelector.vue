@@ -100,22 +100,22 @@
 </template>
 
 <script>
-  import {
-    mapState
-  } from 'vuex'
-  import WeaponSelectorDialog from './WeaponSelectorDialog.vue'
+import {
+  mapState,
+} from 'vuex';
+import WeaponSelectorDialog from './WeaponSelectorDialog.vue';
 
-  export default {
-    components: {
-      WeaponSelectorDialog,
-    },
+export default {
+  components: {
+    WeaponSelectorDialog,
+  },
 
-    computed: {
-      ...mapState('createLoadout', [
-        'weapon',
-        'weaponStatsCalculated',
-      ]),
-    },
-  };
+  computed: {
+    ...mapState('createLoadout', [
+      'weapon',
+      'weaponStatsCalculated',
+    ]),
+  },
+};
 
 </script>

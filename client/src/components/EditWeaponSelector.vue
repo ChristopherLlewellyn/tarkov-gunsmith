@@ -100,22 +100,22 @@
 </template>
 
 <script>
-  import {
-    mapState
-  } from 'vuex'
-  import EditWeaponSelectorDialog from './EditWeaponSelectorDialog.vue'
+import {
+  mapState,
+} from 'vuex';
+import EditWeaponSelectorDialog from './EditWeaponSelectorDialog.vue';
 
-  export default {
-    components: {
-      EditWeaponSelectorDialog,
-    },
+export default {
+  components: {
+    EditWeaponSelectorDialog,
+  },
 
-    computed: {
-      ...mapState('editLoadout', [
-        'weapon',
-        'weaponStatsCalculated',
-      ]),
-    },
-  };
+  computed: {
+    ...mapState('editLoadout', [
+      'weapon',
+      'weaponStatsCalculated',
+    ]),
+  },
+};
 
 </script>
