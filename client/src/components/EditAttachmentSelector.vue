@@ -11,18 +11,20 @@
               <v-spacer></v-spacer>
               <edit-attachment-selector-dialog></edit-attachment-selector-dialog>
             </v-toolbar>
-            <v-data-table :headers="headers" :items="attachments" :search="search" :items-per-page="10" class="elevation-1">
-              <template v-slot:item.image="{ item }">
-                <div class="pt-1 pb-1 pl-1 pr-1">
-                  <v-img :src="item.image" alt="No image" max-height="75" max-width="175" contain></v-img>
-                </div>
-              </template>
-              <template v-slot:item.action="{ item }">
-                <v-btn color="red" @click="deleteAttachment(item), calculateWeaponStats()">
-                  <v-icon>mdi-delete</v-icon>
-                </v-btn>
-              </template>
-            </v-data-table>
+            <v-skeleton-loader :loading="loading" :transition="transition" type="table-tbody">
+              <v-data-table :headers="headers" :items="attachments" :search="search" :items-per-page="10" class="elevation-1">
+                <template v-slot:item.image="{ item }">
+                  <div class="pt-1 pb-1 pl-1 pr-1">
+                    <v-img :src="item.image" alt="No image" max-height="75" max-width="175" contain></v-img>
+                  </div>
+                </template>
+                <template v-slot:item.action="{ item }">
+                  <v-btn color="red" @click="deleteAttachment(item), calculateWeaponStats()">
+                    <v-icon>mdi-delete</v-icon>
+                  </v-btn>
+                </template>
+              </v-data-table>
+            </v-skeleton-loader>
           </v-container>
         </v-card>
       </v-flex>
@@ -31,62 +33,64 @@
 </template>
 
 <script>
-import {
-  mapState,
-  mapMutations,
-} from 'vuex';
-import EditAttachmentSelectorDialog from './EditAttachmentSelectorDialog.vue';
+  import {
+    mapState,
+    mapMutations,
+  } from 'vuex';
+  import EditAttachmentSelectorDialog from './EditAttachmentSelectorDialog.vue';
 
-export default {
-  components: {
-    EditAttachmentSelectorDialog,
-  },
+  export default {
+    components: {
+      EditAttachmentSelectorDialog,
+    },
 
-  methods: {
-    ...mapMutations('editLoadout', [
-      'deleteAttachment',
-      'calculateWeaponStats',
-    ]),
-  },
+    methods: {
+      ...mapMutations('editLoadout', [
+        'deleteAttachment',
+        'calculateWeaponStats',
+      ]),
+    },
 
-  computed: {
-    ...mapState('editLoadout', [
-      'attachments',
-    ]),
-  },
+    computed: {
+      ...mapState('editLoadout', [
+        'attachments',
+        'loading',
+      ]),
+    },
 
-  data: () => ({
-    search: '',
-    headers: [{
-      text: 'Image',
-      value: 'image',
-      sortable: false,
-      filterable: false,
-    },
-    {
-      text: 'Name',
-      value: 'name',
-    },
-    {
-      text: 'Type',
-      value: 'type',
-    },
-    {
-      text: 'Ergonomics',
-      value: 'ergonomics_modifier',
-    },
-    {
-      text: 'Recoil (%)',
-      value: 'recoil_modifier',
-    },
-    {
-      text: '',
-      value: 'action',
-      sortable: false,
-      filterable: false,
-    },
-    ],
-  }),
-};
+    data: () => ({
+      transition: 'scale-transition',
+      search: '',
+      headers: [{
+          text: 'Image',
+          value: 'image',
+          sortable: false,
+          filterable: false,
+        },
+        {
+          text: 'Name',
+          value: 'name',
+        },
+        {
+          text: 'Type',
+          value: 'type',
+        },
+        {
+          text: 'Ergonomics',
+          value: 'ergonomics_modifier',
+        },
+        {
+          text: 'Recoil (%)',
+          value: 'recoil_modifier',
+        },
+        {
+          text: '',
+          value: 'action',
+          sortable: false,
+          filterable: false,
+        },
+      ],
+    }),
+  };
 
 </script>

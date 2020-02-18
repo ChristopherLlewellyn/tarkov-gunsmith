@@ -4,6 +4,8 @@ import router from './router';
 export default {
   namespaced: true,
   state: {
+    loading: true,
+
     loadoutId: null,
     availableWeapons: [],
     availableAttachments: [],
@@ -35,10 +37,12 @@ export default {
   actions: {
 
     fillLoadoutDetails({ commit, state }) {
+      commit('setLoading', true);
       return HTTP().get(`/gunbuilds/${state.loadoutId}`)
         .then(({ data }) => {
           commit('setLoadoutDetails', data);
           commit('calculateWeaponStats');
+          commit('setLoading', false);
         })
         .catch((error) => {
           if (error.response.status == '404') {
@@ -184,6 +188,9 @@ export default {
     },
     setLoadoutId(state, id) {
       state.loadoutId = id;
+    },
+    setLoading(state, loading) {
+      state.loading = loading;
     },
   },
 };

@@ -4,6 +4,8 @@ import router from './router';
 export default {
   namespaced: true,
   state: {
+    loading: true,
+
     availableWeapons: [],
     availableAttachments: [],
     loadoutName: '',
@@ -33,16 +35,20 @@ export default {
 
   actions: {
     fetchAttachments({ commit }) {
+      commit('setLoading', true);
       return HTTP().get('/attachments')
         .then(({ data }) => {
           commit('setAvailableAttachments', data.data);
+          commit('setLoading', false);
         });
     },
 
     fetchWeapons({ commit }) {
+      commit('setLoading', true);
       return HTTP().get('/guns')
         .then(({ data }) => {
           commit('setAvailableWeapons', data.data);
+          commit('setLoading', false);
         });
     },
 
@@ -145,6 +151,10 @@ export default {
     },
     setLoadoutName(state, name) {
       state.loadoutName = name;
+    },
+
+    setLoading(state, loading) {
+      state.loading = loading;
     },
   },
 };

@@ -5,6 +5,7 @@ export default {
   namespaced: true,
   state: {
     loading: true,
+    
     loadouts: [],
     loadoutToDelete: null,
   },
