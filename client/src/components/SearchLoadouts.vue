@@ -196,63 +196,65 @@
         </v-btn-toggle>
 
       </v-toolbar>
-      <v-data-table :headers="headers" :items="loadouts" :search="search" :items-per-page="10" class="elevation-1">
-        <template v-slot:item.image="{ item }">
-          <div class="pt-1 pb-1 pl-1 pr-1">
-            <v-img :src="item.gun_image" alt="No image" max-height="125" max-width="300" contain class="align-end">
-              <p class="pl-2">{{ item.gun_name }}</p>
-            </v-img>
-          </div>
-        </template>
+      <v-skeleton-loader :loading="loading" :transition="transition" type="table-tbody">
+        <v-data-table :headers="headers" :items="loadouts" :search="search" :items-per-page="10" class="elevation-1">
+          <template v-slot:item.image="{ item }">
+            <div class="pt-1 pb-1 pl-1 pr-1">
+              <v-img :src="item.gun_image" alt="No image" max-height="125" max-width="300" contain class="align-end">
+                <p class="pl-2">{{ item.gun_name }}</p>
+              </v-img>
+            </div>
+          </template>
 
-        <template v-slot:item.name="{ item }">
-          <span class="font-weight-medium">{{ item.name }}</span>
-        </template>
+          <template v-slot:item.name="{ item }">
+            <span class="font-weight-medium">{{ item.name }}</span>
+          </template>
 
-        <template v-slot:item.ergonomics_final="{ item }">
-          <v-chip color="green">
-            <v-avatar left class="green darken-4">
-              <v-icon>mdi-hand</v-icon>
-            </v-avatar>
-            {{ item.ergonomics_final }}
-          </v-chip>
-        </template>
+          <template v-slot:item.ergonomics_final="{ item }">
+            <v-chip color="green">
+              <v-avatar left class="green darken-4">
+                <v-icon>mdi-hand</v-icon>
+              </v-avatar>
+              {{ item.ergonomics_final }}
+            </v-chip>
+          </template>
 
-        <template v-slot:item.horizontal_recoil_final="{ item }">
-          <v-chip color="blue">
-            <v-avatar left class="blue darken-4">
-              <v-icon>mdi-arrow-split-vertical</v-icon>
-            </v-avatar>
-            {{ item.horizontal_recoil_final }}
-          </v-chip>
-        </template>
+          <template v-slot:item.horizontal_recoil_final="{ item }">
+            <v-chip color="blue">
+              <v-avatar left class="blue darken-4">
+                <v-icon>mdi-arrow-split-vertical</v-icon>
+              </v-avatar>
+              {{ item.horizontal_recoil_final }}
+            </v-chip>
+          </template>
 
-        <template v-slot:item.vertical_recoil_final="{ item }">
-          <v-chip color="blue">
-            <v-avatar left class="blue darken-4">
-              <v-icon>mdi-arrow-split-horizontal</v-icon>
-            </v-avatar>
-            {{ item.vertical_recoil_final }}
-          </v-chip>
-        </template>
+          <template v-slot:item.vertical_recoil_final="{ item }">
+            <v-chip color="blue">
+              <v-avatar left class="blue darken-4">
+                <v-icon>mdi-arrow-split-horizontal</v-icon>
+              </v-avatar>
+              {{ item.vertical_recoil_final }}
+            </v-chip>
+          </template>
 
-        <template v-slot:item.gun_calibre="{ item }">
-          <v-chip color="purple">
-            <v-avatar left class="purple darken-4">
-              <v-icon>mdi-bullet</v-icon>
-            </v-avatar>
-            {{ item.gun_calibre }}
-          </v-chip>
-        </template>
+          <template v-slot:item.gun_calibre="{ item }">
+            <v-chip color="purple">
+              <v-avatar left class="purple darken-4">
+                <v-icon>mdi-bullet</v-icon>
+              </v-avatar>
+              {{ item.gun_calibre }}
+            </v-chip>
+          </template>
 
-        <template v-slot:item.username="{ item }">
-          <span class="font-weight-bold orange--text">{{ item.username }}</span>
-        </template>
+          <template v-slot:item.username="{ item }">
+            <span class="font-weight-bold orange--text">{{ item.username }}</span>
+          </template>
 
-        <template v-slot:item.updated_at="{ item }">
-          <span class="font-weight-medium">{{ item.updated_at }}</span>
-        </template>
-      </v-data-table>
+          <template v-slot:item.updated_at="{ item }">
+            <span class="font-weight-medium">{{ item.updated_at }}</span>
+          </template>
+        </v-data-table>
+      </v-skeleton-loader>
     </v-container>
   </div>
 </template>
