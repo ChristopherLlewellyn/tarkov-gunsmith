@@ -6,7 +6,7 @@
 
     <v-card>
       <v-toolbar flat>
-        <v-text-field v-model="search" prepend-icon="mdi-magnify" label="Search table" class="pb-2 pt-2" single-line hide-details>
+        <v-text-field v-model="search" prepend-icon="mdi-magnify" label="Search" class="pb-2 pt-2" single-line hide-details>
         </v-text-field>
       </v-toolbar>
       <v-data-table :headers="headers" :items="availableWeapons" :search="search" :items-per-page="5" class="elevation-1">
