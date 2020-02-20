@@ -149,12 +149,12 @@
                       </v-card-title>
 
                       <v-card-actions class="justify-center">
-                        <v-btn color="green" @click="dialog = false">
-                          Keep
+                        <v-btn color="green" @click="dialog = false, deleteLoadout()">
+                          <v-icon>mdi-check</v-icon>
                         </v-btn>
 
-                        <v-btn color="red" @click="dialog = false, deleteLoadout()">
-                          Delete
+                        <v-btn color="red" @click="dialog = false">
+                          <v-icon>mdi-cancel</v-icon>
                         </v-btn>
 
                       </v-card-actions>
