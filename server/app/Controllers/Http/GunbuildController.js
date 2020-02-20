@@ -8,7 +8,16 @@ class GunbuildController {
 
   // return all gunbuilds
   async index({ response }) {
-    const gunbuilds = await Gunbuild.all()
+    const gunbuilds = await Database.raw(
+      `SELECT user.username, gunbuild.*, gun.name AS gun_name, gun.image AS gun_image, gun.calibre AS gun_calibre, gun.rpm AS gun_rpm, gun.type AS gun_type 
+      FROM Gunbuilds AS gunbuild 
+      INNER JOIN Guns AS gun 
+      ON gunbuild.gun_id = gun.id
+      INNER JOIN Users AS user
+      ON user.id = gunbuild.user_id`
+    )
+
+    gunbuilds.pop() // clean up junk from RAW query
 
     response.status(200).json({
       message: 'Here is every gunbuild',
@@ -33,6 +42,26 @@ class GunbuildController {
 
     response.status(200).json({
       message: 'Here is every gunbuild for this user',
+      data: gunbuilds
+    })
+  }
+
+  // return all gunbuilds by gun
+  async indexByGun({ response, params: { id } }) {
+    const gunbuilds = await Database.raw(
+      `SELECT user.username, gunbuild.*, gun.name AS gun_name, gun.image AS gun_image, gun.calibre AS gun_calibre, gun.rpm AS gun_rpm, gun.type AS gun_type 
+      FROM Gunbuilds AS gunbuild 
+      INNER JOIN Guns AS gun 
+      ON gunbuild.gun_id = gun.id
+      INNER JOIN Users AS user
+      ON user.id = gunbuild.user_id
+      WHERE gunbuild.gun_id = ${id}`
+    )
+
+    gunbuilds.pop() // clean up junk from RAW query
+
+    response.status(200).json({
+      message: `Here is every gunbuild for gun ${id}`,
       data: gunbuilds
     })
   }

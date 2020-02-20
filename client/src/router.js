@@ -1,11 +1,11 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Home from './views/Home.vue';
 import SignIn from './views/SignIn.vue';
 import SignUp from './views/SignUp.vue';
 import CreateLoadout from './views/CreateLoadout.vue';
 import MyLoadouts from './views/MyLoadouts.vue';
 import EditLoadout from './views/EditLoadout.vue';
+import SearchLoadouts from './views/SearchLoadouts.vue';
 
 Vue.use(Router);
 
@@ -13,8 +13,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: Home,
+      name: 'search',
+      component: SearchLoadouts,
     },
     {
       path: '/sign-in',

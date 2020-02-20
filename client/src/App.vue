@@ -33,7 +33,7 @@ export default {
     left: 0;
     background: url( 'https://trello-backgrounds.s3.amazonaws.com/SharedBackground/2560x1628/9617eb89697804b949afd38968b95716/photo-1517651468335-5164984ba2c5') no-repeat center center;
     background-size: cover;
-    background-color: red;
+    background-color: black;
     transform: scale(1.1);
   }
 </style>

@@ -62,6 +62,11 @@ Route.group(() => {
     .get('gunbuilds/mine', 'GunbuildController.indexMine')
     .middleware(['auth'])
 
+  // get all by gun
+  Route
+    .get('gunbuilds/indexbygun/:id', 'GunbuildController.indexByGun')
+    .middleware(['findGun'])
+
   // get one
   Route
     .get('gunbuilds/:id', 'GunbuildController.show')

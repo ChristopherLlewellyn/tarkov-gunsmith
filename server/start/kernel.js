@@ -38,7 +38,8 @@ const namedMiddleware = {
   auth: 'Adonis/Middleware/Auth',
   guest: 'Adonis/Middleware/AllowGuestOnly',
   findGunbuild: 'App/Middleware/FindGunbuild',
-  findUser: 'App/Middleware/FindUser'
+  findUser: 'App/Middleware/FindUser',
+  findGun: 'App/Middleware/FindGun',
 }
 
 /*
