@@ -4,11 +4,11 @@
     <v-data-iterator :items="loadouts" :items-per-page.sync="itemsPerPage" :page="page" :search="search" :sort-by="sortBy.toLowerCase()"
       :sort-desc="sortDesc" hide-default-footer>
       <template v-slot:header>
-        <v-toolbar color="grey darken-3" class="mb-1">
-          <v-text-field v-model="search" clearable flat solo-inverted hide-details prepend-inner-icon="mdi-magnify" label="Search"></v-text-field>
+        <v-toolbar class="mb-1">
+          <v-text-field v-model="search" clearable flat solo hide-details prepend-inner-icon="mdi-magnify" label="Search"></v-text-field>
           <template v-if="$vuetify.breakpoint.mdAndUp">
             <v-spacer></v-spacer>
-            <v-select v-model="sortBy" flat solo-inverted hide-details :items="keys" prepend-inner-icon="mdi-sort" label="Sort by"></v-select>
+            <v-select v-model="sortBy" flat solo hide-details :items="keys" prepend-inner-icon="mdi-sort" label="Sort by"></v-select>
             <v-spacer></v-spacer>
             <v-btn-toggle v-model="sortDesc" mandatory>
               <v-btn large depressed color="blue" :value="false">
@@ -27,12 +27,12 @@
           <v-col v-for="loadout in props.items" :key="loadout.id" cols="12" sm="6" md="4" lg="3">
 
             <v-skeleton-loader :loading="loading" :transition="transition" height="400" type="card">
-              <v-card color="grey darken-4">
-                <v-toolbar color="grey darken-3">
+              <v-card>
+                <v-toolbar>
                   {{ loadout.name }}
                 </v-toolbar>
                 <v-container fluid>
-                  <v-img :src="loadout.gun_image" class="white--text align-end" gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height="120">
+                  <v-img :src="loadout.gun_image" class="white--text align-end" height="120">
                     <v-card-title>{{ loadout.gun_name }}</v-card-title>
                   </v-img>
                 </v-container>
