@@ -116,17 +116,16 @@
                   </v-tooltip>
                 </v-card-actions>
 
+                <v-card-actions class="justify-center">
+                  <span class="font-weight-light">Updated</span>
+                  &nbsp;
+                  <span class="font-weight-medium">{{ loadout.updated_at }}</span>
+                </v-card-actions>
 
                 <v-card-actions class="justify-center">
                   <span class="font-weight-light">Loadout by</span>
                   &nbsp;
                   <span class="font-weight-bold orange--text">{{ loadout.username }}</span>
-                </v-card-actions>
-
-                <v-card-actions class="justify-center">
-                  <span class="font-weight-light">Updated</span>
-                  &nbsp;
-                  <span class="font-weight-medium">{{ loadout.updated_at }}</span>
                 </v-card-actions>
 
                 <v-card-actions class="justify-center">
@@ -149,7 +148,7 @@
                       </v-card-title>
 
                       <v-card-actions class="justify-center">
-                        <v-btn color="green" @click="dialog = false, deleteLoadout()">
+                        <v-btn color="green" @click="deleteLoadout(), dialog = false">
                           <v-icon>mdi-check</v-icon>
                         </v-btn>
 

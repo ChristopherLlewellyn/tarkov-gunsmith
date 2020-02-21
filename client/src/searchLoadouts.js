@@ -20,6 +20,7 @@ export default {
         return HTTP().get('/gunbuilds')
         .then(({ data }) => {
           commit('setLoadouts', data.data[0]);
+          commit('formatDates');
           commit('setLoading', false);
         });
       }
@@ -28,6 +29,7 @@ export default {
         return HTTP().get(`/gunbuilds/indexbygun/${state.gunToIndexBy}`)
         .then(({ data }) => {
           commit('setLoadouts', data.data[0]);
+          commit('formatDates');
           commit('setLoading', false);
         });
       }
@@ -84,6 +86,17 @@ export default {
 
     setGunNamesFilter(state, gunNamesFilter) {
       state.gunNamesFilter = gunNamesFilter;
+    },
+
+    formatDates(state) {
+      var options = { year: 'numeric', month: 'long', day: 'numeric' };
+
+      for (var i = 0; i < state.loadouts.length; i++) {
+        var date = state.loadouts[i].updated_at;
+        var dateNew = new Date(date);
+        dateNew = dateNew.toLocaleDateString(undefined, options);
+        state.loadouts[i].updated_at = dateNew;
+      }
     },
   },
 };

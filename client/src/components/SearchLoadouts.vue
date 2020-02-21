@@ -113,6 +113,11 @@
                     </v-tooltip>
                   </v-card-actions>
 
+                  <v-card-actions class="justify-center">
+                    <span class="font-weight-light">Updated</span>
+                    &nbsp;
+                    <span class="font-weight-medium">{{ loadout.updated_at }}</span>
+                  </v-card-actions>
 
                   <v-card-actions class="justify-center">
                     <span class="font-weight-light">Loadout by</span>
@@ -120,11 +125,6 @@
                     <span class="font-weight-bold orange--text">{{ loadout.username }}</span>
                   </v-card-actions>
 
-                  <v-card-actions class="justify-center">
-                    <span class="font-weight-light">Updated</span>
-                    &nbsp;
-                    <span class="font-weight-medium">{{ loadout.updated_at }}</span>
-                  </v-card-actions>
                 </v-card>
                 </v-dialog>
 
