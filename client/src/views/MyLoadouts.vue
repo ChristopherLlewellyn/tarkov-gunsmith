@@ -123,12 +123,6 @@
                 </v-card-actions>
 
                 <v-card-actions class="justify-center">
-                  <span class="font-weight-light">Loadout by</span>
-                  &nbsp;
-                  <span class="font-weight-bold orange--text">{{ loadout.username }}</span>
-                </v-card-actions>
-
-                <v-card-actions class="justify-center">
                   <v-btn class="ma-1" color="blue" :to="'/my-loadouts/edit/' + loadout.id">
                     <span>Edit</span>
                     <v-icon right>mdi-pencil</v-icon>
