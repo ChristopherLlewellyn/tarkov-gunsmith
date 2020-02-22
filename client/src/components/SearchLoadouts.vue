@@ -48,12 +48,13 @@
             <v-col v-for="loadout in props.items" :key="loadout.id" cols="12" sm="6" md="4" lg="3">
 
               <v-skeleton-loader :loading="loading" :transition="transition" height="400" type="card">
-                <v-card @click="viewLoadoutCard(loadout.id)">
-                  <v-toolbar>
+                <v-card>
+                  <v-toolbar @click="viewLoadoutCard(loadout.id)" style="cursor:pointer">
                     {{ loadout.name }}
                   </v-toolbar>
                   <v-container fluid>
-                    <v-img :src="loadout.gun_image" class="white--text align-end" gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height="120">
+                    <v-img @click="viewLoadoutCard(loadout.id)" style="cursor:pointer" :src="loadout.gun_image" class="white--text align-end"
+                      gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height="120">
                       <v-card-title>{{ loadout.gun_name }}</v-card-title>
                     </v-img>
                   </v-container>
@@ -198,7 +199,8 @@
 
       </v-toolbar>
       <v-skeleton-loader :loading="loading" :transition="transition" type="table-tbody">
-        <v-data-table :headers="headers" :items="loadouts" :search="search" @click:row="viewLoadoutTable" :items-per-page="10" class="elevation-1" style="cursor:pointer">
+        <v-data-table :headers="headers" :items="loadouts" :search="search" @click:row="viewLoadoutTable" :items-per-page="10" class="elevation-1"
+          style="cursor:pointer">
 
           <template v-slot:item.image="{ item }">
             <div class="pt-1 pb-1 pl-1 pr-1">

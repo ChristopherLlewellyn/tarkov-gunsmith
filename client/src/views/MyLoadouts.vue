@@ -27,12 +27,13 @@
           <v-col v-for="loadout in props.items" :key="loadout.id" cols="12" sm="6" md="4" lg="3">
 
             <v-skeleton-loader :loading="loading" :transition="transition" height="400" type="card">
-              <v-card @click="viewLoadoutCard(loadout.id)">
-                <v-toolbar>
+              <v-card>
+                <v-toolbar @click="viewLoadoutCard(loadout.id)" style="cursor:pointer">
                   {{ loadout.name }}
                 </v-toolbar>
                 <v-container fluid>
-                  <v-img :src="loadout.gun_image" class="white--text align-end" height="120">
+                  <v-img @click="viewLoadoutCard(loadout.id)" style="cursor:pointer" :src="loadout.gun_image" class="white--text align-end"
+                    height="120">
                     <v-card-title>{{ loadout.gun_name }}</v-card-title>
                   </v-img>
                 </v-container>
@@ -180,92 +181,92 @@
 </template>
 
 <script>
-import {
-  mapGetters,
-  mapState,
-  mapActions,
-  mapMutations,
-} from 'vuex';
+  import {
+    mapGetters,
+    mapState,
+    mapActions,
+    mapMutations,
+  } from 'vuex';
 
-import router from '../router';
+  import router from '../router';
 
-export default {
-  mounted() {
-    if (!this.isSignedIn) {
-      return router.push('/sign-in');
-    }
-    this.fetchMyLoadouts();
-  },
-
-  methods: {
-    ...mapActions('myLoadouts', [
-      'fetchMyLoadouts',
-      'deleteLoadout',
-    ]),
-
-    ...mapMutations('myLoadouts', [
-      'setLoadoutToDelete',
-    ]),
-
-    deleteItem(id) {
-      this.setLoadoutToDelete(id)
-      confirm('Are you sure you want to delete this loadout?') && this.deleteLoadout();
+  export default {
+    mounted() {
+      if (!this.isSignedIn) {
+        return router.push('/sign-in');
+      }
+      this.fetchMyLoadouts();
     },
 
-    viewLoadoutCard(id) {
-      router.push('/loadout/' + id);
+    methods: {
+      ...mapActions('myLoadouts', [
+        'fetchMyLoadouts',
+        'deleteLoadout',
+      ]),
+
+      ...mapMutations('myLoadouts', [
+        'setLoadoutToDelete',
+      ]),
+
+      deleteItem(id) {
+        this.setLoadoutToDelete(id)
+        confirm('Are you sure you want to delete this loadout?') && this.deleteLoadout();
+      },
+
+      viewLoadoutCard(id) {
+        router.push('/loadout/' + id);
+      },
+
+      nextPage() {
+        if (this.page + 1 <= this.numberOfPages) this.page += 1;
+      },
+      formerPage() {
+        if (this.page - 1 >= 1) this.page -= 1;
+      },
+      updateItemsPerPage(number) {
+        this.itemsPerPage = number;
+      },
     },
 
-    nextPage() {
-      if (this.page + 1 <= this.numberOfPages) this.page += 1;
-    },
-    formerPage() {
-      if (this.page - 1 >= 1) this.page -= 1;
-    },
-    updateItemsPerPage(number) {
-      this.itemsPerPage = number;
-    },
-  },
+    computed: {
+      numberOfPages() {
+        return Math.ceil(this.loadouts.length / this.itemsPerPage);
+      },
+      filteredKeys() {
+        return this.keys.filter(key => key !== 'Name');
+      },
 
-  computed: {
-    numberOfPages() {
-      return Math.ceil(this.loadouts.length / this.itemsPerPage);
+      ...mapGetters('authentication', [
+        'isSignedIn',
+      ]),
+
+      ...mapState('myLoadouts', [
+        'loadouts',
+        'loading',
+      ]),
     },
-    filteredKeys() {
-      return this.keys.filter(key => key !== 'Name');
+
+    data() {
+      return {
+        transition: 'scale-transition',
+
+        search: '',
+        itemsPerPageArray: [8, 12, 16, 20],
+        filter: {},
+        sortDesc: false,
+        page: 1,
+        itemsPerPage: 8,
+        sortBy: 'name',
+        keys: [
+          'Name',
+          'Type',
+          'Ergonomics_Final',
+          'Vertical_Recoil_Final',
+          'Horizontal_Recoil_Final',
+        ],
+        dialog: false,
+      };
     },
-
-    ...mapGetters('authentication', [
-      'isSignedIn',
-    ]),
-
-    ...mapState('myLoadouts', [
-      'loadouts',
-      'loading',
-    ]),
-  },
-
-  data() {
-    return {
-      transition: 'scale-transition',
-
-      search: '',
-      itemsPerPageArray: [8, 12, 16, 20],
-      filter: {},
-      sortDesc: false,
-      page: 1,
-      itemsPerPage: 8,
-      sortBy: 'name',
-      keys: [
-        'Name',
-        'Type',
-        'Ergonomics_Final',
-        'Vertical_Recoil_Final',
-        'Horizontal_Recoil_Final',
-      ],
-      dialog: false,
-    };
-  },
-};
+  };
 
 </script>
