@@ -3,7 +3,7 @@
     <v-layout row wrap>
 
       <v-flex xs12>
-        <v-text-field v-on:input="setLoadoutName" prepend-icon="mdi-rename-box" label="Loadout name" class="pb-2 pt-2" single-line filled></v-text-field>
+        <v-text-field v-model="name" prepend-icon="mdi-rename-box" label="Loadout name" class="pb-2 pt-2" single-line filled></v-text-field>
       </v-flex>
 
       <v-flex xs12 md4>
@@ -25,6 +25,7 @@ import {
   mapActions,
   mapGetters,
   mapMutations,
+  mapState,
 } from 'vuex';
 
 import router from '../router';
@@ -43,9 +44,22 @@ export default {
   },
 
   computed: {
+    name: {
+      get: function() {
+        return this.loadoutName
+      },
+      set: function (name) {
+        this.setLoadoutName(name)
+      },
+    },
+
     ...mapGetters('authentication', [
       'isSignedIn',
     ]),
+
+    ...mapState('editLoadout', [
+      'loadoutName',
+    ])
   },
 
   methods: {
