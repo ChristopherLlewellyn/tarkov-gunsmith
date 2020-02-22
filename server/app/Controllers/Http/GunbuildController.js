@@ -66,7 +66,7 @@ class GunbuildController {
     })
   }
 
-  // return one gunbuild with attachments
+  // return one gunbuild with attachments and username
   async show({ response, params: { id } }) {
     const gunbuild = await Gunbuild
       .query()
@@ -78,11 +78,17 @@ class GunbuildController {
       `SELECT gun.* FROM Guns AS gun INNER JOIN Gunbuilds AS gunbuild ON gunbuild.gun_id = gun.id WHERE gunbuild.id = ${id}`
     )
     gun.pop() // clean up junk from RAW query
+
+    const user = await Database.raw(
+      `SELECT user.username FROM Users AS user INNER JOIN Gunbuilds AS gunbuild ON gunbuild.user_id = user.id WHERE gunbuild.id = ${id}`
+      )
+    user.pop() // clean up junk from RAW query
     
     response.status(200).json({
       message: 'Here is your gunbuild',
       gunbuild,
-      gun
+      gun,
+      user
     })
   }
 
