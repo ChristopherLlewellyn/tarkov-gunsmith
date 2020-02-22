@@ -6,6 +6,7 @@ import createLoadout from './createLoadout';
 import myLoadouts from './myLoadouts';
 import editLoadout from './editLoadout';
 import searchLoadouts from './searchLoadouts';
+import viewLoadout from './viewLoadout';
 
 Vue.use(Vuex);
 
@@ -20,6 +21,7 @@ export default new Vuex.Store({
     myLoadouts,
     editLoadout,
     searchLoadouts,
+    viewLoadout,
   },
   mutations: {
 

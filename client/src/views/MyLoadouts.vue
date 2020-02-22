@@ -27,7 +27,7 @@
           <v-col v-for="loadout in props.items" :key="loadout.id" cols="12" sm="6" md="4" lg="3">
 
             <v-skeleton-loader :loading="loading" :transition="transition" height="400" type="card">
-              <v-card>
+              <v-card @click="'/loadouts/' + loadout.id">
                 <v-toolbar>
                   {{ loadout.name }}
                 </v-toolbar>

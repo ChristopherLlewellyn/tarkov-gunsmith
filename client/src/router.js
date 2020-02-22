@@ -6,6 +6,7 @@ import CreateLoadout from './views/CreateLoadout.vue';
 import MyLoadouts from './views/MyLoadouts.vue';
 import EditLoadout from './views/EditLoadout.vue';
 import SearchLoadouts from './views/SearchLoadouts.vue';
+import ViewLoadout from './views/ViewLoadout.vue';
 
 Vue.use(Router);
 
@@ -25,6 +26,11 @@ export default new Router({
       path: '/sign-up',
       name: 'sign-up',
       component: SignUp,
+    },
+    {
+      path: '/loadout/:id',
+      name: 'view-loadout',
+      component: ViewLoadout,
     },
     {
       path: '/create-loadout',

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- CARD VIEW -->
     <v-container fluid v-if="layout === 'cards'">
       <v-data-iterator :items="loadouts" :items-per-page.sync="itemsPerPage" :page="page" :search="search" :sort-by="sortBy.toLowerCase()"
         :sort-desc="sortDesc" hide-default-footer>
@@ -47,7 +48,7 @@
             <v-col v-for="loadout in props.items" :key="loadout.id" cols="12" sm="6" md="4" lg="3">
 
               <v-skeleton-loader :loading="loading" :transition="transition" height="400" type="card">
-                <v-card>
+                <v-card @click="viewLoadoutCard(loadout.id)">
                   <v-toolbar>
                     {{ loadout.name }}
                   </v-toolbar>
@@ -171,7 +172,7 @@
       </v-data-iterator>
     </v-container>
 
-
+    <!-- TABLE VIEW -->
     <v-container fluid v-if="layout === 'table'">
       <v-toolbar flat>
         <v-text-field v-model="search" clearable flat solo hide-details prepend-inner-icon="mdi-magnify" label="Search"></v-text-field>
@@ -197,7 +198,8 @@
 
       </v-toolbar>
       <v-skeleton-loader :loading="loading" :transition="transition" type="table-tbody">
-        <v-data-table :headers="headers" :items="loadouts" :search="search" :items-per-page="10" class="elevation-1">
+        <v-data-table :headers="headers" :items="loadouts" :search="search" @click:row="viewLoadoutTable" :items-per-page="10" class="elevation-1" style="cursor:pointer">
+
           <template v-slot:item.image="{ item }">
             <div class="pt-1 pb-1 pl-1 pr-1">
               <v-img :src="item.gun_image" alt="No image" max-height="125" max-width="300" contain class="align-end">
@@ -285,6 +287,14 @@
         'setGunToIndexBy',
         'setGunNamesFilter',
       ]),
+
+      viewLoadoutCard(id) {
+        router.push('/loadout/' + id);
+      },
+
+      viewLoadoutTable(item) {
+        router.push('/loadout/' + item.id);
+      },
 
       nextPage() {
         if (this.page + 1 <= this.numberOfPages) this.page += 1;
