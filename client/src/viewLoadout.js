@@ -10,7 +10,7 @@ export default {
     username: null,
 
     weapon: {
-      id: 27,
+      id: 2,
       name: 'ADAR 2-15',
       src: 'https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/3/3c/ADAR2-15Image.png?version=5ce4ce8faa56a1c54bdb1cbab889f0d0',
       type: 'Assault rifle',

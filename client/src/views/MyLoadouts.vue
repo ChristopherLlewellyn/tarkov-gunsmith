@@ -27,7 +27,7 @@
           <v-col v-for="loadout in props.items" :key="loadout.id" cols="12" sm="6" md="4" lg="3">
 
             <v-skeleton-loader :loading="loading" :transition="transition" height="400" type="card">
-              <v-card @click="'/loadouts/' + loadout.id">
+              <v-card @click="viewLoadoutCard(loadout.id)">
                 <v-toolbar>
                   {{ loadout.name }}
                 </v-toolbar>
@@ -128,32 +128,12 @@
                     <v-icon right>mdi-pencil</v-icon>
                   </v-btn>
 
-                  <v-dialog v-model="dialog" width="400">
-                    <template v-slot:activator="{ on }">
-                      <v-btn class="ma-1" color="red" @click="setLoadoutToDelete(loadout.id)" v-on="on">
-                        <span>Delete</span>
-                        <v-icon right>mdi-delete</v-icon>
-                      </v-btn>
-                    </template>
-
-                    <v-card class="grey darken-4">
-                      <v-card-title class="headline justify-center grey darken-3" primary-title>
-                        Delete loadout?
-                      </v-card-title>
-
-                      <v-card-actions class="justify-center">
-                        <v-btn color="green" @click="deleteLoadout(), dialog = false">
-                          <v-icon>mdi-check</v-icon>
-                        </v-btn>
-
-                        <v-btn color="red" @click="dialog = false">
-                          <v-icon>mdi-cancel</v-icon>
-                        </v-btn>
-
-                      </v-card-actions>
-                    </v-card>
-                  </v-dialog>
-
+                  <template>
+                    <v-btn class="ma-1" color="red" @click="deleteItem(loadout.id)">
+                      <span>Delete</span>
+                      <v-icon right>mdi-delete</v-icon>
+                    </v-btn>
+                  </template>
                 </v-card-actions>
               </v-card>
 
@@ -226,6 +206,15 @@ export default {
     ...mapMutations('myLoadouts', [
       'setLoadoutToDelete',
     ]),
+
+    deleteItem(id) {
+      this.setLoadoutToDelete(id)
+      confirm('Are you sure you want to delete this loadout?') && this.deleteLoadout();
+    },
+
+    viewLoadoutCard(id) {
+      router.push('/loadout/' + id);
+    },
 
     nextPage() {
       if (this.page + 1 <= this.numberOfPages) this.page += 1;

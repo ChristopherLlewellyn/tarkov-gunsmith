@@ -72,6 +72,12 @@
         'setLoadoutId',
       ]),
     },
+
+    data() {
+      return {
+        transition: 'scale-transition',
+      };
+    },
   };
 
 </script>
