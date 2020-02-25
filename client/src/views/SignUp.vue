@@ -23,7 +23,7 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn @click="register">
+            <v-btn @click="recaptchaSignUp">
               <span>Sign Up</span>
               <v-icon right>mdi-clipboard-check</v-icon>
             </v-btn>
@@ -42,37 +42,48 @@
 
 
 <script>
-import {
-  mapState,
-  mapMutations,
-  mapActions,
-} from 'vuex';
+  import {
+    mapState,
+    mapMutations,
+    mapActions,
+  } from 'vuex';
 
-export default {
-  computed: {
-    ...mapState('authentication', [
-      'signUpEmail',
-      'signUpPassword',
-      'signUpUsername',
-      'signUpError',
-      'signUpSuccess',
-    ]),
-  },
-  methods: {
-    ...mapMutations('authentication', [
-      'setSignUpEmail',
-      'setSignUpPassword',
-      'setSignUpUsername',
-    ]),
-    ...mapActions('authentication', [
-      'register',
-    ]),
-  },
-  data() {
-    return {
+  export default {
+    computed: {
+      ...mapState('authentication', [
+        'signUpEmail',
+        'signUpPassword',
+        'signUpUsername',
+        'signUpError',
+        'signUpSuccess',
+      ]),
+    },
+    methods: {
+      ...mapMutations('authentication', [
+        'setSignUpEmail',
+        'setSignUpPassword',
+        'setSignUpUsername',
+        'setCaptcha',
+      ]),
+      ...mapActions('authentication', [
+        'register',
+      ]),
 
-    };
-  },
-};
+      async recaptchaToken() {
+        return new Promise((resolve) => {
+          grecaptcha.ready(async () => {
+            const token = await grecaptcha.execute(process.env.VUE_APP_RECAPTCHASITEKEY, {action: 'login'});
+            resolve(token);
+          });
+        });
+      },
+
+      async recaptchaSignUp() {
+        const token = await this.recaptchaToken();
+        this.setCaptcha(token);
+        this.register();
+      }
+    },
+  };
 
 </script>

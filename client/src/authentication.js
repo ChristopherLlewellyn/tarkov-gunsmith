@@ -14,6 +14,7 @@ export default {
     signInPassword: null,
     signInError: null,
     token: null,
+    captcha: null,
   },
   actions: {
     register({ commit, state }) {
@@ -22,6 +23,7 @@ export default {
         email: state.signUpEmail,
         password: state.signUpPassword,
         username: state.signUpUsername,
+        captcha: state.captcha,
       })
         .then(({ data }) => {
           commit('setSignUpSuccess', data.message);
@@ -36,6 +38,7 @@ export default {
       return HTTP().post('/auth/login', {
         email: state.signInEmail,
         password: state.signInPassword,
+        captcha: state.captcha,
       })
         .then(({ data }) => {
           commit('setToken', data.token);
@@ -89,6 +92,9 @@ export default {
     },
     setToken(state, token) {
       state.token = token;
+    },
+    setCaptcha(state, captcha) {
+      state.captcha = captcha;
     },
   },
 };

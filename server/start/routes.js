@@ -22,6 +22,7 @@ Route.group(() => {
   // register
   Route
     .post('auth/register', 'UserController.register')
+    .middleware('verifyCaptcha')
     .validator('RegisterUser')
   
   // confirm email address
@@ -31,6 +32,7 @@ Route.group(() => {
   // request password reset
   Route
     .post('auth/password/email', 'UserController.sendPasswordResetEmail')
+    .middleware('verifyCaptcha')
     .validator('PasswordResetEmail')
   
   // confirm password reset
@@ -41,6 +43,7 @@ Route.group(() => {
   // login
   Route
     .post('auth/login', 'UserController.login')
+    .middleware('verifyCaptcha')
     .validator('LoginUser')
 
   // get all
@@ -86,6 +89,11 @@ Route.group(() => {
   Route
     .delete('gunbuilds/:id', 'GunbuildController.delete')
     .middleware(['auth', 'findGunbuild'])
+
+  // vote
+  Route
+    .patch('gunbuilds/:id/vote', 'GunbuildController.vote')
+    .middleware(['verifyCaptcha', 'findGunbuild']) // add captcha verification middleware
 
 // ----- Attachments -----
   // get all

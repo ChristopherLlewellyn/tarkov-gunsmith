@@ -40,6 +40,7 @@ const namedMiddleware = {
   findGunbuild: 'App/Middleware/FindGunbuild',
   findUser: 'App/Middleware/FindUser',
   findGun: 'App/Middleware/FindGun',
+  verifyCaptcha: 'App/Middleware/VerifyCaptcha',
 }
 
 /*

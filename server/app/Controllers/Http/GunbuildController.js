@@ -1,6 +1,7 @@
 'use strict'
 
 const Gunbuild = use('App/Models/Gunbuild')
+const VoteCount = use('App/Models/VoteCount')
 const Database = use('Database')
 const AuthService = use('App/Services/AuthService')
 
@@ -113,6 +114,8 @@ class GunbuildController {
       ergonomics_final
     })
 
+    const voteCount = await VoteCount.create({gunbuild_id: gunbuild.id, votes: 0})
+
     const attachmentIds = []
     for (var i = 0; i < attachments.length; i++) {
       attachmentIds.push(attachments[i].id)
@@ -121,7 +124,7 @@ class GunbuildController {
     
     response.status(201).json({
       message: 'Successfully created a new gunbuild',
-      data: { gunbuild, gunbuildAttachments }
+      data: { gunbuild, gunbuildAttachments, voteCount }
     })
   }
 
@@ -174,6 +177,27 @@ class GunbuildController {
     response.status(200).json({
       message: 'Successfully deleted this gunbuild',
       data: gunbuild
+    })
+  }
+
+  // vote for a gunbuild (+1 or -1)
+  async vote({ request, response, params: { id } }) {
+    const gunbuild = await Gunbuild.find(id)
+    const voteCount = await gunbuild.voteCount().fetch()
+
+    if (request.body.vote > 0) {
+      voteCount.votes += 1
+    }
+
+    else {
+      voteCount.votes -= 1
+    }
+
+    await voteCount.save()
+
+    response.status(200).json({
+      message: 'Successfully voted on this gunbuild',
+      data: gunbuild, voteCount
     })
   }
 

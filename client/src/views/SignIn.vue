@@ -10,15 +10,17 @@
           </v-toolbar>
           <v-card-text>
             <v-form>
-              <v-text-field v-on:input="setSignInEmail" label="Email" placeholder="Email" prepend-icon="mdi-email" :value="signInEmail"></v-text-field>
-              <v-text-field v-on:input="setSignInPassword" label="Password" placeholder="Password" type="password" prepend-icon="mdi-lock" :value="signInPassword">
+              <v-text-field v-on:input="setSignInEmail" label="Email" placeholder="Email" prepend-icon="mdi-email" :value="signInEmail">
+              </v-text-field>
+              <v-text-field v-on:input="setSignInPassword" label="Password" placeholder="Password" type="password" prepend-icon="mdi-lock"
+                :value="signInPassword">
               </v-text-field>
             </v-form>
             <v-alert type="error" :value="signInError">{{ signInError }}</v-alert>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn @click="signIn">
+            <v-btn @click="recaptchaSignIn">
               <span>Sign In</span>
               <v-icon right>mdi-login</v-icon>
             </v-btn>
@@ -38,35 +40,47 @@
 
 
 <script>
-import {
-  mapState,
-  mapMutations,
-  mapActions,
-} from 'vuex';
+  import {
+    mapState,
+    mapMutations,
+    mapActions,
+  } from 'vuex';
 
-export default {
-  computed: {
-    ...mapState('authentication', [
-      'signInEmail',
-      'signInPassword',
-      'signInError',
-    ]),
-  },
-  methods: {
-    ...mapMutations('authentication', [
-      'setSignInEmail',
-      'setSignInPassword',
-    ]),
-    ...mapActions('authentication', [
-      'signIn',
-    ]),
-  },
+  export default {
+    computed: {
+      ...mapState('authentication', [
+        'signInEmail',
+        'signInPassword',
+        'signInError',
+      ]),
+    },
+    methods: {
+      ...mapMutations('authentication', [
+        'setSignInEmail',
+        'setSignInPassword',
+        'setCaptcha'
+      ]),
+      ...mapActions('authentication', [
+        'signIn',
+      ]),
 
-  data() {
-    return {
+      async recaptchaToken() {
+        return new Promise((resolve) => {
+          grecaptcha.ready(async () => {
+            const token = await grecaptcha.execute(process.env.VUE_APP_RECAPTCHASITEKEY, {
+              action: 'login'
+            });
+            resolve(token);
+          });
+        });
+      },
 
-    };
-  },
-};
+      async recaptchaSignIn() {
+        const token = await this.recaptchaToken();
+        this.setCaptcha(token);
+        this.signIn();
+      }
+    },
+  };
 
 </script>

@@ -16,6 +16,10 @@ class Gunbuild extends Model {
   attachments () {
     return this.belongsToMany('App/Models/Attachment').pivotTable('attachment_gunbuild')
   }
+
+  voteCount () {
+    return this.hasOne('App/Models/VoteCount')
+  }
 }
 
 module.exports = Gunbuild
