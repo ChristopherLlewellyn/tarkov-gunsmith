@@ -8,6 +8,8 @@ export default {
     loadoutId: null,
     loadoutName: '',
     username: null,
+    votes: null,
+    captcha: null,
 
     weapon: {
       id: 2,
@@ -48,6 +50,26 @@ export default {
           }
         });
     },
+
+    upvote({ commit, state }) {
+      return HTTP().patch(`/gunbuilds/${state.loadoutId}/vote`, {
+        vote: 1,
+        captcha: state.captcha,
+      })
+        .then(({ data }) => {
+          commit('incrementVotes');
+        })
+    },
+
+    downvote({ commit, state }) {
+      return HTTP().patch(`/gunbuilds/${state.loadoutId}/vote`, {
+        vote: -1,
+        captcha: state.captcha,
+      })
+        .then(({ data }) => {
+          commit('decrementVotes');
+        })
+    },
   },
 
   mutations: {
@@ -69,6 +91,7 @@ export default {
 
       state.loadoutName = data.gunbuild[0].name;
       state.username = data.user[0][0].username;
+      state.votes = data.gunbuild[0].voteCount.votes;
     },
 
     reset(state) {
@@ -136,6 +159,16 @@ export default {
     },
     setLoading(state, loading) {
       state.loading = loading;
+    },
+    setCaptcha(state, captcha) {
+      state.captcha = captcha;
+    },
+
+    incrementVotes(state) {
+      state.votes += 1;
+    },
+    decrementVotes(state) {
+      state.votes -= 1;
     },
   },
 };

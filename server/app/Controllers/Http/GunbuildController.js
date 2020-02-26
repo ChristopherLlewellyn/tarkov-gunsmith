@@ -72,6 +72,7 @@ class GunbuildController {
     const gunbuild = await Gunbuild
       .query()
       .with('attachments')
+      .with('voteCount')
       .where('id', id)
       .fetch()
     
