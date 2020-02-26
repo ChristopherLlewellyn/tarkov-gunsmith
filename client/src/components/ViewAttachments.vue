@@ -15,6 +15,33 @@
                   <v-img :src="item.image" alt="No image" max-height="75" max-width="175" contain></v-img>
                 </div>
               </template>
+              <template v-slot:item.ergonomics_modifier="{ item }">
+                <template v-if="item.ergonomics_modifier > 0">
+                  <h3 class="green--text">{{ item.ergonomics_modifier }}</h3>
+                </template>
+
+                <template v-else-if="item.ergonomics_modifier === 0">
+                  <h3 class="grey--text">{{ item.ergonomics_modifier }}</h3>
+                </template>
+
+                <template v-else>
+                  <h3 class="red--text">{{ item.ergonomics_modifier }}</h3>
+                </template>
+              </template>
+
+              <template v-slot:item.recoil_modifier="{ item }">
+                <template v-if="item.recoil_modifier < 0">
+                  <h3 class="green--text">{{ item.recoil_modifier }}</h3>
+                </template>
+
+                <template v-else-if="item.recoil_modifier === 0">
+                  <h3 class="grey--text">{{ item.recoil_modifier }}</h3>
+                </template>
+
+                <template v-else>
+                  <h3 class="red--text">{{ item.recoil_modifier }}</h3>
+                </template>
+              </template>
             </v-data-table>
           </v-container>
         </v-card>
@@ -24,50 +51,50 @@
 </template>
 
 <script>
-import {
-  mapState,
-  mapMutations,
-} from 'vuex';
+  import {
+    mapState,
+    mapMutations,
+  } from 'vuex';
 
-export default {
-  methods: {
-    ...mapMutations('viewLoadout', [
-      'calculateWeaponStats',
-    ]),
-  },
+  export default {
+    methods: {
+      ...mapMutations('viewLoadout', [
+        'calculateWeaponStats',
+      ]),
+    },
 
-  computed: {
-    ...mapState('viewLoadout', [
-      'attachments',
-    ]),
-  },
+    computed: {
+      ...mapState('viewLoadout', [
+        'attachments',
+      ]),
+    },
 
-  data: () => ({
-    search: '',
-    headers: [{
-      text: 'Image',
-      value: 'image',
-      sortable: false,
-      filterable: false,
-    },
-    {
-      text: 'Name',
-      value: 'name',
-    },
-    {
-      text: 'Type',
-      value: 'type',
-    },
-    {
-      text: 'Ergonomics',
-      value: 'ergonomics_modifier',
-    },
-    {
-      text: 'Recoil (%)',
-      value: 'recoil_modifier',
-    },
-    ],
-  }),
-};
+    data: () => ({
+      search: '',
+      headers: [{
+          text: 'Image',
+          value: 'image',
+          sortable: false,
+          filterable: false,
+        },
+        {
+          text: 'Name',
+          value: 'name',
+        },
+        {
+          text: 'Type',
+          value: 'type',
+        },
+        {
+          text: 'Ergonomics',
+          value: 'ergonomics_modifier',
+        },
+        {
+          text: 'Recoil (%)',
+          value: 'recoil_modifier',
+        },
+      ],
+    }),
+  };
 
 </script>
