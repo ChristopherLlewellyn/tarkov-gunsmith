@@ -30,6 +30,23 @@
               <v-card>
                 <v-toolbar @click="viewLoadoutCard(loadout.id)" style="cursor:pointer">
                   {{ loadout.name }}
+                  <v-spacer></v-spacer>
+                  <v-card outlined class="d-flex flex-row ma-2">
+                    <template v-if="loadout.votes < 0">
+                      <v-icon color="red" class="ma-2">mdi-thumb-down</v-icon>
+                      <h4 class="ma-2 red--text">{{ loadout.votes }}</h4>
+                    </template>
+
+                    <template v-else-if="loadout.votes > 0">
+                      <v-icon color="green" class="ma-2">mdi-thumb-up</v-icon>
+                      <h4 class="ma-2 green--text">{{ loadout.votes }}</h4>
+                    </template>
+
+                    <template v-else>
+                      <v-icon color="grey" class="ma-2">mdi-thumbs-up-down</v-icon>
+                      <h4 class="ma-2 grey--text">{{ loadout.votes }}</h4>
+                    </template>
+                  </v-card>
                 </v-toolbar>
                 <v-container fluid>
                   <v-img @click="viewLoadoutCard(loadout.id)" style="cursor:pointer" :src="loadout.gun_image" class="white--text align-end"

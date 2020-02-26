@@ -9,14 +9,24 @@ class GunbuildController {
 
   // return all gunbuilds
   async index({ response }) {
-    const gunbuilds = await Database.raw(
-      `SELECT user.username, gunbuild.*, gun.name AS gun_name, gun.image AS gun_image, gun.calibre AS gun_calibre, gun.rpm AS gun_rpm, gun.type AS gun_type 
+    const gunbuilds = await Database.raw(`
+      SELECT 
+      user.username, 
+      gunbuild.*, 
+      gun.name AS gun_name, gun.image AS gun_image, gun.calibre AS gun_calibre, gun.rpm AS gun_rpm, gun.type AS gun_type,
+      votecount.votes
+
       FROM Gunbuilds AS gunbuild 
+
       INNER JOIN Guns AS gun 
       ON gunbuild.gun_id = gun.id
+
       INNER JOIN Users AS user
-      ON user.id = gunbuild.user_id`
-    )
+      ON user.id = gunbuild.user_id
+      
+      INNER JOIN vote_counts AS votecount
+      ON votecount.gunbuild_id = gunbuild.id
+      `)
 
     gunbuilds.pop() // clean up junk from RAW query
 
@@ -29,15 +39,26 @@ class GunbuildController {
   // return all gunbuilds for logged in user
   async indexMine({ auth, response }) {
     const user = await auth.getUser()
-    const gunbuilds = await Database.raw(
-      `SELECT user.username, gunbuild.*, gun.name AS gun_name, gun.image AS gun_image, gun.calibre AS gun_calibre, gun.rpm AS gun_rpm, gun.type AS gun_type 
+    const gunbuilds = await Database.raw(`
+      SELECT 
+      user.username, 
+      gunbuild.*, 
+      gun.name AS gun_name, gun.image AS gun_image, gun.calibre AS gun_calibre, gun.rpm AS gun_rpm, gun.type AS gun_type,
+      votecount.votes
+
       FROM Gunbuilds AS gunbuild 
+
       INNER JOIN Guns AS gun 
       ON gunbuild.gun_id = gun.id
+
       INNER JOIN Users AS user
       ON user.id = gunbuild.user_id
-      WHERE gunbuild.user_id = ${user.id}`
-    )
+
+      INNER JOIN vote_counts AS votecount
+      ON votecount.gunbuild_id = gunbuild.id
+
+      WHERE gunbuild.user_id = ${user.id}
+      `)
 
     gunbuilds.pop() // clean up junk from RAW query
 
@@ -49,15 +70,26 @@ class GunbuildController {
 
   // return all gunbuilds by gun
   async indexByGun({ response, params: { id } }) {
-    const gunbuilds = await Database.raw(
-      `SELECT user.username, gunbuild.*, gun.name AS gun_name, gun.image AS gun_image, gun.calibre AS gun_calibre, gun.rpm AS gun_rpm, gun.type AS gun_type 
+    const gunbuilds = await Database.raw(`
+      SELECT 
+      user.username,
+      gunbuild.*, 
+      gun.name AS gun_name, gun.image AS gun_image, gun.calibre AS gun_calibre, gun.rpm AS gun_rpm, gun.type AS gun_type 
+      votecount.votes
+
       FROM Gunbuilds AS gunbuild 
+
       INNER JOIN Guns AS gun 
       ON gunbuild.gun_id = gun.id
+
       INNER JOIN Users AS user
       ON user.id = gunbuild.user_id
-      WHERE gunbuild.gun_id = ${id}`
-    )
+
+      INNER JOIN vote_counts AS votecount
+      ON votecount.gunbuild_id = gunbuild.id
+
+      WHERE gunbuild.gun_id = ${id}
+      `)
 
     gunbuilds.pop() // clean up junk from RAW query
 

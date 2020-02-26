@@ -45,13 +45,31 @@
 
         <template v-slot:default="props">
           <v-row>
-            <v-col v-for="loadout in props.items" :key="loadout.id" cols="12" sm="6" md="4" lg="3">
+            <v-col v-for="loadout in props.items" :key="loadout.id" cols="12" sm="6" md="6" lg="3">
 
               <v-skeleton-loader :loading="loading" :transition="transition" height="400" type="card">
                 <v-card>
                   <v-toolbar @click="viewLoadoutCard(loadout.id)" style="cursor:pointer">
                     {{ loadout.name }}
+                    <v-spacer></v-spacer>
+                    <v-card outlined class="d-flex flex-row ma-2">
+                      <template v-if="loadout.votes < 0">
+                        <v-icon color="red" class="ma-2">mdi-thumb-down</v-icon>
+                        <h4 class="ma-2 red--text">{{ loadout.votes }}</h4>
+                      </template>
+
+                      <template v-else-if="loadout.votes > 0">
+                        <v-icon color="green" class="ma-2">mdi-thumb-up</v-icon>
+                        <h4 class="ma-2 green--text">{{ loadout.votes }}</h4>
+                      </template>
+
+                      <template v-else>
+                        <v-icon color="grey" class="ma-2">mdi-thumbs-up-down</v-icon>
+                        <h4 class="ma-2 grey--text">{{ loadout.votes }}</h4>
+                      </template>
+                    </v-card>
                   </v-toolbar>
+
                   <v-container fluid>
                     <v-img @click="viewLoadoutCard(loadout.id)" style="cursor:pointer" :src="loadout.gun_image" class="white--text align-end"
                       gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height="120">
@@ -257,6 +275,25 @@
           <template v-slot:item.updated_at="{ item }">
             <span class="font-weight-medium">{{ item.updated_at }}</span>
           </template>
+
+          <template v-slot:item.votes="{ item }">
+            <v-card outlined class="d-flex flex-row ma-2 justify-center">
+              <template v-if="item.votes < 0">
+                <v-icon color="red" class="ma-2">mdi-thumb-down</v-icon>
+                <h4 class="ma-2 red--text">{{ item.votes }}</h4>
+              </template>
+
+              <template v-else-if="item.votes > 0">
+                <v-icon color="green" class="ma-2">mdi-thumb-up</v-icon>
+                <h4 class="ma-2 green--text">{{ item.votes }}</h4>
+              </template>
+
+              <template v-else>
+                <v-icon color="grey" class="ma-2">mdi-thumbs-up-down</v-icon>
+                <h4 class="ma-2 grey--text">{{ item.votes }}</h4>
+              </template>
+            </v-card>
+          </template>
         </v-data-table>
       </v-skeleton-loader>
     </v-container>
@@ -388,6 +425,10 @@
           {
             text: 'Updated',
             value: 'updated_at',
+          },
+          {
+            text: 'Rating',
+            value: 'votes',
           },
         ],
       };
