@@ -15,28 +15,36 @@
           <v-skeleton-loader :loading="loading" :transition-group="transition" type="text" width="300">
             <v-layout row wrap>
               <!-- Username -->
-              <v-card outlined class="d-flex flex-row ma-2">
+              <v-card outlined class="d-flex flex-row ma-2 align-center">
                 <h3 class="font-weight-bold orange--text d-flex flex-row ma-2">
                   <v-icon class="pr-2">mdi-account</v-icon>
                   {{ username }}
                 </h3>
               </v-card>
 
+              <!-- Updated -->
+              <v-card outlined class="d-flex flex-row ma-2 align-center">
+                <h4 class="font-weight-medium grey--text d-flex flex-row ma-2">
+                  <v-icon class="pr-2">mdi-update</v-icon>
+                  {{ updated }}
+                </h4>
+              </v-card>
+
               <!-- Votes -->
-              <v-card outlined class="d-flex flex-row ma-2">
+              <v-card outlined class="d-flex flex-row ma-2 align-center">
                 <v-btn small icon color="green" class="ma-2" :disabled="votingDisabled" @click="recaptchaUpvote(), votingDisabled=true">
                   <v-icon>mdi-thumb-up</v-icon>
                 </v-btn>
                 <template v-if="votes < 0">
-                  <h3 class="ma-2 red--text">{{ votes }}</h3>
+                  <h4 class="ma-2 red--text">{{ votes }}</h4>
                 </template>
 
                 <template v-else-if="votes > 0">
-                  <h3 class="ma-2 green--text">{{ votes }}</h3>
+                  <h4 class="ma-2 green--text">{{ votes }}</h4>
                 </template>
 
                 <template v-else>
-                  <h3 class="ma-2 grey--text">{{ votes }}</h3>
+                  <h4 class="ma-2 grey--text">{{ votes }}</h4>
                 </template>
                 <v-btn small icon color="red" class="ma-2" :disabled="votingDisabled" @click="recaptchaDownvote(), votingDisabled=true">
                   <v-icon>mdi-thumb-down</v-icon>
@@ -89,6 +97,7 @@
         'username',
         'loading',
         'votes',
+        'updated',
       ]),
     },
 

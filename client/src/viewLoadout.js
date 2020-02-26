@@ -9,6 +9,7 @@ export default {
     loadoutName: '',
     username: null,
     votes: null,
+    updated: null,
     captcha: null,
 
     weapon: {
@@ -40,6 +41,7 @@ export default {
         .then(({ data }) => {
           commit('setLoadoutDetails', data);
           commit('calculateWeaponStats');
+          commit('formatDates');
           commit('setLoading', false);
         })
         .catch((error) => {
@@ -92,6 +94,7 @@ export default {
       state.loadoutName = data.gunbuild[0].name;
       state.username = data.user[0][0].username;
       state.votes = data.gunbuild[0].voteCount.votes;
+      state.updated = data.gunbuild[0].updated_at;
     },
 
     reset(state) {
@@ -169,6 +172,15 @@ export default {
     },
     decrementVotes(state) {
       state.votes -= 1;
+    },
+
+    formatDates(state) {
+      var options = { year: 'numeric', month: 'long', day: 'numeric' };
+
+      var date = state.updated;
+      var dateNew = new Date(date);
+      dateNew = dateNew.toLocaleDateString(undefined, options);
+      state.updated = dateNew;
     },
   },
 };
