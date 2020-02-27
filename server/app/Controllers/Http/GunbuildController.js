@@ -74,7 +74,7 @@ class GunbuildController {
       SELECT 
       user.username,
       gunbuild.*, 
-      gun.name AS gun_name, gun.image AS gun_image, gun.calibre AS gun_calibre, gun.rpm AS gun_rpm, gun.type AS gun_type 
+      gun.name AS gun_name, gun.image AS gun_image, gun.calibre AS gun_calibre, gun.rpm AS gun_rpm, gun.type AS gun_type,
       votecount.votes
 
       FROM Gunbuilds AS gunbuild 
