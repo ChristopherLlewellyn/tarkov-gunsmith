@@ -1,6 +1,6 @@
 <template>
   <v-container grid-list-xs>
-  <span class="bg"></span>
+    <span class="bg"></span>
     <v-layout row wrap>
 
       <v-container grid-list-xs>
@@ -51,6 +51,12 @@
                   <v-icon>mdi-thumb-down</v-icon>
                 </v-btn>
               </v-card>
+
+              <span class="mt-5 ml-2 grey--text caption">
+                This site is protected by reCAPTCHA and the Google
+                <a href="https://policies.google.com/privacy">Privacy Policy</a> and
+                <a href="https://policies.google.com/terms">Terms of Service</a> apply.
+              </span>
             </v-layout>
           </v-skeleton-loader>
         </v-flex>
@@ -162,4 +168,9 @@
     background-color: black;
     transform: scale(1);
   }
+
+  a {
+    text-decoration: none;
+  }
+
 </style>

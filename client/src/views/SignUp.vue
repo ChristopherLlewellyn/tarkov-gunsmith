@@ -1,6 +1,6 @@
 <template>
   <v-container>
-  <span class="bg"></span>
+    <span class="bg"></span>
     <v-layout align-center justify-center>
       <v-flex xs12 sm8 md4>
         <v-card class="elevation-12">
@@ -31,9 +31,8 @@
             <v-spacer></v-spacer>
           </v-card-actions>
           <v-card-text class="text-center">
-            <span class="font-weight-medium">Already have an account? <a href="#/sign-in" color="white" class="font-weight-bold"
-                style="text-decoration:none;">Sign In</a></span>
-            
+            <span class="font-weight-medium">Already have an account? <a href="#/sign-in" color="white" class="font-weight-bold">Sign In</a></span>
+
             <v-divider class="mb-3 mt-2"></v-divider>
 
             <span class="caption">
@@ -81,7 +80,9 @@
       async recaptchaToken() {
         return new Promise((resolve) => {
           grecaptcha.ready(async () => {
-            const token = await grecaptcha.execute(process.env.VUE_APP_RECAPTCHASITEKEY, {action: 'login'});
+            const token = await grecaptcha.execute(process.env.VUE_APP_RECAPTCHASITEKEY, {
+              action: 'login'
+            });
             resolve(token);
           });
         });
@@ -109,4 +110,9 @@
     background-color: black;
     transform: scale(1);
   }
+
+  a {
+    text-decoration: none;
+  }
+
 </style>
