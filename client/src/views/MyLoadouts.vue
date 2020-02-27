@@ -61,30 +61,6 @@
                 <v-card-actions class="justify-center">
                   <v-tooltip bottom>
                     <template v-slot:activator="{ on }">
-                      <v-chip class="mr-1 ml-1" color="red darken-1" v-on="on">
-                        <v-avatar left class="red darken-4">
-                          <v-icon>mdi-axis</v-icon>
-                        </v-avatar>
-                        {{ loadout.gun_type }}
-                      </v-chip>
-                    </template>
-                    <span>Type</span>
-                  </v-tooltip>
-
-                  <v-tooltip bottom>
-                    <template v-slot:activator="{ on }">
-                      <v-chip class="mr-1 ml-1" color="brown" v-on="on">
-                        <v-avatar left class="brown darken-4">
-                          <v-icon>mdi-chevron-triple-right</v-icon>
-                        </v-avatar>
-                        {{ loadout.gun_rpm }}
-                      </v-chip>
-                    </template>
-                    <span>RPM</span>
-                  </v-tooltip>
-
-                  <v-tooltip bottom>
-                    <template v-slot:activator="{ on }">
                       <v-chip class="mr-1 ml-1" color="purple" v-on="on">
                         <v-avatar left class="purple darken-4">
                           <v-icon>mdi-bullet</v-icon>
