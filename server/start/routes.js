@@ -79,11 +79,13 @@ Route.group(() => {
   Route
     .post('gunbuilds', 'GunbuildController.create')
     .middleware(['auth'])
+    .validator('Gunbuild')
 
   // update one
   Route
     .patch('gunbuilds/:id', 'GunbuildController.update')
     .middleware(['auth', 'findGunbuild'])
+    .validator('Gunbuild')
 
   // delete one
   Route

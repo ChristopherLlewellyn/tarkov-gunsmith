@@ -31,6 +31,7 @@ export default {
     attachments: [],
 
     alert: null,
+    titleError: null,
   },
 
   actions: {
@@ -64,6 +65,9 @@ export default {
         .then(({ data }) => {
           commit('reset');
           router.push('/');
+        })
+        .catch((error) => {
+          commit('setTitleError', error.response.data[0].message); // message from response body
         });
     },
   },
@@ -95,6 +99,7 @@ export default {
       state.attachments = [];
 
       state.alert = null;
+      state.titleError = null;
     },
 
     calculateWeaponStats(state) {
@@ -155,6 +160,9 @@ export default {
 
     setLoading(state, loading) {
       state.loading = loading;
+    },
+    setTitleError(state, error) {
+      state.titleError = error;
     },
   },
 };

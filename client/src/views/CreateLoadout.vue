@@ -4,7 +4,11 @@
     <v-layout row wrap>
 
       <v-flex xs12>
-        <v-text-field v-on:input="setLoadoutName" prepend-icon="mdi-rename-box" label="Loadout name" class="pb-2 pt-2" single-line filled></v-text-field>
+        <v-text-field v-on:input="setLoadoutName" :rules="rules" prepend-icon="mdi-rename-box" label="Loadout name" class="pb-2 pt-2" single-line filled></v-text-field>
+      </v-flex>
+
+      <v-flex xs12>
+        <v-alert dismissible type="error" :value="titleError">{{ titleError }}</v-alert>
       </v-flex>
 
       <v-flex xs12 md4>
@@ -26,6 +30,7 @@ import {
   mapActions,
   mapGetters,
   mapMutations,
+  mapState,
 } from 'vuex';
 
 import router from '../router';
@@ -43,6 +48,10 @@ export default {
     ...mapGetters('authentication', [
       'isSignedIn',
     ]),
+
+    ...mapState('createLoadout', [
+      'titleError',
+    ])
   },
 
   methods: {
@@ -59,6 +68,13 @@ export default {
     WeaponSelector,
     AttachmentSelector,
   },
+
+  data: () => ({
+    rules: [
+      value => !!value || 'Required.',
+      value => (value && value.length <= 45) || 'Max 45 characters',
+    ],
+  }),
 };
 
 </script>

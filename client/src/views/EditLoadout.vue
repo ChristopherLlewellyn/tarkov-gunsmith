@@ -4,7 +4,11 @@
     <v-layout row wrap>
 
       <v-flex xs12>
-        <v-text-field v-model="name" prepend-icon="mdi-rename-box" label="Loadout name" class="pb-2 pt-2" single-line filled></v-text-field>
+        <v-text-field v-model="name" :rules="rules" prepend-icon="mdi-rename-box" label="Loadout name" class="pb-2 pt-2" single-line filled></v-text-field>
+      </v-flex>
+
+      <v-flex xs12>
+        <v-alert dismissible type="error" :value="titleError">{{ titleError }}</v-alert>
       </v-flex>
 
       <v-flex xs12 md4>
@@ -60,6 +64,7 @@ export default {
 
     ...mapState('editLoadout', [
       'loadoutName',
+      'titleError',
     ])
   },
 
@@ -80,6 +85,13 @@ export default {
     EditWeaponSelector,
     EditAttachmentSelector,
   },
+
+  data: () => ({
+    rules: [
+      value => !!value || 'Required.',
+      value => (value && value.length <= 45) || 'Max 45 characters',
+    ],
+  }),
 };
 
 </script>
