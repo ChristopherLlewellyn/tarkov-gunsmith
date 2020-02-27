@@ -1,5 +1,6 @@
 <template>
   <v-container grid-list-xs>
+  <span class="bg"></span>
     <v-layout row wrap>
 
       <v-flex xs12>
@@ -82,3 +83,17 @@ export default {
 };
 
 </script>
+
+<style scoped>
+  .bg {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: url('../images/pmcAiming2.png') no-repeat center center;
+    background-size: cover;
+    background-color: black;
+    transform: scale(1);
+  }
+</style>

@@ -1,6 +1,7 @@
 <template>
 
   <v-container fluid>
+  <span class="bg"></span>
     <v-data-iterator :items="loadouts" :items-per-page.sync="itemsPerPage" :page="page" :search="search" :sort-by="sortBy.toLowerCase()"
       :sort-desc="sortDesc" hide-default-footer>
       <template v-slot:header>
@@ -287,3 +288,17 @@
   };
 
 </script>
+
+<style scoped>
+  .bg {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: url('../images/pmcAiming2.png') no-repeat center center;
+    background-size: cover;
+    background-color: black;
+    transform: scale(1);
+  }
+</style>

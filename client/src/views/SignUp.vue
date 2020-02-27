@@ -1,5 +1,6 @@
 <template>
   <v-container>
+  <span class="bg"></span>
     <v-layout align-center justify-center>
       <v-flex xs12 sm8 md4>
         <v-card class="elevation-12">
@@ -87,3 +88,17 @@
   };
 
 </script>
+
+<style scoped>
+  .bg {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: url('../images/pmcNight.png') no-repeat center center;
+    background-size: cover;
+    background-color: black;
+    transform: scale(1);
+  }
+</style>
