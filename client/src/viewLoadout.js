@@ -45,7 +45,7 @@ export default {
           commit('setLoading', false);
         })
         .catch((error) => {
-          if (error.response.status == '404') {
+          if (error.response.status === '404') {
             router.push('/');
           } else {
             router.push('/');
@@ -60,7 +60,7 @@ export default {
       })
         .then(({ data }) => {
           commit('incrementVotes');
-        })
+        });
     },
 
     downvote({ commit, state }) {
@@ -70,7 +70,7 @@ export default {
       })
         .then(({ data }) => {
           commit('decrementVotes');
-        })
+        });
     },
   },
 
@@ -175,10 +175,10 @@ export default {
     },
 
     formatDates(state) {
-      var options = { year: 'numeric', month: 'long', day: 'numeric' };
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
 
-      var date = state.updated;
-      var dateNew = new Date(date);
+      const date = state.updated;
+      let dateNew = new Date(date);
       dateNew = dateNew.toLocaleDateString(undefined, options);
       state.updated = dateNew;
     },

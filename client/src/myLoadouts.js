@@ -5,7 +5,7 @@ export default {
   namespaced: true,
   state: {
     loading: true,
-    
+
     loadouts: [],
     loadoutToDelete: null,
   },
@@ -47,11 +47,11 @@ export default {
     },
 
     formatDates(state) {
-      var options = { year: 'numeric', month: 'long', day: 'numeric' };
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
 
-      for (var i = 0; i < state.loadouts.length; i++) {
-        var date = state.loadouts[i].updated_at;
-        var dateNew = new Date(date);
+      for (let i = 0; i < state.loadouts.length; i++) {
+        const date = state.loadouts[i].updated_at;
+        let dateNew = new Date(date);
         dateNew = dateNew.toLocaleDateString(undefined, options);
         state.loadouts[i].updated_at = dateNew;
       }

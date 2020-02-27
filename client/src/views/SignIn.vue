@@ -48,48 +48,48 @@
 
 
 <script>
-  import {
-    mapState,
-    mapMutations,
-    mapActions,
-  } from 'vuex';
+import {
+  mapState,
+  mapMutations,
+  mapActions,
+} from 'vuex';
 
-  export default {
-    computed: {
-      ...mapState('authentication', [
-        'signInEmail',
-        'signInPassword',
-        'signInError',
-      ]),
-    },
-    methods: {
-      ...mapMutations('authentication', [
-        'setSignInEmail',
-        'setSignInPassword',
-        'setCaptcha'
-      ]),
-      ...mapActions('authentication', [
-        'signIn',
-      ]),
+export default {
+  computed: {
+    ...mapState('authentication', [
+      'signInEmail',
+      'signInPassword',
+      'signInError',
+    ]),
+  },
+  methods: {
+    ...mapMutations('authentication', [
+      'setSignInEmail',
+      'setSignInPassword',
+      'setCaptcha',
+    ]),
+    ...mapActions('authentication', [
+      'signIn',
+    ]),
 
-      async recaptchaToken() {
-        return new Promise((resolve) => {
-          grecaptcha.ready(async () => {
-            const token = await grecaptcha.execute(process.env.VUE_APP_RECAPTCHASITEKEY, {
-              action: 'login'
-            });
-            resolve(token);
+    async recaptchaToken() {
+      return new Promise((resolve) => {
+        grecaptcha.ready(async () => {
+          const token = await grecaptcha.execute(process.env.VUE_APP_RECAPTCHASITEKEY, {
+            action: 'login',
           });
+          resolve(token);
         });
-      },
-
-      async recaptchaSignIn() {
-        const token = await this.recaptchaToken();
-        this.setCaptcha(token);
-        this.signIn();
-      }
+      });
     },
-  };
+
+    async recaptchaSignIn() {
+      const token = await this.recaptchaToken();
+      this.setCaptcha(token);
+      this.signIn();
+    },
+  },
+};
 
 </script>
 

@@ -111,24 +111,24 @@
 </template>
 
 <script>
-  import {
-    mapState,
-  } from 'vuex';
+import {
+  mapState,
+} from 'vuex';
 
-  export default {
-    computed: {
-      ...mapState('viewLoadout', [
-        'weapon',
-        'weaponStatsCalculated',
-        'loading',
-      ]),
-    },
+export default {
+  computed: {
+    ...mapState('viewLoadout', [
+      'weapon',
+      'weaponStatsCalculated',
+      'loading',
+    ]),
+  },
 
-    data() {
-      return {
-        transition: 'scale-transition',
-      };
-    },
-  };
+  data() {
+    return {
+      transition: 'scale-transition',
+    };
+  },
+};
 
 </script>

@@ -51,50 +51,50 @@
 </template>
 
 <script>
-  import {
-    mapState,
-    mapMutations,
-  } from 'vuex';
+import {
+  mapState,
+  mapMutations,
+} from 'vuex';
 
-  export default {
-    methods: {
-      ...mapMutations('viewLoadout', [
-        'calculateWeaponStats',
-      ]),
+export default {
+  methods: {
+    ...mapMutations('viewLoadout', [
+      'calculateWeaponStats',
+    ]),
+  },
+
+  computed: {
+    ...mapState('viewLoadout', [
+      'attachments',
+    ]),
+  },
+
+  data: () => ({
+    search: '',
+    headers: [{
+      text: 'Image',
+      value: 'image',
+      sortable: false,
+      filterable: false,
     },
-
-    computed: {
-      ...mapState('viewLoadout', [
-        'attachments',
-      ]),
+    {
+      text: 'Name',
+      value: 'name',
     },
-
-    data: () => ({
-      search: '',
-      headers: [{
-          text: 'Image',
-          value: 'image',
-          sortable: false,
-          filterable: false,
-        },
-        {
-          text: 'Name',
-          value: 'name',
-        },
-        {
-          text: 'Type',
-          value: 'type',
-        },
-        {
-          text: 'Ergonomics',
-          value: 'ergonomics_modifier',
-        },
-        {
-          text: 'Recoil (%)',
-          value: 'recoil_modifier',
-        },
-      ],
-    }),
-  };
+    {
+      text: 'Type',
+      value: 'type',
+    },
+    {
+      text: 'Ergonomics',
+      value: 'ergonomics_modifier',
+    },
+    {
+      text: 'Recoil (%)',
+      value: 'recoil_modifier',
+    },
+    ],
+  }),
+};
 
 </script>

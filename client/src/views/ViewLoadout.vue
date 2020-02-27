@@ -75,84 +75,84 @@
 </template>
 
 <script>
-  import {
-    mapActions,
-    mapGetters,
-    mapMutations,
-    mapState,
-  } from 'vuex';
+import {
+  mapActions,
+  mapGetters,
+  mapMutations,
+  mapState,
+} from 'vuex';
 
-  import router from '../router';
-  import ViewAttachments from '@/components/ViewAttachments.vue';
-  import ViewWeapon from '@/components/ViewWeapon.vue';
+import router from '../router';
+import ViewAttachments from '@/components/ViewAttachments.vue';
+import ViewWeapon from '@/components/ViewWeapon.vue';
 
-  export default {
-    components: {
-      ViewAttachments,
-      ViewWeapon,
-    },
+export default {
+  components: {
+    ViewAttachments,
+    ViewWeapon,
+  },
 
-    mounted() {
-      this.reset();
-      this.setLoadoutId(this.$route.params.id);
-      this.fillLoadoutDetails();
-    },
+  mounted() {
+    this.reset();
+    this.setLoadoutId(this.$route.params.id);
+    this.fillLoadoutDetails();
+  },
 
-    computed: {
-      ...mapState('viewLoadout', [
-        'loadoutName',
-        'username',
-        'loading',
-        'votes',
-        'updated',
-      ]),
-    },
+  computed: {
+    ...mapState('viewLoadout', [
+      'loadoutName',
+      'username',
+      'loading',
+      'votes',
+      'updated',
+    ]),
+  },
 
-    methods: {
-      ...mapActions('viewLoadout', [
-        'fillLoadoutDetails',
-        'upvote',
-        'downvote',
-      ]),
+  methods: {
+    ...mapActions('viewLoadout', [
+      'fillLoadoutDetails',
+      'upvote',
+      'downvote',
+    ]),
 
-      ...mapMutations('viewLoadout', [
-        'reset',
-        'setLoadoutName',
-        'setLoadoutId',
-        'setCaptcha',
-      ]),
+    ...mapMutations('viewLoadout', [
+      'reset',
+      'setLoadoutName',
+      'setLoadoutId',
+      'setCaptcha',
+    ]),
 
-      async recaptchaToken() {
-        return new Promise((resolve) => {
-          grecaptcha.ready(async () => {
-            const token = await grecaptcha.execute(process.env.VUE_APP_RECAPTCHASITEKEY, {
-              action: 'vote'
-            });
-            resolve(token);
+    async recaptchaToken() {
+      return new Promise((resolve) => {
+        grecaptcha.ready(async () => {
+          const token = await grecaptcha.execute(process.env.VUE_APP_RECAPTCHASITEKEY, {
+            action: 'vote',
           });
+          resolve(token);
         });
-      },
-
-      async recaptchaUpvote() {
-        const token = await this.recaptchaToken();
-        this.setCaptcha(token);
-        this.upvote();
-      },
-
-      async recaptchaDownvote() {
-        const token = await this.recaptchaToken();
-        this.setCaptcha(token);
-        this.downvote();
-      },
+      });
     },
 
-    data() {
-      return {
-        transition: 'scale-transition',
-        votingDisabled: false,
-      };
+    async recaptchaUpvote() {
+      const token = await this.recaptchaToken();
+      this.setCaptcha(token);
+      this.upvote();
     },
-  };
+
+    async recaptchaDownvote() {
+      const token = await this.recaptchaToken();
+      this.setCaptcha(token);
+      this.downvote();
+    },
+  },
+
+  data() {
+    return {
+      transition: 'scale-transition',
+      votingDisabled: false,
+    };
+  },
+};
 
 </script>
 

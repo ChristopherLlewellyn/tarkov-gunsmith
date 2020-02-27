@@ -46,7 +46,7 @@ export default {
           commit('setLoading', false);
         })
         .catch((error) => {
-          if (error.response.status == '404') {
+          if (error.response.status === '404') {
             router.push('/my-loadouts');
           } else {
             router.push('/my-loadouts');

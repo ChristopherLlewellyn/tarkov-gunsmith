@@ -18,25 +18,24 @@ export default {
 
       if (state.gunToIndexBy === 'Any') {
         return HTTP().get('/gunbuilds')
-        .then(({ data }) => {
-          commit('setLoadouts', data.data[0]);
-          commit('formatDates');
-          commit('setLoading', false);
-        });
+          .then(({ data }) => {
+            commit('setLoadouts', data.data[0]);
+            commit('formatDates');
+            commit('setLoading', false);
+          });
       }
 
-      else {
-        return HTTP().get(`/gunbuilds/indexbygun/${state.gunToIndexBy}`)
+
+      return HTTP().get(`/gunbuilds/indexbygun/${state.gunToIndexBy}`)
         .then(({ data }) => {
           commit('setLoadouts', data.data[0]);
           commit('formatDates');
           commit('setLoading', false);
         });
-      }
     },
 
     fetchGuns({ commit }) {
-      return HTTP().get(`/guns`)
+      return HTTP().get('/guns')
         .then(({ data }) => {
           commit('setGuns', data.data);
           commit('setGunNames', data.data);
@@ -56,27 +55,25 @@ export default {
     setGunToIndexBy(state, gun) {
       let gun_id = gun;
       if (gun !== 'Any') {
-        gun_id = state.guns.filter(x => {
-          return x.name === gun;
-        })[0].id;
+        gun_id = state.guns.filter(x => x.name === gun)[0].id;
       }
 
       state.gunToIndexBy = gun_id;
     },
 
     setGuns(state, guns) {
-      let gunList = [];
+      const gunList = [];
       for (let i = 0; i < guns.length; i++) {
-        var gun = {id: guns[i].id, name: guns[i].name}
+        const gun = { id: guns[i].id, name: guns[i].name };
         gunList.push(gun);
       }
       state.guns = gunList;
     },
 
     setGunNames(state, guns) {
-      let gunList = [];
+      const gunList = [];
       for (let i = 0; i < guns.length; i++) {
-        var gun = guns[i].name
+        const gun = guns[i].name;
         gunList.push(gun);
       }
       state.gunNames = gunList;
@@ -89,11 +86,11 @@ export default {
     },
 
     formatDates(state) {
-      var options = { year: 'numeric', month: 'long', day: 'numeric' };
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
 
-      for (var i = 0; i < state.loadouts.length; i++) {
-        var date = state.loadouts[i].updated_at;
-        var dateNew = new Date(date);
+      for (let i = 0; i < state.loadouts.length; i++) {
+        const date = state.loadouts[i].updated_at;
+        let dateNew = new Date(date);
         dateNew = dateNew.toLocaleDateString(undefined, options);
         state.loadouts[i].updated_at = dateNew;
       }

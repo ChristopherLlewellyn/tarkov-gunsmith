@@ -114,29 +114,29 @@
 </template>
 
 <script>
-  import {
-    mapState,
-  } from 'vuex';
-  import EditWeaponSelectorDialog from './EditWeaponSelectorDialog.vue';
+import {
+  mapState,
+} from 'vuex';
+import EditWeaponSelectorDialog from './EditWeaponSelectorDialog.vue';
 
-  export default {
-    components: {
-      EditWeaponSelectorDialog,
-    },
+export default {
+  components: {
+    EditWeaponSelectorDialog,
+  },
 
-    computed: {
-      ...mapState('editLoadout', [
-        'weapon',
-        'weaponStatsCalculated',
-        'loading',
-      ]),
-    },
+  computed: {
+    ...mapState('editLoadout', [
+      'weapon',
+      'weaponStatsCalculated',
+      'loading',
+    ]),
+  },
 
-    data() {
-      return {
-        transition: 'scale-transition',
-      };
-    },
-  };
+  data() {
+    return {
+      transition: 'scale-transition',
+    };
+  },
+};
 
 </script>

@@ -50,11 +50,11 @@ export default {
 
   computed: {
     name: {
-      get: function() {
-        return this.loadoutName
+      get() {
+        return this.loadoutName;
       },
-      set: function (name) {
-        this.setLoadoutName(name)
+      set(name) {
+        this.setLoadoutName(name);
       },
     },
 
@@ -65,7 +65,7 @@ export default {
     ...mapState('editLoadout', [
       'loadoutName',
       'titleError',
-    ])
+    ]),
   },
 
   methods: {
