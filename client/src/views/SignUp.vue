@@ -33,6 +33,14 @@
           <v-card-text class="text-center">
             <span class="font-weight-medium">Already have an account? <a href="#/sign-in" color="white" class="font-weight-bold"
                 style="text-decoration:none;">Sign In</a></span>
+            
+            <v-divider class="mb-3 mt-2"></v-divider>
+
+            <span class="caption">
+              This site is protected by reCAPTCHA and the Google
+              <a href="https://policies.google.com/privacy">Privacy Policy</a> and
+              <a href="https://policies.google.com/terms">Terms of Service</a> apply.
+            </span>
           </v-card-text>
 
         </v-card>

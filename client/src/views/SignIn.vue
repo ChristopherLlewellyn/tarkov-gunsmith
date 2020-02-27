@@ -31,6 +31,14 @@
           <v-card-text class="text-center">
             <span class="font-weight-medium">Don't have an account? <a href="#/sign-up" color="white" class="font-weight-bold"
                 style="text-decoration:none;">Sign up</a></span>
+
+            <v-divider class="mb-3 mt-2"></v-divider>
+
+            <span class="caption">
+              This site is protected by reCAPTCHA and the Google
+              <a href="https://policies.google.com/privacy">Privacy Policy</a> and
+              <a href="https://policies.google.com/terms">Terms of Service</a> apply.
+            </span>
           </v-card-text>
 
         </v-card>
