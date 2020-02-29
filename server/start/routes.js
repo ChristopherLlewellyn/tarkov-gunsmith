@@ -38,6 +38,7 @@ Route.group(() => {
   // confirm password reset
   Route
     .post('auth/password/reset', 'UserController.resetPassword')
+    .middleware('verifyCaptcha')
     .validator('PasswordReset')
 
   // login

@@ -7,6 +7,8 @@ import MyLoadouts from './views/MyLoadouts.vue';
 import EditLoadout from './views/EditLoadout.vue';
 import SearchLoadouts from './views/SearchLoadouts.vue';
 import ViewLoadout from './views/ViewLoadout.vue';
+import ResetPassword from './views/ResetPassword.vue';
+import ConfirmPasswordReset from './views/ConfirmPasswordReset.vue';
 
 Vue.use(Router);
 
@@ -26,6 +28,16 @@ export default new Router({
       path: '/sign-up',
       name: 'sign-up',
       component: SignUp,
+    },
+    {
+      path: '/reset-password',
+      name: 'reset-password',
+      component: ResetPassword,
+    },
+    {
+      path: '/confirm-password-reset/:token',
+      name: 'confirm-password-reset',
+      component: ConfirmPasswordReset,
     },
     {
       path: '/loadout/:id',

@@ -20,6 +20,7 @@ class VerifyCaptcha {
   try {
     const data_request = await axios.post('https://www.google.com/recaptcha/api/siteverify', querystring.stringify({ secret: Env.get('RECAPTCHA_PRIVATE_KEY'), response: data['captcha'] }))
     if (!data_request.data.success) {
+      console.log(data_request.data)
       // If the recaptcha check fails
       return response.status(429).json({
         message: 'Failed reCaptcha test',

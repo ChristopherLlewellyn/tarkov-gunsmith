@@ -46,7 +46,7 @@ export default {
           router.push('/');
         })
         .catch((error) => {
-          if (error.response.status === '404') {
+          if (error.response.status == '404') {
             commit('setSignInError', error.response.data.message);
           } else {
             commit('setSignInError', error.response.data[0].message); // message from response body
