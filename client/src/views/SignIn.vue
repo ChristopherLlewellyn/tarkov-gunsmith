@@ -19,7 +19,7 @@
               <a href="#/reset-password" color="white" class="font-weight-bold">Forgot password</a>
             </v-form>
 
-            <v-card-actions class="justify-center">
+            <v-card-actions v-if="loading" class="justify-center">
               <v-progress-circular v-if="loading" color="primary" indeterminate></v-progress-circular>
             </v-card-actions>
 
