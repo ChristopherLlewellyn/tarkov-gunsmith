@@ -20,6 +20,11 @@
               <v-text-field v-model="password_confirmation" label="Confirm Password" placeholder="Confirm Password" prepend-icon="mdi-lock-question" type="password" autocomplete="new-password">
               </v-text-field>
             </v-form>
+
+            <v-card-actions class="justify-center">
+              <v-progress-circular v-if="loading" color="primary" indeterminate></v-progress-circular>
+            </v-card-actions>
+
             <v-alert type="error" :value="resetError">{{ resetError }}</v-alert>
             <v-alert type="success" :value="resetSuccess">{{ resetSuccess }}</v-alert>
           </v-card-text>
@@ -61,6 +66,7 @@ export default {
 
     confirmPasswordReset(email) {
       this.resetError = null;
+      this.loading = true;
       return HTTP().post('auth/password/reset', {
         email: this.email,
         password: this.password,
@@ -70,10 +76,12 @@ export default {
       })
         .then(({ data }) => {
           this.resetError = null;
+          this.loading = false;
           this.resetSuccess = data.message;
         })
         .catch((error) => {
           this.resetSuccess = null;
+          this.loading = false;
 
           if (error.response.status == '404') {
             this.resetError = error.response.data.message;
@@ -110,6 +118,7 @@ export default {
     resetSuccess: null,
     resetError: null,
     captcha: null,
+    loading: false,
   })
 };
 </script>

@@ -19,6 +19,10 @@
                 prepend-icon="mdi-lock" :value="signUpPassword">
               </v-text-field>
             </v-form>
+            <v-card-actions class="justify-center">
+              <v-progress-circular v-if="loading" color="primary" indeterminate></v-progress-circular>
+            </v-card-actions>
+
             <v-alert type="error" :value="signUpError">{{ signUpError }}</v-alert>
             <v-alert type="success" :value="signUpSuccess">{{ signUpSuccess }}</v-alert>
           </v-card-text>
@@ -50,51 +54,52 @@
 
 
 <script>
-import {
-  mapState,
-  mapMutations,
-  mapActions,
-} from 'vuex';
+  import {
+    mapState,
+    mapMutations,
+    mapActions,
+  } from 'vuex';
 
-export default {
-  computed: {
-    ...mapState('authentication', [
-      'signUpEmail',
-      'signUpPassword',
-      'signUpUsername',
-      'signUpError',
-      'signUpSuccess',
-    ]),
-  },
-  methods: {
-    ...mapMutations('authentication', [
-      'setSignUpEmail',
-      'setSignUpPassword',
-      'setSignUpUsername',
-      'setCaptcha',
-    ]),
-    ...mapActions('authentication', [
-      'register',
-    ]),
+  export default {
+    computed: {
+      ...mapState('authentication', [
+        'signUpEmail',
+        'signUpPassword',
+        'signUpUsername',
+        'signUpError',
+        'signUpSuccess',
+        'loading',
+      ]),
+    },
+    methods: {
+      ...mapMutations('authentication', [
+        'setSignUpEmail',
+        'setSignUpPassword',
+        'setSignUpUsername',
+        'setCaptcha',
+      ]),
+      ...mapActions('authentication', [
+        'register',
+      ]),
 
-    async recaptchaToken() {
-      return new Promise((resolve) => {
-        grecaptcha.ready(async () => {
-          const token = await grecaptcha.execute(process.env.VUE_APP_RECAPTCHASITEKEY, {
-            action: 'login',
+      async recaptchaToken() {
+        return new Promise((resolve) => {
+          grecaptcha.ready(async () => {
+            const token = await grecaptcha.execute(process.env.VUE_APP_RECAPTCHASITEKEY, {
+              action: 'login',
+            });
+            resolve(token);
           });
-          resolve(token);
         });
-      });
-    },
+      },
 
-    async recaptchaSignUp() {
-      const token = await this.recaptchaToken();
-      this.setCaptcha(token);
-      this.register();
+      async recaptchaSignUp() {
+        const token = await this.recaptchaToken();
+        this.setCaptcha(token);
+        this.register();
+      },
     },
-  },
-};
+  };
 
 </script>
 

@@ -18,6 +18,11 @@
               </v-text-field>
               <a href="#/reset-password" color="white" class="font-weight-bold">Forgot password</a>
             </v-form>
+
+            <v-card-actions class="justify-center">
+              <v-progress-circular v-if="loading" color="primary" indeterminate></v-progress-circular>
+            </v-card-actions>
+
             <v-alert type="error" :value="signInError">{{ signInError }}</v-alert>
           </v-card-text>
           <v-card-actions>
@@ -61,6 +66,7 @@ export default {
       'signInEmail',
       'signInPassword',
       'signInError',
+      'loading',
     ]),
   },
   methods: {

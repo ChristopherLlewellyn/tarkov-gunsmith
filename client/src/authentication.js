@@ -15,10 +15,13 @@ export default {
     signInError: null,
     token: null,
     captcha: null,
+
+    loading: false,
   },
   actions: {
     register({ commit, state }) {
       commit('setSignUpError', null);
+      commit('setLoading', true);
       return HTTP().post('/auth/register', {
         email: state.signUpEmail,
         password: state.signUpPassword,
@@ -26,15 +29,18 @@ export default {
         captcha: state.captcha,
       })
         .then(({ data }) => {
+          commit('setLoading', false);
           commit('setSignUpSuccess', data.message);
         })
         .catch((error) => {
+          commit('setLoading', false);
           commit('setSignUpError', error.response.data[0].message); // message from response body
         });
     },
 
     signIn({ commit, state }) {
       commit('setSignInError', null);
+      commit('setLoading', true);
       return HTTP().post('/auth/login', {
         email: state.signInEmail,
         password: state.signInPassword,
@@ -43,9 +49,11 @@ export default {
         .then(({ data }) => {
           commit('setToken', data.token);
           commit('setSignInError', null);
+          commit('setLoading', false);
           router.push('/');
         })
         .catch((error) => {
+          commit('setLoading', false);
           if (error.response.status == '404') {
             commit('setSignInError', error.response.data.message);
           } else {
@@ -95,6 +103,9 @@ export default {
     },
     setCaptcha(state, captcha) {
       state.captcha = captcha;
+    },
+    setLoading(state, loading) {
+      state.loading = loading;
     },
   },
 };

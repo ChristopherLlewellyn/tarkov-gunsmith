@@ -14,6 +14,11 @@
               <v-text-field v-model="resetEmail" label="Email" placeholder="Email" prepend-icon="mdi-email">
               </v-text-field>
             </v-form>
+
+            <v-card-actions class="justify-center">
+              <v-progress-circular v-if="loading" color="primary" indeterminate></v-progress-circular>
+            </v-card-actions>
+
             <v-alert type="error" :value="resetError">{{ resetError }}</v-alert>
             <v-alert type="success" :value="resetSuccess">{{ resetSuccess }}</v-alert>
           </v-card-text>
@@ -54,16 +59,19 @@ export default {
 
     sendPasswordReset(email) {
       this.resetError = null;
+      this.loading = true;
       return HTTP().post('auth/password/email', {
         email: this.resetEmail,
         captcha: this.captcha,
       })
         .then(({ data }) => {
           this.resetError = null;
+          this.loading= false;
           this.resetSuccess = data.message;
         })
         .catch((error) => {
           this.resetSuccess = null;
+          this.loading = false;
           this.resetError = error.response.data.message; // message from response body
         });
     },
@@ -91,6 +99,7 @@ export default {
     resetSuccess: null,
     resetError: null,
     captcha: null,
+    loading: false,
   })
 };
 </script>
