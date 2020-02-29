@@ -14,7 +14,9 @@ class Gunbuild extends Model {
   }
 
   attachments () {
-    return this.belongsToMany('App/Models/Attachment').pivotTable('attachment_gunbuild')
+    return this.belongsToMany('App/Models/Attachment')
+      .pivotTable('attachment_gunbuild')
+      .withPivot(['quantity'])
   }
 
   voteCount () {

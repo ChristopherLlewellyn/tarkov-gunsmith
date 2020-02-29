@@ -153,7 +153,9 @@ class GunbuildController {
     for (var i = 0; i < attachments.length; i++) {
       attachmentIds.push(attachments[i].id)
     }
-    const gunbuildAttachments = await gunbuild.attachments().attach(attachmentIds)
+    const gunbuildAttachments = await gunbuild.attachments().attach(attachmentIds, row => {
+      row.quantity = attachments.filter(attachment => attachment.id === row.attachment_id).length
+    })
     
     response.status(201).json({
       message: 'Successfully created a new gunbuild',
@@ -191,7 +193,9 @@ class GunbuildController {
       attachmentIds.push(attachments[i].id)
     }
     await gunbuild.attachments().detach()
-    const gunbuildAttachments = await gunbuild.attachments().attach(attachmentIds)
+    const gunbuildAttachments = await gunbuild.attachments().attach(attachmentIds, row => {
+      row.quantity = attachments.filter(attachment => attachment.id === row.attachment_id).length
+    })
 
     response.status(200).json({
       message: 'Successfully updated this gunbuild',

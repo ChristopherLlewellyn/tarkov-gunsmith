@@ -13,6 +13,8 @@ class AttachmentGunbuildSchema extends Schema {
 
       table.integer('gunbuild_id').unsigned()
         .references('id').inTable('gunbuilds').onDelete('cascade')
+
+      table.integer('quantity')
     })
   }
 

@@ -88,7 +88,9 @@ export default {
       state.weapon.vertical_recoil = data.gun[0][0].vertical_recoil_base;
 
       data.gunbuild[0].attachments.forEach((attachment) => {
-        state.attachments.push(attachment);
+        for (let i = 0; i < attachment.pivot.quantity; i++) {
+          state.attachments.push(attachment);
+        }
       });
 
       state.loadoutName = data.gunbuild[0].name;
