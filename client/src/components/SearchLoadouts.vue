@@ -180,10 +180,10 @@
               white--text">
               Page {{ page }} of {{ numberOfPages }}
             </span>
-            <v-btn fab dark color="blue" class="mr-1" @click="formerPage">
+            <v-btn fab small dark color="blue" class="mr-1" @click="formerPage">
               <v-icon>mdi-chevron-left</v-icon>
             </v-btn>
-            <v-btn fab dark color="blue" class="ml-1" @click="nextPage">
+            <v-btn fab small dark color="blue" class="ml-1" @click="nextPage">
               <v-icon>mdi-chevron-right</v-icon>
             </v-btn>
           </v-row>
