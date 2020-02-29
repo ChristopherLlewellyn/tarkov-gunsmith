@@ -9,6 +9,7 @@ import SearchLoadouts from './views/SearchLoadouts.vue';
 import ViewLoadout from './views/ViewLoadout.vue';
 import ResetPassword from './views/ResetPassword.vue';
 import ConfirmPasswordReset from './views/ConfirmPasswordReset.vue';
+import ConfirmEmail from './views/ConfirmEmail.vue';
 
 Vue.use(Router);
 
@@ -28,6 +29,11 @@ export default new Router({
       path: '/sign-up',
       name: 'sign-up',
       component: SignUp,
+    },
+    {
+      path: '/confirm-email/:token',
+      name: 'confirm-email',
+      component: ConfirmEmail,
     },
     {
       path: '/reset-password',
