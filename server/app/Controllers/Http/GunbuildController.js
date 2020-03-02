@@ -18,10 +18,10 @@ class GunbuildController {
 
       FROM gunbuilds AS gunbuild 
 
-      INNER JOIN Guns AS gun 
+      INNER JOIN guns AS gun 
       ON gunbuild.gun_id = gun.id
 
-      INNER JOIN Users AS user
+      INNER JOIN users AS user
       ON user.id = gunbuild.user_id
       
       INNER JOIN vote_counts AS votecount
@@ -48,10 +48,10 @@ class GunbuildController {
 
       FROM gunbuilds AS gunbuild 
 
-      INNER JOIN Guns AS gun 
+      INNER JOIN guns AS gun 
       ON gunbuild.gun_id = gun.id
 
-      INNER JOIN Users AS user
+      INNER JOIN users AS user
       ON user.id = gunbuild.user_id
 
       INNER JOIN vote_counts AS votecount
@@ -79,10 +79,10 @@ class GunbuildController {
 
       FROM gunbuilds AS gunbuild 
 
-      INNER JOIN Guns AS gun 
+      INNER JOIN guns AS gun 
       ON gunbuild.gun_id = gun.id
 
-      INNER JOIN Users AS user
+      INNER JOIN users AS user
       ON user.id = gunbuild.user_id
 
       INNER JOIN vote_counts AS votecount
@@ -109,12 +109,12 @@ class GunbuildController {
       .fetch()
     
     const gun = await Database.raw(
-      `SELECT gun.* FROM Guns AS gun INNER JOIN gunbuilds AS gunbuild ON gunbuild.gun_id = gun.id WHERE gunbuild.id = ${id}`
+      `SELECT gun.* FROM guns AS gun INNER JOIN gunbuilds AS gunbuild ON gunbuild.gun_id = gun.id WHERE gunbuild.id = ${id}`
     )
     gun.pop() // clean up junk from RAW query
 
     const user = await Database.raw(
-      `SELECT user.username FROM Users AS user INNER JOIN gunbuilds AS gunbuild ON gunbuild.user_id = user.id WHERE gunbuild.id = ${id}`
+      `SELECT user.username FROM users AS user INNER JOIN gunbuilds AS gunbuild ON gunbuild.user_id = user.id WHERE gunbuild.id = ${id}`
       )
     user.pop() // clean up junk from RAW query
     
