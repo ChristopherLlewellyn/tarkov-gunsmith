@@ -131,6 +131,7 @@ export default {
       let { ergonomics } = state.weapon;
       let { horizontal_recoil } = state.weapon;
       let { vertical_recoil } = state.weapon;
+      let recoil_reduction = 0;
 
       state.attachments.forEach((attachment) => {
         if (attachment.ergonomics_modifier !== null) {
@@ -138,10 +139,12 @@ export default {
         }
 
         if (attachment.recoil_modifier !== null && attachment.recoil_modifier !== 0) {
-          horizontal_recoil = Math.round(horizontal_recoil * ((100 + attachment.recoil_modifier) / 100));
-          vertical_recoil = Math.round(vertical_recoil * ((100 + attachment.recoil_modifier) / 100));
+          recoil_reduction = recoil_reduction + attachment.recoil_modifier
         }
       });
+
+      horizontal_recoil = Math.round(state.weapon.horizontal_recoil * ((100 + recoil_reduction) / 100));
+      vertical_recoil = Math.round(state.weapon.vertical_recoil * ((100 + recoil_reduction) / 100));
 
       state.weaponStatsCalculated.ergonomics = ergonomics;
       state.weaponStatsCalculated.horizontal_recoil = horizontal_recoil;
