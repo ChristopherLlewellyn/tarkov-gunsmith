@@ -159,7 +159,9 @@
 
         <template v-slot:footer>
           <v-row class="ma-2" align="center" justify="center">
-            <span class="white--text">Items per page</span>
+            <v-card outlined>
+              <span class="font-weight-medium grey--text ma-2">Items per page</span>
+            </v-card>
             <v-menu offset-y>
               <template v-slot:activator="{ on }">
                 <v-btn dark text color="primary" class="ml-2" v-on="on">
@@ -176,10 +178,9 @@
 
             <v-spacer></v-spacer>
 
-            <span class="mr-4
-              white--text">
-              Page {{ page }} of {{ numberOfPages }}
-            </span>
+            <v-card class="mr-4" outlined>
+              <span class="font-weight-medium grey--text ma-2">Page {{ page }} of {{ numberOfPages }}</span>
+            </v-card>
             <v-btn fab small dark color="blue" class="mr-1" @click="formerPage">
               <v-icon>mdi-chevron-left</v-icon>
             </v-btn>
@@ -301,138 +302,138 @@
 </template>
 
 <script>
-import {
-  mapGetters,
-  mapState,
-  mapActions,
-  mapMutations,
-} from 'vuex';
+  import {
+    mapGetters,
+    mapState,
+    mapActions,
+    mapMutations,
+  } from 'vuex';
 
-import router from '../router';
+  import router from '../router';
 
-export default {
-  mounted() {
-    this.fetchGuns();
-    this.fetchLoadouts();
-  },
-
-  methods: {
-    ...mapActions('searchLoadouts', [
-      'fetchLoadouts',
-      'fetchGuns',
-    ]),
-
-    ...mapMutations('searchLoadouts', [
-      'setGunToIndexBy',
-      'setGunNamesFilter',
-    ]),
-
-    viewLoadoutCard(id) {
-      router.push(`/loadout/${id}`);
+  export default {
+    mounted() {
+      this.fetchGuns();
+      this.fetchLoadouts();
     },
 
-    viewLoadoutTable(item) {
-      router.push(`/loadout/${item.id}`);
+    methods: {
+      ...mapActions('searchLoadouts', [
+        'fetchLoadouts',
+        'fetchGuns',
+      ]),
+
+      ...mapMutations('searchLoadouts', [
+        'setGunToIndexBy',
+        'setGunNamesFilter',
+      ]),
+
+      viewLoadoutCard(id) {
+        router.push(`/loadout/${id}`);
+      },
+
+      viewLoadoutTable(item) {
+        router.push(`/loadout/${item.id}`);
+      },
+
+      nextPage() {
+        if (this.page + 1 <= this.numberOfPages) this.page += 1;
+      },
+      formerPage() {
+        if (this.page - 1 >= 1) this.page -= 1;
+      },
+      updateItemsPerPage(number) {
+        this.itemsPerPage = number;
+      },
+
+      searchGunNames(val) {
+        if (val) {
+          this.setGunNamesFilter(this.gunNamesFilter.filter(gunName => gunName.toLowerCase().indexOf(val) !== -1));
+        } else {
+          this.setGunNamesFilter(this.gunNames);
+        }
+      },
     },
 
-    nextPage() {
-      if (this.page + 1 <= this.numberOfPages) this.page += 1;
-    },
-    formerPage() {
-      if (this.page - 1 >= 1) this.page -= 1;
-    },
-    updateItemsPerPage(number) {
-      this.itemsPerPage = number;
-    },
+    computed: {
+      numberOfPages() {
+        return Math.ceil(this.loadouts.length / this.itemsPerPage);
+      },
+      filteredKeys() {
+        return this.keys.filter(key => key !== 'Name');
+      },
 
-    searchGunNames(val) {
-      if (val) {
-        this.setGunNamesFilter(this.gunNamesFilter.filter(gunName => gunName.toLowerCase().indexOf(val) !== -1));
-      } else {
-        this.setGunNamesFilter(this.gunNames);
-      }
-    },
-  },
-
-  computed: {
-    numberOfPages() {
-      return Math.ceil(this.loadouts.length / this.itemsPerPage);
-    },
-    filteredKeys() {
-      return this.keys.filter(key => key !== 'Name');
+      ...mapState('searchLoadouts', [
+        'loadouts',
+        'loading',
+        'guns',
+        'gunNames',
+        'gunNamesFilter',
+      ]),
     },
 
-    ...mapState('searchLoadouts', [
-      'loadouts',
-      'loading',
-      'guns',
-      'gunNames',
-      'gunNamesFilter',
-    ]),
-  },
+    data() {
+      return {
+        layout: 'cards',
+        transition: 'scale-transition',
+        gun: '',
 
-  data() {
-    return {
-      layout: 'cards',
-      transition: 'scale-transition',
-      gun: '',
+        search: '',
+        itemsPerPageArray: [8, 12, 16, 20],
+        filter: {},
+        sortDesc: false,
+        page: 1,
+        itemsPerPage: 8,
+        sortBy: 'name',
+        keys: [
+          'Name',
+          'Ergonomics_Final',
+          'Vertical_Recoil_Final',
+          'Horizontal_Recoil_Final',
+        ],
+        dialog: false,
 
-      search: '',
-      itemsPerPageArray: [8, 12, 16, 20],
-      filter: {},
-      sortDesc: false,
-      page: 1,
-      itemsPerPage: 8,
-      sortBy: 'name',
-      keys: [
-        'Name',
-        'Ergonomics_Final',
-        'Vertical_Recoil_Final',
-        'Horizontal_Recoil_Final',
-      ],
-      dialog: false,
-
-      headers: [{
-        text: 'Image',
-        value: 'image',
-        sortable: false,
-        filterable: false,
-      },
-      {
-        text: 'Name',
-        value: 'name',
-      },
-      {
-        text: 'Ergonomics',
-        value: 'ergonomics_final',
-      },
-      {
-        text: 'Vertical Recoil',
-        value: 'vertical_recoil_final',
-      },
-      {
-        text: 'Horizontal Recoil',
-        value: 'horizontal_recoil_final',
-      },
-      {
-        text: 'Calibre',
-        value: 'gun_calibre',
-      },
-      {
-        text: 'By User',
-        value: 'username',
-      },
-      {
-        text: 'Updated',
-        value: 'updated_at',
-      },
-      {
-        text: 'Rating',
-        value: 'votes',
-      },
-      ],
-    };
-  },
-};
+        headers: [{
+            text: 'Image',
+            value: 'image',
+            sortable: false,
+            filterable: false,
+          },
+          {
+            text: 'Name',
+            value: 'name',
+          },
+          {
+            text: 'Ergonomics',
+            value: 'ergonomics_final',
+          },
+          {
+            text: 'Vertical Recoil',
+            value: 'vertical_recoil_final',
+          },
+          {
+            text: 'Horizontal Recoil',
+            value: 'horizontal_recoil_final',
+          },
+          {
+            text: 'Calibre',
+            value: 'gun_calibre',
+          },
+          {
+            text: 'By User',
+            value: 'username',
+          },
+          {
+            text: 'Updated',
+            value: 'updated_at',
+          },
+          {
+            text: 'Rating',
+            value: 'votes',
+          },
+        ],
+      };
+    },
+  };
 
 </script>

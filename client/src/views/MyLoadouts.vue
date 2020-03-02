@@ -1,7 +1,7 @@
 <template>
 
   <v-container fluid>
-  <span class="bg"></span>
+    <span class="bg"></span>
     <v-data-iterator :items="loadouts" :items-per-page.sync="itemsPerPage" :page="page" :search="search" :sort-by="sortBy.toLowerCase()"
       :sort-desc="sortDesc" hide-default-footer>
       <template v-slot:header>
@@ -140,7 +140,10 @@
 
       <template v-slot:footer>
         <v-row class="ma-2" align="center" justify="center">
-          <span class="white--text">Items per page</span>
+          <v-card outlined>
+            <span class="font-weight-medium grey--text ma-2">Items per page</span>
+          </v-card>
+
           <v-menu offset-y>
             <template v-slot:activator="{ on }">
               <v-btn dark text color="primary" class="ml-2" v-on="on">
@@ -157,10 +160,9 @@
 
           <v-spacer></v-spacer>
 
-          <span class="mr-4
-              white--text">
-            Page {{ page }} of {{ numberOfPages }}
-          </span>
+          <v-card class="mr-4" outlined>
+            <span class="font-weight-medium grey--text ma-2">Page {{ page }} of {{ numberOfPages }}</span>
+          </v-card>
           <v-btn fab small dark color="blue" class="mr-1" @click="formerPage">
             <v-icon>mdi-chevron-left</v-icon>
           </v-btn>
@@ -175,93 +177,93 @@
 </template>
 
 <script>
-import {
-  mapGetters,
-  mapState,
-  mapActions,
-  mapMutations,
-} from 'vuex';
+  import {
+    mapGetters,
+    mapState,
+    mapActions,
+    mapMutations,
+  } from 'vuex';
 
-import router from '../router';
+  import router from '../router';
 
-export default {
-  mounted() {
-    if (!this.isSignedIn) {
-      return router.push('/sign-in');
-    }
-    this.fetchMyLoadouts();
-  },
-
-  methods: {
-    ...mapActions('myLoadouts', [
-      'fetchMyLoadouts',
-      'deleteLoadout',
-    ]),
-
-    ...mapMutations('myLoadouts', [
-      'setLoadoutToDelete',
-    ]),
-
-    deleteItem(id) {
-      this.setLoadoutToDelete(id);
-      confirm('Are you sure you want to delete this loadout?') && this.deleteLoadout();
+  export default {
+    mounted() {
+      if (!this.isSignedIn) {
+        return router.push('/sign-in');
+      }
+      this.fetchMyLoadouts();
     },
 
-    viewLoadoutCard(id) {
-      router.push(`/loadout/${id}`);
+    methods: {
+      ...mapActions('myLoadouts', [
+        'fetchMyLoadouts',
+        'deleteLoadout',
+      ]),
+
+      ...mapMutations('myLoadouts', [
+        'setLoadoutToDelete',
+      ]),
+
+      deleteItem(id) {
+        this.setLoadoutToDelete(id);
+        confirm('Are you sure you want to delete this loadout?') && this.deleteLoadout();
+      },
+
+      viewLoadoutCard(id) {
+        router.push(`/loadout/${id}`);
+      },
+
+      nextPage() {
+        if (this.page + 1 <= this.numberOfPages) this.page += 1;
+      },
+      formerPage() {
+        if (this.page - 1 >= 1) this.page -= 1;
+      },
+      updateItemsPerPage(number) {
+        this.itemsPerPage = number;
+      },
     },
 
-    nextPage() {
-      if (this.page + 1 <= this.numberOfPages) this.page += 1;
-    },
-    formerPage() {
-      if (this.page - 1 >= 1) this.page -= 1;
-    },
-    updateItemsPerPage(number) {
-      this.itemsPerPage = number;
-    },
-  },
+    computed: {
+      numberOfPages() {
+        return Math.ceil(this.loadouts.length / this.itemsPerPage);
+      },
+      filteredKeys() {
+        return this.keys.filter(key => key !== 'Name');
+      },
 
-  computed: {
-    numberOfPages() {
-      return Math.ceil(this.loadouts.length / this.itemsPerPage);
+      ...mapGetters('authentication', [
+        'isSignedIn',
+      ]),
+
+      ...mapState('myLoadouts', [
+        'loadouts',
+        'loading',
+      ]),
     },
-    filteredKeys() {
-      return this.keys.filter(key => key !== 'Name');
+
+    data() {
+      return {
+        transition: 'scale-transition',
+
+        search: '',
+        itemsPerPageArray: [8, 12, 16, 20],
+        filter: {},
+        sortDesc: false,
+        page: 1,
+        itemsPerPage: 8,
+        sortBy: 'name',
+        keys: [
+          'Name',
+          'Type',
+          'Ergonomics_Final',
+          'Vertical_Recoil_Final',
+          'Horizontal_Recoil_Final',
+        ],
+        dialog: false,
+      };
     },
-
-    ...mapGetters('authentication', [
-      'isSignedIn',
-    ]),
-
-    ...mapState('myLoadouts', [
-      'loadouts',
-      'loading',
-    ]),
-  },
-
-  data() {
-    return {
-      transition: 'scale-transition',
-
-      search: '',
-      itemsPerPageArray: [8, 12, 16, 20],
-      filter: {},
-      sortDesc: false,
-      page: 1,
-      itemsPerPage: 8,
-      sortBy: 'name',
-      keys: [
-        'Name',
-        'Type',
-        'Ergonomics_Final',
-        'Vertical_Recoil_Final',
-        'Horizontal_Recoil_Final',
-      ],
-      dialog: false,
-    };
-  },
-};
+  };
 
 </script>
 
@@ -277,4 +279,5 @@ export default {
     background-color: black;
     transform: scale(1);
   }
+
 </style>

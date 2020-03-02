@@ -1,7 +1,10 @@
 <template>
   <v-dialog v-model="dialog">
     <template v-slot:activator="{ on }">
-      <v-btn v-on="on" color="blue-grey darken-4">Change Weapon</v-btn>
+      <v-btn v-on="on" color="blue-grey darken-4">
+        <span>Change Weapon</span>
+        <v-icon right>mdi-swap-horizontal</v-icon>
+      </v-btn>
     </template>
 
     <v-card>

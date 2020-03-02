@@ -13,13 +13,19 @@
 
       <v-flex xs12 md4>
         <weapon-selector></weapon-selector>
+        <v-divider></v-divider>
+        <v-layout column align-center>
+          <v-btn class="justify-center" color="blue-grey" @click="createLoadout()">
+            <span>Publish</span>
+            <v-icon right>mdi-publish</v-icon>
+          </v-btn>
+        </v-layout>
+        
       </v-flex>
 
       <v-flex xs12 md8>
         <attachment-selector></attachment-selector>
       </v-flex>
-
-      <v-btn color="blue-grey darken-2" @click="createLoadout()">Publish</v-btn>
 
     </v-layout>
   </v-container>
