@@ -16,7 +16,7 @@ const XLSX = require('xlsx')
 
 class AttachmentSeeder {
   async run () {
-    const workbook = XLSX.readFile('Database/Seeds/seeds.xlsx')
+    const workbook = XLSX.readFile(process.cwd() + '/Database/Seeds/seeds.xlsx')
     let attachments = XLSX.utils.sheet_to_json(workbook.Sheets['Attachments']) //json object
     
     for (var row in attachments) {
