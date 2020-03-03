@@ -22,6 +22,11 @@ export default {
   data: () => ({
     //
   }),
+  watch: {
+      '$route' (to, from) {
+        document.title = to.meta.title || 'Tarkov Armory'
+      }
+    },
 };
 </script>
 
