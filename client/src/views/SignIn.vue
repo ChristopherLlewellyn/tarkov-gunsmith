@@ -16,7 +16,7 @@
               <v-text-field v-on:input="setSignInPassword" label="Password" placeholder="Password" type="password" prepend-icon="mdi-lock"
                 :value="signInPassword">
               </v-text-field>
-              <a href="#/reset-password" color="white" class="font-weight-bold">Forgot password</a>
+              <a href="reset-password" color="white" class="font-weight-bold">Forgot password</a>
             </v-form>
 
             <v-card-actions v-if="loading" class="justify-center">
@@ -35,7 +35,7 @@
           </v-card-actions>
 
           <v-card-text class="text-center">
-            <span class="font-weight-medium">Don't have an account? <a href="#/sign-up" color="white" class="font-weight-bold">Sign up</a></span>
+            <span class="font-weight-medium">Don't have an account? <a href="sign-up" color="white" class="font-weight-bold">Sign up</a></span>
 
             <v-divider class="mb-3 mt-2"></v-divider>
 
