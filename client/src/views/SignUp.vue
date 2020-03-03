@@ -35,7 +35,7 @@
             <v-spacer></v-spacer>
           </v-card-actions>
           <v-card-text class="text-center">
-            <span class="font-weight-medium">Already have an account? <a href="sign-in" color="white" class="font-weight-bold">Sign In</a></span>
+            <span class="font-weight-medium">Already have an account? <a href="#/sign-in" color="white" class="font-weight-bold">Sign In</a></span>
 
             <v-divider class="mb-3 mt-2"></v-divider>
 

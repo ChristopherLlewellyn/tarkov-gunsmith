@@ -14,22 +14,12 @@ import ConfirmEmail from './views/ConfirmEmail.vue';
 Vue.use(Router);
 
 export default new Router({
-  mode: 'history',
   routes: [
     {
       path: '/',
       name: 'search',
       component: SearchLoadouts,
       meta: { title: 'Search - TarkovArmory' },
-      beforeEnter: (to, from, next) => {
-        const { uri } = to.query;
-        if (uri != null && uri != '/') {
-            next(false);
-            router.push(uri);
-        } else {
-            next();
-        }
-    }
     },
     {
       path: '/sign-in',
