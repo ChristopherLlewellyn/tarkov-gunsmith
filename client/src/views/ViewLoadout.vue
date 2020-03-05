@@ -33,9 +33,27 @@
 
               <!-- Votes -->
               <v-card outlined class="d-flex flex-row ma-2 align-center">
-                <v-btn small icon color="green" class="ma-2" :disabled="votingDisabled" @click="recaptchaUpvote(), votingDisabled=true">
-                  <v-icon>mdi-thumb-up</v-icon>
-                </v-btn>
+
+
+
+                <v-dialog v-model="upvoteDialog" width="400">
+                  <template v-slot:activator="{ on }">
+                    <v-btn small icon color="green" class="ma-2" :disabled="votingDisabled" v-on="on">
+                      <v-icon>mdi-thumb-up</v-icon>
+                    </v-btn>
+                  </template>
+                  <v-card>
+                    <v-toolbar dense color="blue darken-1">
+                      <v-icon left>mdi-information-outline</v-icon>
+                      Please verify that you're not a robot
+                    </v-toolbar>
+                    <v-card-actions class="justify-center">
+                      <vue-recaptcha @verify="onVerifyUpvote" @expired="onExpired" :sitekey="sitekey" :theme="recaptchaTheme">
+                      </vue-recaptcha>
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
+
                 <template v-if="votes < 0">
                   <h4 class="ma-2 red--text">{{ votes }}</h4>
                 </template>
@@ -47,16 +65,25 @@
                 <template v-else>
                   <h4 class="ma-2 grey--text">{{ votes }}</h4>
                 </template>
-                <v-btn small icon color="red" class="ma-2" :disabled="votingDisabled" @click="recaptchaDownvote(), votingDisabled=true">
-                  <v-icon>mdi-thumb-down</v-icon>
-                </v-btn>
-              </v-card>
 
-              <span class="mt-5 ml-2 grey--text caption">
-                This site is protected by reCAPTCHA and the Google
-                <a href="https://policies.google.com/privacy">Privacy Policy</a> and
-                <a href="https://policies.google.com/terms">Terms of Service</a> apply.
-              </span>
+                <v-dialog v-model="downvoteDialog" width="400">
+                  <template v-slot:activator="{ on }">
+                    <v-btn small icon color="red" class="ma-2" :disabled="votingDisabled" v-on="on">
+                      <v-icon>mdi-thumb-down</v-icon>
+                    </v-btn>
+                  </template>
+                  <v-card>
+                    <v-toolbar dense color="blue darken-1">
+                      <v-icon left>mdi-information-outline</v-icon>
+                      Please verify that you're not a robot
+                    </v-toolbar>
+                    <v-card-actions class="justify-center">
+                      <vue-recaptcha @verify="onVerifyDownvote" @expired="onExpired" :sitekey="sitekey" :theme="recaptchaTheme">
+                      </vue-recaptcha>
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
+              </v-card>
             </v-layout>
           </v-skeleton-loader>
         </v-flex>
@@ -75,84 +102,86 @@
 </template>
 
 <script>
-import {
-  mapActions,
-  mapGetters,
-  mapMutations,
-  mapState,
-} from 'vuex';
+  import {
+    mapActions,
+    mapGetters,
+    mapMutations,
+    mapState,
+  } from 'vuex';
+  import VueRecaptcha from 'vue-recaptcha';
 
-import router from '../router';
-import ViewAttachments from '@/components/ViewAttachments.vue';
-import ViewWeapon from '@/components/ViewWeapon.vue';
+  import router from '../router';
+  import ViewAttachments from '@/components/ViewAttachments.vue';
+  import ViewWeapon from '@/components/ViewWeapon.vue';
 
-export default {
-  components: {
-    ViewAttachments,
-    ViewWeapon,
-  },
-
-  mounted() {
-    this.reset();
-    this.setLoadoutId(this.$route.params.id);
-    this.fillLoadoutDetails();
-  },
-
-  computed: {
-    ...mapState('viewLoadout', [
-      'loadoutName',
-      'username',
-      'loading',
-      'votes',
-      'updated',
-    ]),
-  },
-
-  methods: {
-    ...mapActions('viewLoadout', [
-      'fillLoadoutDetails',
-      'upvote',
-      'downvote',
-    ]),
-
-    ...mapMutations('viewLoadout', [
-      'reset',
-      'setLoadoutName',
-      'setLoadoutId',
-      'setCaptcha',
-    ]),
-
-    async recaptchaToken() {
-      return new Promise((resolve) => {
-        grecaptcha.ready(async () => {
-          const token = await grecaptcha.execute(process.env.VUE_APP_RECAPTCHASITEKEY, {
-            action: 'vote',
-          });
-          resolve(token);
-        });
-      });
+  export default {
+    components: {
+      ViewAttachments,
+      ViewWeapon,
+      VueRecaptcha,
     },
 
-    async recaptchaUpvote() {
-      const token = await this.recaptchaToken();
-      this.setCaptcha(token);
-      this.upvote();
+    mounted() {
+      this.reset();
+      this.setLoadoutId(this.$route.params.id);
+      this.fillLoadoutDetails();
     },
 
-    async recaptchaDownvote() {
-      const token = await this.recaptchaToken();
-      this.setCaptcha(token);
-      this.downvote();
+    computed: {
+      ...mapState('viewLoadout', [
+        'loadoutName',
+        'username',
+        'loading',
+        'votes',
+        'updated',
+      ]),
     },
-  },
 
-  data() {
-    return {
-      transition: 'scale-transition',
-      votingDisabled: false,
-    };
-  },
-};
+    methods: {
+      ...mapActions('viewLoadout', [
+        'fillLoadoutDetails',
+        'upvote',
+        'downvote',
+      ]),
+
+      ...mapMutations('viewLoadout', [
+        'reset',
+        'setLoadoutName',
+        'setLoadoutId',
+        'setCaptcha',
+      ]),
+
+      onVerifyDownvote: function (token) {
+        this.setCaptcha(token);
+        this.downvote();
+        this.downvoteDialog = false;
+        this.votingDisabled = true;
+      },
+      onVerifyUpvote: function (token) {
+        this.setCaptcha(token);
+        this.upvote();
+        this.upvoteDialog = false;
+        this.votingDisabled = true;
+      },
+      onExpired: function () {
+        this.resetRecaptcha();
+      },
+      resetRecaptcha() {
+        this.$refs.recaptcha.reset() // Direct call reset method
+      },
+    },
+
+    data() {
+      return {
+        transition: 'scale-transition',
+        votingDisabled: false,
+        upvoteDialog: false,
+        downvoteDialog: false,
+        sitekey: process.env.VUE_APP_RECAPTCHASITEKEYV2,
+        recaptchaTheme: "dark",
+      };
+    },
+  };
 
 </script>
 

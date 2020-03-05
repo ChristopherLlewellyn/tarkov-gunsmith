@@ -22,7 +22,7 @@ Route.group(() => {
   // register
   Route
     .post('auth/register', 'UserController.register')
-    .middleware('verifyCaptcha')
+    .middleware('verifyCaptchaV3')
     .validator('RegisterUser')
   
   // confirm email address
@@ -32,19 +32,19 @@ Route.group(() => {
   // request password reset
   Route
     .post('auth/password/email', 'UserController.sendPasswordResetEmail')
-    .middleware('verifyCaptcha')
+    .middleware('verifyCaptchaV3')
     .validator('PasswordResetEmail')
   
   // confirm password reset
   Route
     .post('auth/password/reset', 'UserController.resetPassword')
-    .middleware('verifyCaptcha')
+    .middleware('verifyCaptchaV3')
     .validator('PasswordReset')
 
   // login
   Route
     .post('auth/login', 'UserController.login')
-    .middleware('verifyCaptcha')
+    .middleware('verifyCaptchaV3')
     .validator('LoginUser')
 
   // get all
@@ -96,7 +96,7 @@ Route.group(() => {
   // vote
   Route
     .patch('gunbuilds/:id/vote', 'GunbuildController.vote')
-    .middleware(['verifyCaptcha', 'findGunbuild']) // add captcha verification middleware
+    .middleware(['verifyCaptchaV2', 'findGunbuild']) // add captcha verification middleware
 
 // ----- Attachments -----
   // get all

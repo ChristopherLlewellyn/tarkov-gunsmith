@@ -7,7 +7,7 @@ const axios = use('axios')
 const Env = use('Env')
 const querystring = use('querystring')
 
-class VerifyCaptcha {
+class VerifyCaptchaV3 {
   /**
    * @param {object} ctx
    * @param {Request} ctx.request
@@ -18,7 +18,7 @@ class VerifyCaptcha {
     const data = request.only(['captcha'])
 
   try {
-    const data_request = await axios.post('https://www.google.com/recaptcha/api/siteverify', querystring.stringify({ secret: Env.get('RECAPTCHA_PRIVATE_KEY'), response: data['captcha'] }))
+    const data_request = await axios.post('https://www.google.com/recaptcha/api/siteverify', querystring.stringify({ secret: Env.get('RECAPTCHA_V2_SECRET_KEY'), response: data['captcha'] }))
     if (!data_request.data.success) {
       console.log(data_request.data)
       // If the recaptcha check fails
@@ -36,4 +36,4 @@ class VerifyCaptcha {
   }
 }
 
-module.exports = VerifyCaptcha
+module.exports = VerifyCaptchaV3
