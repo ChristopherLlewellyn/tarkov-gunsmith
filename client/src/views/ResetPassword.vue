@@ -15,16 +15,12 @@
               </v-text-field>
             </v-form>
 
-            <v-card-actions v-if="loading" class="justify-center">
-              <v-progress-circular v-if="loading" color="primary" indeterminate></v-progress-circular>
-            </v-card-actions>
-
             <v-alert type="error" :value="resetError">{{ resetError }}</v-alert>
             <v-alert type="success" :value="resetSuccess">{{ resetSuccess }}</v-alert>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn @click="recaptchaPasswordReset">
+            <v-btn @click="recaptchaPasswordReset" :loading="loading">
               <span>Send Reset Link</span>
               <v-icon right>mdi-email</v-icon>
             </v-btn>

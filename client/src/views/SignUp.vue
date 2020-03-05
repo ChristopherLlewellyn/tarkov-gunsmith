@@ -19,16 +19,13 @@
                 prepend-icon="mdi-lock" :value="signUpPassword">
               </v-text-field>
             </v-form>
-            <v-card-actions v-if="loading" class="justify-center">
-              <v-progress-circular v-if="loading" color="primary" indeterminate></v-progress-circular>
-            </v-card-actions>
 
             <v-alert type="error" :value="signUpError">{{ signUpError }}</v-alert>
             <v-alert type="success" :value="signUpSuccess">{{ signUpSuccess }}</v-alert>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn @click="recaptchaSignUp">
+            <v-btn @click="recaptchaSignUp" :loading="loading">
               <span>Sign Up</span>
               <v-icon right>mdi-clipboard-check</v-icon>
             </v-btn>
