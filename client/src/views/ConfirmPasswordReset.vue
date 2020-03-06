@@ -119,7 +119,7 @@ export default {
     resetError: null,
     captcha: null,
     loading: false,
-  })
+  }),
 };
 </script>
 

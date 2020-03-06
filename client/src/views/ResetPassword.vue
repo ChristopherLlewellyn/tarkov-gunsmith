@@ -62,7 +62,7 @@ export default {
       })
         .then(({ data }) => {
           this.resetError = null;
-          this.loading= false;
+          this.loading = false;
           this.resetSuccess = data.message;
         })
         .catch((error) => {
@@ -96,7 +96,7 @@ export default {
     resetError: null,
     captcha: null,
     loading: false,
-  })
+  }),
 };
 </script>
 

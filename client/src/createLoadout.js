@@ -112,7 +112,7 @@ export default {
         }
 
         if (attachment.recoil_modifier !== null && attachment.recoil_modifier !== 0) {
-          recoil_reduction += attachment.recoil_modifier
+          recoil_reduction += attachment.recoil_modifier;
         }
       });
 
@@ -140,11 +140,11 @@ export default {
       state.weapon.rpm = weapon.rpm;
 
       state.attachments = [];
-      let defaultAttachments = state.defaultAttachments.filter(x => x.gun_id === weapon.id);
-      
+      const defaultAttachments = state.defaultAttachments.filter(x => x.gun_id === weapon.id);
+
       for (let i = 0; i < defaultAttachments.length; i++) {
-        let attachment = state.availableAttachments.find(x => x.id === defaultAttachments[i].attachment_id)
-        state.attachments.push(attachment)
+        const attachment = state.availableAttachments.find(x => x.id === defaultAttachments[i].attachment_id);
+        state.attachments.push(attachment);
       }
     },
 

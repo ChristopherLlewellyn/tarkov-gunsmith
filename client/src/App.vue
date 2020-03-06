@@ -23,10 +23,10 @@ export default {
     //
   }),
   watch: {
-      '$route' (to, from) {
-        document.title = to.meta.title || 'Tarkov Armory'
-      }
+    $route(to, from) {
+      document.title = to.meta.title || 'Tarkov Armory';
     },
+  },
 };
 </script>
 

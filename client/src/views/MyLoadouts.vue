@@ -177,93 +177,93 @@
 </template>
 
 <script>
-  import {
-    mapGetters,
-    mapState,
-    mapActions,
-    mapMutations,
-  } from 'vuex';
+import {
+  mapGetters,
+  mapState,
+  mapActions,
+  mapMutations,
+} from 'vuex';
 
-  import router from '../router';
+import router from '../router';
 
-  export default {
-    mounted() {
-      if (!this.isSignedIn) {
-        return router.push('/sign-in');
-      }
-      this.fetchMyLoadouts();
+export default {
+  mounted() {
+    if (!this.isSignedIn) {
+      return router.push('/sign-in');
+    }
+    this.fetchMyLoadouts();
+  },
+
+  methods: {
+    ...mapActions('myLoadouts', [
+      'fetchMyLoadouts',
+      'deleteLoadout',
+    ]),
+
+    ...mapMutations('myLoadouts', [
+      'setLoadoutToDelete',
+    ]),
+
+    deleteItem(id) {
+      this.setLoadoutToDelete(id);
+      confirm('Are you sure you want to delete this loadout?') && this.deleteLoadout();
     },
 
-    methods: {
-      ...mapActions('myLoadouts', [
-        'fetchMyLoadouts',
-        'deleteLoadout',
-      ]),
-
-      ...mapMutations('myLoadouts', [
-        'setLoadoutToDelete',
-      ]),
-
-      deleteItem(id) {
-        this.setLoadoutToDelete(id);
-        confirm('Are you sure you want to delete this loadout?') && this.deleteLoadout();
-      },
-
-      viewLoadoutCard(id) {
-        router.push(`/loadout/${id}`);
-      },
-
-      nextPage() {
-        if (this.page + 1 <= this.numberOfPages) this.page += 1;
-      },
-      formerPage() {
-        if (this.page - 1 >= 1) this.page -= 1;
-      },
-      updateItemsPerPage(number) {
-        this.itemsPerPage = number;
-      },
+    viewLoadoutCard(id) {
+      router.push(`/loadout/${id}`);
     },
 
-    computed: {
-      numberOfPages() {
-        return Math.ceil(this.loadouts.length / this.itemsPerPage);
-      },
-      filteredKeys() {
-        return this.keys.filter(key => key !== 'Name');
-      },
+    nextPage() {
+      if (this.page + 1 <= this.numberOfPages) this.page += 1;
+    },
+    formerPage() {
+      if (this.page - 1 >= 1) this.page -= 1;
+    },
+    updateItemsPerPage(number) {
+      this.itemsPerPage = number;
+    },
+  },
 
-      ...mapGetters('authentication', [
-        'isSignedIn',
-      ]),
-
-      ...mapState('myLoadouts', [
-        'loadouts',
-        'loading',
-      ]),
+  computed: {
+    numberOfPages() {
+      return Math.ceil(this.loadouts.length / this.itemsPerPage);
+    },
+    filteredKeys() {
+      return this.keys.filter(key => key !== 'Name');
     },
 
-    data() {
-      return {
-        transition: 'scale-transition',
+    ...mapGetters('authentication', [
+      'isSignedIn',
+    ]),
 
-        search: '',
-        itemsPerPageArray: [8, 12, 16, 20],
-        filter: {},
-        sortDesc: false,
-        page: 1,
-        itemsPerPage: 8,
-        sortBy: 'name',
-        keys: [
-          'Name',
-          'Type',
-          'Ergonomics_Final',
-          'Vertical_Recoil_Final',
-          'Horizontal_Recoil_Final',
-        ],
-        dialog: false,
-      };
-    },
-  };
+    ...mapState('myLoadouts', [
+      'loadouts',
+      'loading',
+    ]),
+  },
+
+  data() {
+    return {
+      transition: 'scale-transition',
+
+      search: '',
+      itemsPerPageArray: [8, 12, 16, 20],
+      filter: {},
+      sortDesc: false,
+      page: 1,
+      itemsPerPage: 8,
+      sortBy: 'name',
+      keys: [
+        'Name',
+        'Type',
+        'Ergonomics_Final',
+        'Vertical_Recoil_Final',
+        'Horizontal_Recoil_Final',
+      ],
+      dialog: false,
+    };
+  },
+};
 
 </script>
 

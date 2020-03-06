@@ -20,7 +20,7 @@
             <v-icon right>mdi-publish</v-icon>
           </v-btn>
         </v-layout>
-        
+
       </v-flex>
 
       <v-flex xs12 md8>

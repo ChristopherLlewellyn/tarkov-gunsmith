@@ -35,14 +35,14 @@ export default {
 
     confirmEmail() {
       this.error = null;
-      return HTTP().get('auth/register/confirm/' + this.token,)
+      return HTTP().get(`auth/register/confirm/${this.token}`)
         .then(({ data }) => {
           this.error = null;
           this.success = data.message;
         })
         .catch((error) => {
           this.success = null;
-          this.error = 'Failed to confirm email. Token may not exist'
+          this.error = 'Failed to confirm email. Token may not exist';
         });
     },
   },
@@ -52,7 +52,7 @@ export default {
 
     success: null,
     error: null,
-  })
+  }),
 };
 </script>
 

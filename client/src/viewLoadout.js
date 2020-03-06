@@ -139,7 +139,7 @@ export default {
         }
 
         if (attachment.recoil_modifier !== null && attachment.recoil_modifier !== 0) {
-          recoil_reduction = recoil_reduction + attachment.recoil_modifier
+          recoil_reduction += attachment.recoil_modifier;
         }
       });
 
