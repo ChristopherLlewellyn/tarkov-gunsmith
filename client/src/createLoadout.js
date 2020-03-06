@@ -8,6 +8,7 @@ export default {
 
     availableWeapons: [],
     availableAttachments: [],
+    defaultAttachments: [],
     loadoutName: '',
 
     weapon: {
@@ -48,7 +49,10 @@ export default {
       commit('setLoading', true);
       return HTTP().get('/guns')
         .then(({ data }) => {
-          commit('setAvailableWeapons', data.data);
+          commit('setAvailableWeapons', data.data.guns);
+          commit('setDefaultAttachments', data.data.defaultAttachments);
+          commit('setWeapon', data.data.guns[1]);
+          commit('calculateWeaponStats');
           commit('setLoading', false);
         });
     },
@@ -79,18 +83,12 @@ export default {
       state.loadoutName = '';
 
       state.weapon = {
-        id: 27,
+        id: 2,
         name: 'ADAR 2-15',
         src: 'https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/3/3c/ADAR2-15Image.png?version=5ce4ce8faa56a1c54bdb1cbab889f0d0',
         type: 'Assault rifle',
         calibre: '5.56x45mm NATO',
         rpm: 800,
-        ergonomics: 48,
-        horizontal_recoil: 407,
-        vertical_recoil: 149,
-      };
-
-      state.weaponStatsCalculated = {
         ergonomics: 48,
         horizontal_recoil: 407,
         vertical_recoil: 149,
@@ -140,11 +138,22 @@ export default {
       state.weapon.vertical_recoil = weapon.vertical_recoil_base;
       state.weapon.horizontal_recoil = weapon.horizontal_recoil_base;
       state.weapon.rpm = weapon.rpm;
+
+      state.attachments = [];
+      let defaultAttachments = state.defaultAttachments.filter(x => x.gun_id === weapon.id);
+      
+      for (let i = 0; i < defaultAttachments.length; i++) {
+        let attachment = state.availableAttachments.find(x => x.id === defaultAttachments[i].attachment_id)
+        state.attachments.push(attachment)
+      }
     },
 
     // Attachments selector
     setAvailableAttachments(state, availableAttachments) {
       state.availableAttachments = availableAttachments;
+    },
+    setDefaultAttachments(state, defaultAttachments) {
+      state.defaultAttachments = defaultAttachments;
     },
     addAttachment(state, attachment) {
       state.attachments.push(attachment);

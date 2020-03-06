@@ -48,3 +48,10 @@ Factory.blueprint('App/Models/Attachment', (faker, i, data) => {
     image:                      data.image
   }
 })
+
+Factory.blueprint('default_attachments', (faker, i, data) => {
+  return {
+    gun_id: data.gun_id,
+    attachment_id: data.attachment_id,
+  }
+})

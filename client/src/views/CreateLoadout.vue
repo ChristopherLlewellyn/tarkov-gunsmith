@@ -48,6 +48,8 @@ export default {
     if (!this.isSignedIn) {
       return router.push('/sign-in');
     }
+    this.fetchAttachments();
+    this.fetchWeapons();
   },
 
   computed: {
@@ -63,6 +65,8 @@ export default {
   methods: {
     ...mapActions('createLoadout', [
       'createLoadout',
+      'fetchWeapons',
+      'fetchAttachments',
     ]),
 
     ...mapMutations('createLoadout', [
