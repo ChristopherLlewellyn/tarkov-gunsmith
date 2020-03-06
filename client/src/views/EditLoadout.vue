@@ -49,6 +49,8 @@ export default {
       return router.push('/sign-in');
     }
     this.reset();
+    this.fetchAttachments();
+    this.fetchWeapons();
     this.setLoadoutId(this.$route.params.id);
     this.fillLoadoutDetails();
   },
@@ -77,6 +79,8 @@ export default {
     ...mapActions('editLoadout', [
       'fillLoadoutDetails',
       'editLoadout',
+      'fetchAttachments',
+      'fetchWeapons',
     ]),
 
     ...mapMutations('editLoadout', [

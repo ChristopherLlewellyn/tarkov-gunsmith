@@ -34,9 +34,6 @@ import {
 import HTTP from '../http';
 
 export default {
-  mounted() {
-    this.fetchAttachments();
-  },
 
   methods: {
     ...mapMutations('editLoadout', [

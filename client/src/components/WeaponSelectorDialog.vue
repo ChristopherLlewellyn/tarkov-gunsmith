@@ -92,9 +92,6 @@ import {
 } from 'vuex';
 
 export default {
-  mounted() {
-    this.fetchWeapons();
-  },
 
   methods: {
     ...mapMutations('createLoadout', [
