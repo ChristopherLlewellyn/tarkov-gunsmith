@@ -109,7 +109,7 @@ export default {
   .bg {
     width: 100%;
     height: 100%;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     background: url('../images/pmcAiming2.png') no-repeat center center;
