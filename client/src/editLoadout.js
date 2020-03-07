@@ -84,10 +84,9 @@ export default {
           router.push('/my-loadouts');
         })
         .catch((error) => {
-          if(error.response.data.message) {
+          if (error.response.data.message) {
             commit('setTitleError', error.response.data.message);
-          }
-          else {
+          } else {
             commit('setTitleError', error.response.data[0].message); // message from response body
           }
         });
