@@ -6,7 +6,7 @@
           <v-card-title class="blue-grey darken-2">Attachments</v-card-title>
           <v-container fluid>
             <v-toolbar flat>
-              <v-text-field v-model="search" prepend-icon="mdi-magnify" label="Search" class="pb-2 pt-2" single-line hide-details>
+              <v-text-field v-model="search" prepend-icon="mdi-magnify" label="Filter" class="pb-2 pt-2" single-line hide-details clearable>
               </v-text-field>
             </v-toolbar>
             <v-data-table :headers="headers" :items="attachments" :search="search" :items-per-page="10" class="elevation-1">

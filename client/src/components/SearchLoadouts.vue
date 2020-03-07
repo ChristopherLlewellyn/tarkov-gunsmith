@@ -11,7 +11,7 @@
             <v-select v-model="gun" @change="setGunToIndexBy(gun), fetchLoadouts()" flat solo hide-details :items="gunNamesFilter"
               prepend-inner-icon="mdi-pistol" label="Gun">
               <template v-slot:prepend-item>
-                <v-text-field class="pa-2" label="Search" @input="searchGunNames" />
+                <v-text-field class="pa-2" label="Search" @input="searchGunNames" clearable/>
               </template>
             </v-select>
             <template>
@@ -201,7 +201,7 @@
         <v-select v-model="gun" @change="setGunToIndexBy(gun), fetchLoadouts()" flat dense solo hide-details :items="gunNamesFilter"
           prepend-inner-icon="mdi-pistol" label="Gun">
           <template v-slot:prepend-item>
-            <v-text-field dense class="pa-2" label="Search" @input="searchGunNames" />
+            <v-text-field dense class="pa-2" label="Search" @input="searchGunNames" clearable />
           </template>
         </v-select>
 

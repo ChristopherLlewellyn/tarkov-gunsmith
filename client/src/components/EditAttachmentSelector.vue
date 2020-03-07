@@ -6,7 +6,7 @@
           <v-card-title class="blue-grey darken-2">Attachments</v-card-title>
           <v-container fluid>
             <v-toolbar flat>
-              <v-text-field v-model="search" prepend-icon="mdi-magnify" label="Search" class="pb-2 pt-2" single-line hide-details>
+              <v-text-field v-model="search" prepend-icon="mdi-magnify" label="Filter" class="pb-2 pt-2" single-line hide-details clearable>
               </v-text-field>
               <v-spacer></v-spacer>
               <edit-attachment-selector-dialog></edit-attachment-selector-dialog>

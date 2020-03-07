@@ -2,20 +2,10 @@
 <template>
   <nav>
     <!-- Side navigation drawer -->
-    <v-navigation-drawer
-      app
-      v-model="drawer"
-      clipped
-      class="grey darken-4"
-    >
+    <v-navigation-drawer app v-model="drawer" clipped class="grey darken-4">
       <v-list nav>
 
-        <v-list-item
-          v-for="item in notRequiresSignIn"
-          :key="item.title"
-          link
-          :to="item.route"
-        >
+        <v-list-item v-for="item in notRequiresSignIn" :key="item.title" link :to="item.route">
           <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-icon>
@@ -26,13 +16,23 @@
 
         </v-list-item>
 
-        <v-list-item
-          v-for="item in requiresSignIn"
-          v-if="isSignedIn"
-          :key="item.title"
-          link
-          :to="item.route"
-        >
+        <v-list-item inactive v-for="item in requiresSignIn" v-if="!isSignedIn" :key="item.title" link>
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on }">
+              <v-list-item-icon v-on="on">
+                <v-icon color="grey">{{ item.icon }}</v-icon>
+              </v-list-item-icon>
+
+              <v-list-item-content v-on="on">
+                <v-list-item-title class="grey--text">{{ item.title }}</v-list-item-title>
+              </v-list-item-content>
+            </template>
+            <span>Sign in to access this feature</span>
+          </v-tooltip>
+        </v-list-item>
+
+
+        <v-list-item v-for="item in requiresSignIn" v-if="isSignedIn" :key="item.title" link :to="item.route">
           <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-icon>
@@ -47,11 +47,7 @@
     </v-navigation-drawer>
 
     <!-- Toolbar -->
-    <v-app-bar
-      app
-      clipped-left
-      class="grey darken-4"
-    >
+    <v-app-bar app clipped-left class="grey darken-4">
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title>
         <span class="font-weight-light">Tarkov</span>
@@ -73,32 +69,45 @@
 
 <!-- Script -->
 <script>
-import { mapGetters, mapActions } from 'vuex';
+  import {
+    mapGetters,
+    mapActions
+  } from 'vuex';
 
-export default {
-  computed: {
-    ...mapGetters('authentication', [
-      'isSignedIn',
-    ]),
-  },
+  export default {
+    computed: {
+      ...mapGetters('authentication', [
+        'isSignedIn',
+      ]),
+    },
 
-  methods: {
-    ...mapActions('authentication', [
-      'signOut',
-    ]),
-  },
+    methods: {
+      ...mapActions('authentication', [
+        'signOut',
+      ]),
+    },
 
-  data() {
-    return {
-      drawer: false,
-      notRequiresSignIn: [
-        { title: 'Search Loadouts', icon: 'mdi-crosshairs', route: '/' },
-      ],
-      requiresSignIn: [
-        { title: 'My Loadouts', icon: 'mdi-pistol', route: '/my-loadouts' },
-        { title: 'Create Loadout', icon: 'mdi-hammer', route: '/create-loadout' },
-      ],
-    };
-  },
-};
+    data() {
+      return {
+        drawer: false,
+        notRequiresSignIn: [{
+          title: 'Search Loadouts',
+          icon: 'mdi-crosshairs',
+          route: '/'
+        }, ],
+        requiresSignIn: [{
+            title: 'My Loadouts',
+            icon: 'mdi-pistol',
+            route: '/my-loadouts'
+          },
+          {
+            title: 'Create Loadout',
+            icon: 'mdi-hammer',
+            route: '/create-loadout'
+          },
+        ],
+      };
+    },
+  };
+
 </script>
