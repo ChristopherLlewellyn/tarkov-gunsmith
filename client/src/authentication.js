@@ -77,6 +77,13 @@ export default {
     },
   },
   mutations: {
+    resetSignUp(state) {
+      state.signUpEmail = null;
+      state.signUpPassword = null;
+      state.signUpUsername = null;
+      state.signUpError = null;
+      state.signUpSuccess = null;
+    },
     setSignUpEmail(state, email) {
       state.signUpEmail = email;
     },

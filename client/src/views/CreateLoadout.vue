@@ -8,7 +8,7 @@
       </v-flex>
 
       <v-flex xs12>
-        <v-alert dismissible type="error" :value="titleError">{{ titleError }}</v-alert>
+        <v-alert type="error" :value="titleError">{{ titleError }}</v-alert>
       </v-flex>
 
       <v-flex xs12 md4>

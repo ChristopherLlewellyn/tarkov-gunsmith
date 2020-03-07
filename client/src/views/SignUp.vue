@@ -58,6 +58,9 @@ import {
 } from 'vuex';
 
 export default {
+  mounted() {
+    this.resetSignUp();
+  },
   computed: {
     ...mapState('authentication', [
       'signUpEmail',
@@ -74,6 +77,7 @@ export default {
       'setSignUpPassword',
       'setSignUpUsername',
       'setCaptcha',
+      'resetSignUp',
     ]),
     ...mapActions('authentication', [
       'register',
