@@ -37,8 +37,8 @@ export default {
     fetchGuns({ commit }) {
       return HTTP().get('/guns')
         .then(({ data }) => {
-          commit('setGuns', data.data);
-          commit('setGunNames', data.data);
+          commit('setGuns', data.data.guns);
+          commit('setGunNames', data.data.guns);
         });
     },
   },
