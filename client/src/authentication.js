@@ -33,8 +33,13 @@ export default {
           commit('setSignUpSuccess', data.message);
         })
         .catch((error) => {
+          if(error.response.data.message) {
+            commit('setSignUpError', error.response.data.message);
+          }
+          else {
+            commit('setSignUpError', error.response.data[0].message); // message from response body
+          }
           commit('setLoading', false);
-          commit('setSignUpError', error.response.data[0].message); // message from response body
         });
     },
 

@@ -22,7 +22,7 @@ Route.group(() => {
   // register
   Route
     .post('auth/register', 'UserController.register')
-    .middleware('verifyCaptchaV3')
+    .middleware(['verifyCaptchaV3', 'profanityFilterUser'])
     .validator('RegisterUser')
   
   // confirm email address
@@ -79,13 +79,13 @@ Route.group(() => {
   // create one
   Route
     .post('gunbuilds', 'GunbuildController.create')
-    .middleware(['auth'])
+    .middleware(['auth', 'profanityFilterGunbuild'])
     .validator('Gunbuild')
 
   // update one
   Route
     .patch('gunbuilds/:id', 'GunbuildController.update')
-    .middleware(['auth', 'findGunbuild'])
+    .middleware(['auth', 'findGunbuild', 'profanityFilterGunbuild'])
     .validator('Gunbuild')
 
   // delete one
