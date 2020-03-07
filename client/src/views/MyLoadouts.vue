@@ -12,10 +12,10 @@
             <v-select v-model="sortBy" flat solo hide-details :items="keys" prepend-inner-icon="mdi-sort" label="Sort by"></v-select>
             <v-spacer></v-spacer>
             <v-btn-toggle v-model="sortDesc" mandatory>
-              <v-btn large depressed color="blue" :value="false">
+              <v-btn medium depressed color="blue" :value="false">
                 <v-icon>mdi-arrow-up</v-icon>
               </v-btn>
-              <v-btn large depressed color="blue" :value="true">
+              <v-btn medium depressed color="blue" :value="true">
                 <v-icon>mdi-arrow-down</v-icon>
               </v-btn>
             </v-btn-toggle>
@@ -255,7 +255,6 @@ export default {
       sortBy: 'name',
       keys: [
         'Name',
-        'Type',
         'Ergonomics_Final',
         'Vertical_Recoil_Final',
         'Horizontal_Recoil_Final',

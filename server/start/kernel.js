@@ -42,6 +42,8 @@ const namedMiddleware = {
   findGun: 'App/Middleware/FindGun',
   verifyCaptchaV3: 'App/Middleware/VerifyCaptchaV3',
   verifyCaptchaV2: 'App/Middleware/VerifyCaptchaV2',
+  profanityFilterGunbuild: 'App/Middleware/profanityFilterGunbuild',
+  profanityFilterUser: 'App/Middleware/profanityFilterUser',
 }
 
 /*
