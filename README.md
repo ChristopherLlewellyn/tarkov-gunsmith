@@ -1,4 +1,4 @@
-Tarkov Armory
+TarkovArmory - 
 A web application allowing users to find or submit metagame strategies for Escape from Tarkov (https://www.escapefromtarkov.com/).
 
 Track the development on Trello: https://trello.com/b/e82gBsJD/tarkov-gunsmith
