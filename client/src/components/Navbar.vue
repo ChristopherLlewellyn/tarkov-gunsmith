@@ -69,45 +69,45 @@
 
 <!-- Script -->
 <script>
-  import {
-    mapGetters,
-    mapActions
-  } from 'vuex';
+import {
+  mapGetters,
+  mapActions,
+} from 'vuex';
 
-  export default {
-    computed: {
-      ...mapGetters('authentication', [
-        'isSignedIn',
-      ]),
-    },
+export default {
+  computed: {
+    ...mapGetters('authentication', [
+      'isSignedIn',
+    ]),
+  },
 
-    methods: {
-      ...mapActions('authentication', [
-        'signOut',
-      ]),
-    },
+  methods: {
+    ...mapActions('authentication', [
+      'signOut',
+    ]),
+  },
 
-    data() {
-      return {
-        drawer: false,
-        notRequiresSignIn: [{
-          title: 'Search Loadouts',
-          icon: 'mdi-crosshairs',
-          route: '/'
-        }, ],
-        requiresSignIn: [{
-            title: 'My Loadouts',
-            icon: 'mdi-pistol',
-            route: '/my-loadouts'
-          },
-          {
-            title: 'Create Loadout',
-            icon: 'mdi-hammer',
-            route: '/create-loadout'
-          },
-        ],
-      };
-    },
-  };
+  data() {
+    return {
+      drawer: false,
+      notRequiresSignIn: [{
+        title: 'Search Loadouts',
+        icon: 'mdi-crosshairs',
+        route: '/',
+      }],
+      requiresSignIn: [{
+        title: 'My Loadouts',
+        icon: 'mdi-pistol',
+        route: '/my-loadouts',
+      },
+      {
+        title: 'Create Loadout',
+        icon: 'mdi-hammer',
+        route: '/create-loadout',
+      },
+      ],
+    };
+  },
+};
 
 </script>
