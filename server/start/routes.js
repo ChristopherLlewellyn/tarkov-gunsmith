@@ -47,15 +47,6 @@ Route.group(() => {
     .middleware('verifyCaptchaV3')
     .validator('LoginUser')
 
-  // get all
-  Route
-    .get('users', 'UserController.index')
-
-  // get one
-  Route
-    .get('users/:id', 'UserController.show')
-    .middleware(['findUser'])
-
 // ----- Gunbuilds -----
   // get all
   Route
