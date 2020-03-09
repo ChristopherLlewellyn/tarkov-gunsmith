@@ -218,7 +218,7 @@
 
       </v-toolbar>
       <v-skeleton-loader :loading="loading" :transition="transition" type="table-tbody">
-        <v-data-table :headers="headers" :items="loadouts" :search="search" @click:row="viewLoadoutTable" :items-per-page="10" class="elevation-1"
+        <v-data-table :headers="headers" :items="loadouts" :search="search" sortBy="votes" sortDesc @click:row="viewLoadoutTable" :items-per-page="10" class="elevation-1"
           style="cursor:pointer">
 
           <template v-slot:item.image="{ item }">
@@ -381,11 +381,12 @@ export default {
       search: '',
       itemsPerPageArray: [8, 12, 16, 20],
       filter: {},
-      sortDesc: false,
+      sortDesc: true,
       page: 1,
       itemsPerPage: 8,
-      sortBy: 'name',
+      sortBy: 'votes',
       keys: [
+        'Votes',
         'Name',
         'Ergonomics_Final',
         'Vertical_Recoil_Final',
