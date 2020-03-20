@@ -1,11 +1,12 @@
-import HTTP from './http';
-import router from './router';
+import HTTP from '../../http';
+import router from '../../router';
 
 export default {
   namespaced: true,
   state: {
     loading: true,
 
+    loadoutId: null,
     availableWeapons: [],
     availableAttachments: [],
     defaultAttachments: [],
@@ -36,29 +37,41 @@ export default {
   },
 
   actions: {
-    fetchAttachments({ commit }) {
+
+    fillLoadoutDetails({ commit, state }) {
       commit('setLoading', true);
+      return HTTP().get(`/gunbuilds/${state.loadoutId}`)
+        .then(({ data }) => {
+          commit('setLoadoutDetails', data);
+          commit('calculateWeaponStats');
+          commit('setLoading', false);
+        })
+        .catch((error) => {
+          if (error.response.status === '404') {
+            router.push('/my-loadouts');
+          } else {
+            router.push('/my-loadouts');
+          }
+        });
+    },
+
+    fetchAttachments({ commit }) {
       return HTTP().get('/attachments')
         .then(({ data }) => {
           commit('setAvailableAttachments', data.data);
-          commit('setLoading', false);
         });
     },
 
     fetchWeapons({ commit }) {
-      commit('setLoading', true);
       return HTTP().get('/guns')
         .then(({ data }) => {
           commit('setAvailableWeapons', data.data.guns);
           commit('setDefaultAttachments', data.data.defaultAttachments);
-          commit('setWeapon', data.data.guns[1]);
-          commit('calculateWeaponStats');
-          commit('setLoading', false);
         });
     },
 
-    createLoadout({ commit, state }) {
-      return HTTP().post('/gunbuilds', {
+    editLoadout({ commit, state }) {
+      return HTTP().patch(`/gunbuilds/${state.loadoutId}`, {
         gun_id: state.weapon.id,
         name: state.loadoutName,
         ergonomics_final: state.weaponStatsCalculated.ergonomics,
@@ -68,7 +81,7 @@ export default {
       })
         .then(({ data }) => {
           commit('reset');
-          router.push('/');
+          router.push('/my-loadouts');
         })
         .catch((error) => {
           if (error.response.data.message) {
@@ -81,6 +94,27 @@ export default {
   },
 
   mutations: {
+
+    setLoadoutDetails(state, data) {
+      state.weapon.id = data.gun[0][0].id;
+      state.weapon.name = data.gun[0][0].name;
+      state.weapon.src = data.gun[0][0].image;
+      state.weapon.type = data.gun[0][0].type;
+      state.weapon.calibre = data.gun[0][0].calibre;
+      state.weapon.rpm = data.gun[0][0].rpm;
+      state.weapon.ergonomics = data.gun[0][0].ergonomics_base;
+      state.weapon.horizontal_recoil = data.gun[0][0].horizontal_recoil_base;
+      state.weapon.vertical_recoil = data.gun[0][0].vertical_recoil_base;
+
+      data.gunbuild[0].attachments.forEach((attachment) => {
+        for (let i = 0; i < attachment.pivot.quantity; i++) {
+          state.attachments.push(attachment);
+        }
+      });
+
+      state.loadoutName = data.gunbuild[0].name;
+    },
+
     reset(state) {
       state.availableWeapons = [];
       state.availableAttachments = [];
@@ -93,6 +127,12 @@ export default {
         type: 'Assault rifle',
         calibre: '5.56x45mm NATO',
         rpm: 800,
+        ergonomics: 48,
+        horizontal_recoil: 407,
+        vertical_recoil: 149,
+      };
+
+      state.weaponStatsCalculated = {
         ergonomics: 48,
         horizontal_recoil: 407,
         vertical_recoil: 149,
@@ -173,7 +213,9 @@ export default {
     setLoadoutName(state, name) {
       state.loadoutName = name;
     },
-
+    setLoadoutId(state, id) {
+      state.loadoutId = id;
+    },
     setLoading(state, loading) {
       state.loading = loading;
     },

@@ -1,12 +1,12 @@
 import createPersistedState from 'vuex-persistedstate';
 import Vue from 'vue';
 import Vuex from 'vuex';
-import authentication from './authentication';
-import createLoadout from './createLoadout';
-import myLoadouts from './myLoadouts';
-import editLoadout from './editLoadout';
-import searchLoadouts from './searchLoadouts';
-import viewLoadout from './viewLoadout';
+import authentication from './modules/authentication';
+import createLoadout from './modules/createLoadout';
+import myLoadouts from './modules/myLoadouts';
+import editLoadout from './modules/editLoadout';
+import searchLoadouts from './modules/searchLoadouts';
+import viewLoadout from './modules/viewLoadout';
 
 Vue.use(Vuex);
 

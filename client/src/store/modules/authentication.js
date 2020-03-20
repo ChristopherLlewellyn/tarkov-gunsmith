@@ -1,5 +1,5 @@
-import HTTP from './http';
-import router from './router';
+import HTTP from '../../http';
+import router from '../../router';
 
 export default {
   namespaced: true,
