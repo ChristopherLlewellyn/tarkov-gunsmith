@@ -10,11 +10,18 @@ import ViewLoadout from './views/ViewLoadout.vue';
 import ResetPassword from './views/ResetPassword.vue';
 import ConfirmPasswordReset from './views/ConfirmPasswordReset.vue';
 import ConfirmEmail from './views/ConfirmEmail.vue';
+import TreeTest from './views/TreeTest.vue';
 
 Vue.use(Router);
 
 export default new Router({
   routes: [
+    {
+      path: '/treetest',
+      name: 'treetest',
+      component: TreeTest,
+      meta: { title: 'treetest - TarkovArmory' },
+    },
     {
       path: '/',
       name: 'search',
