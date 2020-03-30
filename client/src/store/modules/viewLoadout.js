@@ -12,6 +12,8 @@ export default {
     updated: null,
     captcha: null,
 
+    votedOn: [],
+
     weapon: {
       id: 2,
       name: 'ADAR 2-15',
@@ -170,6 +172,9 @@ export default {
     },
     setCaptcha(state, captcha) {
       state.captcha = captcha;
+    },
+    setVotedOn(state, id) {
+      state.votedOn.push(id);
     },
 
     incrementVotes(state) {
