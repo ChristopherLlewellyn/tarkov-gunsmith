@@ -27,9 +27,9 @@
         <v-row>
           <v-col v-for="loadout in props.items" :key="loadout.id" cols="12" sm="6" md="4" lg="3">
 
-            <v-skeleton-loader :loading="loading" :transition="transition" height="400" type="card">
-              <v-card>
-                <v-toolbar @click="viewLoadoutCard(loadout.id)" style="cursor:pointer">
+            <v-skeleton-loader :loading="loading" :transition-group="transition" height="400" type="card">
+              <v-card :href="`/#/loadout/${loadout.id}`" tile>
+                <v-toolbar>
                   {{ loadout.name }}
                   <v-spacer></v-spacer>
                   <v-card outlined class="d-flex flex-row ma-2">
@@ -50,7 +50,7 @@
                   </v-card>
                 </v-toolbar>
                 <v-container fluid>
-                  <v-img @click="viewLoadoutCard(loadout.id)" style="cursor:pointer" :src="loadout.gun_image" class="white--text align-end"
+                  <v-img :src="loadout.gun_image" class="white--text align-end"
                     height="120">
                     <v-card-title>{{ loadout.gun_name }}</v-card-title>
                   </v-img>
@@ -117,6 +117,9 @@
                   <span class="font-weight-medium">{{ loadout.updated_at }}</span>
                 </v-card-actions>
 
+              
+              </v-card>
+              <v-card tile>
                 <v-card-actions class="justify-center">
                   <v-btn class="ma-1" color="blue" :to="'/my-loadouts/edit/' + loadout.id">
                     <span>Edit</span>

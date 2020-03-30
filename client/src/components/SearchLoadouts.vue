@@ -8,15 +8,15 @@
           <v-toolbar class="mb-1">
             <v-text-field v-model="search" clearable flat solo hide-details prepend-inner-icon="mdi-magnify" label="Search"></v-text-field>
             <v-spacer></v-spacer>
-            <v-select v-model="gun" @change="setGunToIndexBy(gun), fetchLoadouts()" flat solo hide-details :items="gunNamesFilter"
+            <v-select v-model="gun" @change="setGunToIndexBy(gun), fetchLoadouts()" flat solo dense hide-details :items="gunNamesFilter"
               prepend-inner-icon="mdi-pistol" label="Gun">
               <template v-slot:prepend-item>
-                <v-text-field class="pa-2" label="Search" @input="searchGunNames" clearable/>
+                <v-text-field class="pa-2" label="Search" @input="searchGunNames" clearable />
               </template>
             </v-select>
             <template>
               <v-spacer></v-spacer>
-              <v-select v-model="sortBy" flat solo hide-details :items="keys" prepend-inner-icon="mdi-sort" label="Sort by"></v-select>
+              <v-select v-model="sortBy" flat solo dense hide-details :items="keys" prepend-inner-icon="mdi-sort" label="Sort by"></v-select>
               <v-spacer></v-spacer>
 
               <v-btn-toggle v-model="sortDesc" mandatory>
@@ -48,8 +48,8 @@
             <v-col v-for="loadout in props.items" :key="loadout.id" cols="12" sm="6" md="6" lg="3">
 
               <v-skeleton-loader :loading="loading" :transition="transition" height="400" type="card">
-                <v-card>
-                  <v-toolbar @click="viewLoadoutCard(loadout.id)" style="cursor:pointer">
+                <v-card :href="`/#/loadout/${loadout.id}`" tile>
+                  <v-toolbar>
                     {{ loadout.name }}
                     <v-spacer></v-spacer>
                     <v-card outlined class="d-flex flex-row ma-2">
@@ -71,8 +71,7 @@
                   </v-toolbar>
 
                   <v-container fluid>
-                    <v-img @click="viewLoadoutCard(loadout.id)" style="cursor:pointer" :src="loadout.gun_image" class="white--text align-end"
-                      gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height="120">
+                    <v-img :src="loadout.gun_image" class="white--text align-end" gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height="120">
                       <v-card-title>{{ loadout.gun_name }}</v-card-title>
                     </v-img>
                   </v-container>
@@ -218,82 +217,106 @@
 
       </v-toolbar>
       <v-skeleton-loader :loading="loading" :transition="transition" type="table-tbody">
-        <v-data-table :headers="headers" :items="loadouts" :search="search" sortBy="votes" sortDesc @click:row="viewLoadoutTable" :items-per-page="10" class="elevation-1"
-          style="cursor:pointer">
+        <v-data-table :headers="headers" :items="loadouts" :search="search" sortBy="votes" sortDesc @click:row="viewLoadoutTable" :items-per-page="10"
+          class="elevation-1">
 
-          <template v-slot:item.image="{ item }">
-            <div class="pt-1 pb-1 pl-1 pr-1">
-              <v-img :src="item.gun_image" alt="No image" max-height="125" max-width="300" contain class="align-end">
-                <p class="pl-2">{{ item.gun_name }}</p>
-              </v-img>
-            </div>
-          </template>
+          <template v-slot:body="{ items }">
+            <tbody>
+              <tr style="cursor: pointer;" v-for="item in items" :key="item.id" @click="viewLoadoutTable(item)">
+                <td>
+                  <a :href="`/#/loadout/${item.id}`" class="white">
+                    <div class="pt-1 pb-1 pl-1 pr-1">
+                      <v-img :src="item.gun_image" alt="No image" max-height="125" max-width="300" contain class="align-end">
+                        <p class="pl-2 white--text font-weight-medium">{{ item.gun_name }}</p>
+                      </v-img>
+                    </div>
+                  </a>
+                </td>
 
-          <template v-slot:item.name="{ item }">
-            <span class="font-weight-medium">{{ item.name }}</span>
-          </template>
+                <td>
+                  <a :href="`/#/loadout/${item.id}`">
+                    <span class="font-weight-medium white--text">{{ item.name }}</span>
+                  </a>
+                </td>
 
-          <template v-slot:item.ergonomics_final="{ item }">
-            <v-chip color="green">
-              <v-avatar left class="green darken-4">
-                <v-icon>mdi-hand</v-icon>
-              </v-avatar>
-              {{ item.ergonomics_final }}
-            </v-chip>
-          </template>
+                <td>
+                  <a :href="`/#/loadout/${item.id}`">
+                    <v-chip color="green">
+                      <v-avatar left class="green darken-4">
+                        <v-icon>mdi-hand</v-icon>
+                      </v-avatar>
+                      {{ item.ergonomics_final }}
+                    </v-chip>
+                  </a>
+                </td>
 
-          <template v-slot:item.horizontal_recoil_final="{ item }">
-            <v-chip color="blue">
-              <v-avatar left class="blue darken-4">
-                <v-icon>mdi-arrow-split-vertical</v-icon>
-              </v-avatar>
-              {{ item.horizontal_recoil_final }}
-            </v-chip>
-          </template>
+                <td>
+                  <a :href="`/#/loadout/${item.id}`">
+                    <v-chip color="blue">
+                      <v-avatar left class="blue darken-4">
+                        <v-icon>mdi-arrow-split-vertical</v-icon>
+                      </v-avatar>
+                      {{ item.horizontal_recoil_final }}
+                    </v-chip>
+                  </a>
+                </td>
 
-          <template v-slot:item.vertical_recoil_final="{ item }">
-            <v-chip color="blue">
-              <v-avatar left class="blue darken-4">
-                <v-icon>mdi-arrow-split-horizontal</v-icon>
-              </v-avatar>
-              {{ item.vertical_recoil_final }}
-            </v-chip>
-          </template>
+                <td>
+                  <a :href="`/#/loadout/${item.id}`">
+                    <v-chip color="blue">
+                      <v-avatar left class="blue darken-4">
+                        <v-icon>mdi-arrow-split-horizontal</v-icon>
+                      </v-avatar>
+                      {{ item.vertical_recoil_final }}
+                    </v-chip>
+                  </a>
+                </td>
 
-          <template v-slot:item.gun_calibre="{ item }">
-            <v-chip color="purple">
-              <v-avatar left class="purple darken-4">
-                <v-icon>mdi-bullet</v-icon>
-              </v-avatar>
-              {{ item.gun_calibre }}
-            </v-chip>
-          </template>
+                <td>
+                  <a :href="`/#/loadout/${item.id}`">
+                    <v-chip color="purple">
+                      <v-avatar left class="purple darken-4">
+                        <v-icon>mdi-bullet</v-icon>
+                      </v-avatar>
+                      {{ item.gun_calibre }}
+                    </v-chip>
+                  </a>
+                </td>
 
-          <template v-slot:item.username="{ item }">
-            <span class="font-weight-bold orange--text">{{ item.username }}</span>
-          </template>
+                <td>
+                  <a :href="`/#/loadout/${item.id}`">
+                    <span class="font-weight-bold orange--text">{{ item.username }}</span>
+                  </a>
+                </td>
 
-          <template v-slot:item.updated_at="{ item }">
-            <span class="font-weight-medium">{{ item.updated_at }}</span>
-          </template>
+                <td>
+                  <a :href="`/#/loadout/${item.id}`">
+                    <span class="font-weight-medium white--text">{{ item.updated_at }}</span>
+                  </a>
+                </td>
 
-          <template v-slot:item.votes="{ item }">
-            <v-card outlined class="d-flex flex-row ma-2 justify-center">
-              <template v-if="item.votes < 0">
-                <v-icon color="red" class="ma-2">mdi-thumb-down</v-icon>
-                <h4 class="ma-2 red--text">{{ item.votes }}</h4>
-              </template>
+                <td>
+                  <a :href="`/#/loadout/${item.id}`">
+                    <v-card outlined class="d-flex flex-row ma-2 justify-center">
+                      <template v-if="item.votes < 0">
+                        <v-icon color="red" class="ma-2">mdi-thumb-down</v-icon>
+                        <h4 class="ma-2 red--text">{{ item.votes }}</h4>
+                      </template>
 
-              <template v-else-if="item.votes > 0">
-                <v-icon color="green" class="ma-2">mdi-thumb-up</v-icon>
-                <h4 class="ma-2 green--text">{{ item.votes }}</h4>
-              </template>
+                      <template v-else-if="item.votes > 0">
+                        <v-icon color="green" class="ma-2">mdi-thumb-up</v-icon>
+                        <h4 class="ma-2 green--text">{{ item.votes }}</h4>
+                      </template>
 
-              <template v-else>
-                <v-icon color="grey" class="ma-2">mdi-thumbs-up-down</v-icon>
-                <h4 class="ma-2 grey--text">{{ item.votes }}</h4>
-              </template>
-            </v-card>
+                      <template v-else>
+                        <v-icon color="grey" class="ma-2">mdi-thumbs-up-down</v-icon>
+                        <h4 class="ma-2 grey--text">{{ item.votes }}</h4>
+                      </template>
+                    </v-card>
+                  </a>
+                </td>
+              </tr>
+            </tbody>
           </template>
         </v-data-table>
       </v-skeleton-loader>
@@ -302,139 +325,140 @@
 </template>
 
 <script>
-import {
-  mapGetters,
-  mapState,
-  mapActions,
-  mapMutations,
-} from 'vuex';
+  import {
+    mapGetters,
+    mapState,
+    mapActions,
+    mapMutations,
+  } from 'vuex';
 
-import router from '../router';
+  import router from '../router';
 
-export default {
-  mounted() {
-    this.fetchGuns();
-    this.fetchLoadouts();
-  },
-
-  methods: {
-    ...mapActions('searchLoadouts', [
-      'fetchLoadouts',
-      'fetchGuns',
-    ]),
-
-    ...mapMutations('searchLoadouts', [
-      'setGunToIndexBy',
-      'setGunNamesFilter',
-    ]),
-
-    viewLoadoutCard(id) {
-      router.push(`/loadout/${id}`);
+  export default {
+    mounted() {
+      this.fetchGuns();
+      this.fetchLoadouts();
     },
 
-    viewLoadoutTable(item) {
-      router.push(`/loadout/${item.id}`);
+    methods: {
+      ...mapActions('searchLoadouts', [
+        'fetchLoadouts',
+        'fetchGuns',
+      ]),
+
+      ...mapMutations('searchLoadouts', [
+        'setGunToIndexBy',
+        'setGunNamesFilter',
+      ]),
+
+      viewLoadoutTable(item) {
+        router.push(`/loadout/${item.id}`);
+      },
+
+      nextPage() {
+        if (this.page + 1 <= this.numberOfPages) this.page += 1;
+      },
+      formerPage() {
+        if (this.page - 1 >= 1) this.page -= 1;
+      },
+      updateItemsPerPage(number) {
+        this.itemsPerPage = number;
+      },
+
+      searchGunNames(val) {
+        if (val) {
+          this.setGunNamesFilter(this.gunNamesFilter.filter(gunName => gunName.toLowerCase().indexOf(val) !== -1));
+        } else {
+          this.setGunNamesFilter(this.gunNames);
+        }
+      },
     },
 
-    nextPage() {
-      if (this.page + 1 <= this.numberOfPages) this.page += 1;
-    },
-    formerPage() {
-      if (this.page - 1 >= 1) this.page -= 1;
-    },
-    updateItemsPerPage(number) {
-      this.itemsPerPage = number;
-    },
+    computed: {
+      numberOfPages() {
+        return Math.ceil(this.loadouts.length / this.itemsPerPage);
+      },
+      filteredKeys() {
+        return this.keys.filter(key => key !== 'Name');
+      },
 
-    searchGunNames(val) {
-      if (val) {
-        this.setGunNamesFilter(this.gunNamesFilter.filter(gunName => gunName.toLowerCase().indexOf(val) !== -1));
-      } else {
-        this.setGunNamesFilter(this.gunNames);
-      }
-    },
-  },
-
-  computed: {
-    numberOfPages() {
-      return Math.ceil(this.loadouts.length / this.itemsPerPage);
-    },
-    filteredKeys() {
-      return this.keys.filter(key => key !== 'Name');
+      ...mapState('searchLoadouts', [
+        'loadouts',
+        'loading',
+        'guns',
+        'gunNames',
+        'gunNamesFilter',
+      ]),
     },
 
-    ...mapState('searchLoadouts', [
-      'loadouts',
-      'loading',
-      'guns',
-      'gunNames',
-      'gunNamesFilter',
-    ]),
-  },
+    data() {
+      return {
+        layout: 'cards',
+        transition: 'scale-transition',
+        gun: '',
 
-  data() {
-    return {
-      layout: 'cards',
-      transition: 'scale-transition',
-      gun: '',
+        search: '',
+        itemsPerPageArray: [8, 12, 16, 20],
+        filter: {},
+        sortDesc: true,
+        page: 1,
+        itemsPerPage: 8,
+        sortBy: 'votes',
+        keys: [
+          'Votes',
+          'Name',
+          'Ergonomics_Final',
+          'Vertical_Recoil_Final',
+          'Horizontal_Recoil_Final',
+        ],
+        dialog: false,
 
-      search: '',
-      itemsPerPageArray: [8, 12, 16, 20],
-      filter: {},
-      sortDesc: true,
-      page: 1,
-      itemsPerPage: 8,
-      sortBy: 'votes',
-      keys: [
-        'Votes',
-        'Name',
-        'Ergonomics_Final',
-        'Vertical_Recoil_Final',
-        'Horizontal_Recoil_Final',
-      ],
-      dialog: false,
-
-      headers: [{
-        text: 'Image',
-        value: 'image',
-        sortable: false,
-        filterable: false,
-      },
-      {
-        text: 'Name',
-        value: 'name',
-      },
-      {
-        text: 'Ergonomics',
-        value: 'ergonomics_final',
-      },
-      {
-        text: 'Vertical Recoil',
-        value: 'vertical_recoil_final',
-      },
-      {
-        text: 'Horizontal Recoil',
-        value: 'horizontal_recoil_final',
-      },
-      {
-        text: 'Calibre',
-        value: 'gun_calibre',
-      },
-      {
-        text: 'By User',
-        value: 'username',
-      },
-      {
-        text: 'Updated',
-        value: 'updated_at',
-      },
-      {
-        text: 'Rating',
-        value: 'votes',
-      },
-      ],
-    };
-  },
-};
-
+        headers: [{
+            text: 'Image',
+            value: 'image',
+            sortable: false,
+            filterable: false,
+          },
+          {
+            text: 'Name',
+            value: 'name',
+          },
+          {
+            text: 'Ergonomics',
+            value: 'ergonomics_final',
+          },
+          {
+            text: 'Vertical Recoil',
+            value: 'vertical_recoil_final',
+          },
+          {
+            text: 'Horizontal Recoil',
+            value: 'horizontal_recoil_final',
+          },
+          {
+            text: 'Calibre',
+            value: 'gun_calibre',
+          },
+          {
+            text: 'By User',
+            value: 'username',
+          },
+          {
+            text: 'Updated',
+            value: 'updated_at',
+          },
+          {
+            text: 'Rating',
+            value: 'votes',
+          },
+        ],
+      };
+    },
+  };
 </script>
+
+<style scoped>
+  a {
+    text-decoration: none;
+  }
+</style>
