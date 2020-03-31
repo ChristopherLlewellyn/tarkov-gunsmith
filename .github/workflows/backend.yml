@@ -41,8 +41,7 @@ jobs:
       run: |
         cd server
         npm i -g @adonisjs/cli
-        npm i -g @adonisjs/lucid
-        adonis --help
+        npm install
         adonis migration:run --force
         adonis seed
         
