@@ -16,7 +16,7 @@ jobs:
       mysql:
         image: mysql:8.0
         env:
-          MYSQL_ROOT_PASSWORD: password
+          MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
           MYSQL_DATABASE: test
         ports:
             - '3306:3306'
@@ -35,7 +35,7 @@ jobs:
       
     - name: Setup test database
       run: | 
-        mysql -h 127.0.0.1 --port 3306 -u root -ppassword -e 'CREATE DATABASE IF NOT EXISTS tarkov_gunsmith;'
+        mysql -h 127.0.0.1 --port 3306 -u root -p -e 'CREATE DATABASE IF NOT EXISTS tarkov_gunsmith;'
     
     - name: Install NPM packages
       run: |
