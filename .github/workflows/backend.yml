@@ -41,10 +41,8 @@ jobs:
       run: |
         cd server
         npm i -g @adonisjs/cli
-        npm install
         adonis --help
         adonis migration:run --force
-        adonis --help
         adonis seed
         
     - name: Run backend
