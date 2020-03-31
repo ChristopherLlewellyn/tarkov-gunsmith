@@ -27,13 +27,10 @@ jobs:
 
     - name: Install adonis   
       run: npm i @adonisjs/cli@4.0.12
-    
-    - name: Installs mysql
-      run: sudo apt-get install mysql-server
       
     - name: Setup test database
       run: | 
-        mysql -u root -p
+        mysql -u root -p root
         
     - name: Migrate database to Adonis and seed with data
       run: |
