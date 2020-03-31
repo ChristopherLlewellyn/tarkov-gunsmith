@@ -31,7 +31,7 @@ jobs:
     - name: Setup test database
       run: | 
         cd server
-        mysql -uroot -h127.0.0.1 -proot -e 'CREATE DATABASE IF NOT EXISTS tarkov_gunsmith;'
+        mysql -uroot -proot -e 'CREATE DATABASE IF NOT EXISTS tarkov_gunsmith;'
         
     - name: Migrate database to Adonis and seed with data
       run: |
