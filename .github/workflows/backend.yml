@@ -31,7 +31,7 @@ jobs:
     - name: Setup test database
       run: | 
         cd server
-        mysql -u database -p database -h 127.0.0.1
+        mysql -u root -p datrootabase -h 127.0.0.1
         
     - name: Migrate database to Adonis and seed with data
       run: |
