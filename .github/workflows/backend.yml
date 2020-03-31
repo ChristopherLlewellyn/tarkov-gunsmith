@@ -36,9 +36,15 @@ jobs:
     - name: Setup test database
       run: | 
         mysql -h 127.0.0.1 --port 3306 -u root -ppassword -e 'CREATE DATABASE IF NOT EXISTS tarkov_gunsmith;'
+    
+    - name: Install NPM packages
+      run: |
+        cd server
+        npm ci
         
     - name: Migrate database to Adonis and seed with data
       run: |
+        cd server
         npm i -g @adonisjs/cli
         adonis --help
         adonis migration:run --force
