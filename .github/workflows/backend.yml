@@ -34,7 +34,9 @@ jobs:
         node-version: ${{ matrix.node-version }}
 
     - name: Install adonis   
-      run: npm i -g @adonisjs/cli@4.0.12
+      run: |
+        npm i -g @adonisjs/cli@4.0.12
+        npm i -g @adonisjs/lucid
       
     - name: Setup test database
       run: | 
