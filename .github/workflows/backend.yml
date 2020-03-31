@@ -42,6 +42,10 @@ jobs:
         cd server
         npm ci
         
+    - name: Install Adonis CLI
+      run: |  
+        npm i -g @adonisjs/cli
+        
     - name: Migrate database to Adonis and seed with data
       run: |
         cd server
@@ -53,4 +57,4 @@ jobs:
     - name: Run backend
       run: |
         cd server
-        node ace serve
+        adonis serve
