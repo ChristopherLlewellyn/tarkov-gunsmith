@@ -32,10 +32,6 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-
-    - name: Install adonis   
-      run: |
-        npm i -g @adonisjs/cli@4.0.12
       
     - name: Setup test database
       run: | 
@@ -44,6 +40,7 @@ jobs:
     - name: Migrate database to Adonis and seed with data
       run: |
         cd server
+        npm i -g @adonisjs/cli@4.0.12
         adonis migration:run --force
         adonis seed
         
