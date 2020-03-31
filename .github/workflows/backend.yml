@@ -11,8 +11,16 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: test
+        ports:
+            - '8888:3306'
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     strategy:
       matrix:
@@ -30,7 +38,7 @@ jobs:
       
     - name: Setup test database
       run: | 
-        mysql -u root -p root
+        mysql -h 127.0.0.1 --port 3306 -u root -proot -e 'CREATE DATABASE IF NOT EXISTS tarkov_gunsmith;'
         
     - name: Migrate database to Adonis and seed with data
       run: |
