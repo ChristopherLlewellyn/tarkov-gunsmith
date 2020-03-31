@@ -45,8 +45,8 @@ jobs:
     - name: Migrate database to Adonis and seed with data
       run: |
         cd server
-        adonis --help
-        adonis migration:run --force
+        node ace --help
+        node ace migration:run --force
         adonis seed
         
     - name: Run backend
