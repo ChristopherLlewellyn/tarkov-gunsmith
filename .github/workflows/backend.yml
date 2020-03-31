@@ -45,8 +45,9 @@ jobs:
     - name: Migrate database to Adonis and seed with data
       run: |
         cd server
-        ENV_SILENT=true node ace --help
-        ENV_SILENT=true node ace migration:run --force
+        cp .env.example .env
+        node ace --help
+        node ace migration:run --force
         adonis seed
         
     - name: Run backend
