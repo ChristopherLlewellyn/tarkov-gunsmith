@@ -42,7 +42,7 @@ jobs:
         cd server
         npm i -g @adonisjs/cli@4.0.12
         npm i -g @adonisjs/lucid
-        adonis migration:run --force
+        node ace migration:run
         adonis seed
         
     - name: Run backend
