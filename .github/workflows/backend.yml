@@ -1,0 +1,59 @@
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Backend pipeline
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+          MYSQL_DATABASE: test
+        ports:
+            - '3306:3306'
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    strategy:
+      matrix:
+        node-version: [10.x, 12.x]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+      
+    - name: Setup test database
+      run: | 
+        mysql -h 127.0.0.1 --port 3306 -u root -p -e 'CREATE DATABASE IF NOT EXISTS testing;'
+    
+    - name: Install NPM packages
+      run: |
+        cd server
+        npm ci
+        
+    - name: Install Adonis CLI
+      run: |  
+        npm i -g @adonisjs/cli
+        
+    - name: Migrate database to Adonis and seed with data
+      run: |
+        cd server
+        cp .env.testing .env
+        adonis migration:run --force
+        adonis seed
+        
+    - name: Run backend
+      run: |
+        cd server
+        adonis serve
