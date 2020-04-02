@@ -46,6 +46,10 @@ jobs:
       run: |  
         npm i -g @adonisjs/cli
         
+    - name: Install pm2
+      run: |  
+        npm i -g pm2
+        
     - name: Migrate database to Adonis and seed with data
       run: |
         cd server
@@ -56,4 +60,4 @@ jobs:
     - name: Run backend
       run: |
         cd server
-        adonis serve
+        pm2 start server.js
