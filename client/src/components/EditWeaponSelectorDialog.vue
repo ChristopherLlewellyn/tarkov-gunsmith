@@ -20,57 +20,27 @@
         </template>
 
         <template v-slot:item.ergonomics_base="{ item }">
-          <v-chip color="green">
-            <v-avatar left class="green darken-4">
-              <v-icon>mdi-hand</v-icon>
-            </v-avatar>
-            {{ item.ergonomics_base }}
-          </v-chip>
+          <ergonomics-chip class="ma-2" :value="item.ergonomics_base"></ergonomics-chip>
         </template>
 
         <template v-slot:item.horizontal_recoil_base="{ item }">
-          <v-chip color="blue">
-                <v-avatar left class="blue darken-4">
-                  <v-icon>mdi-arrow-split-vertical</v-icon>
-                </v-avatar>
-                {{ item.horizontal_recoil_base }}
-              </v-chip>
+          <horizontal-recoil-chip class="ma-2" :value="item.horizontal_recoil_base"></horizontal-recoil-chip>
         </template>
 
         <template v-slot:item.vertical_recoil_base="{ item }">
-          <v-chip color="blue">
-                <v-avatar left class="blue darken-4">
-                  <v-icon>mdi-arrow-split-horizontal</v-icon>
-                </v-avatar>
-                {{ item.vertical_recoil_base }}
-              </v-chip>
+          <vertical-recoil-chip class="ma-2" :value="item.vertical_recoil_base"></vertical-recoil-chip>
         </template>
 
         <template v-slot:item.rpm="{ item }">
-          <v-chip color="brown">
-                <v-avatar left class="brown darken-4">
-                  <v-icon>mdi-chevron-triple-right</v-icon>
-                </v-avatar>
-                {{ item.rpm }}
-              </v-chip>
+          <rpm-chip :value="item.rpm"></rpm-chip>
         </template>
 
         <template v-slot:item.calibre="{ item }">
-          <v-chip color="purple">
-                <v-avatar left class="purple darken-4">
-                  <v-icon>mdi-bullet</v-icon>
-                </v-avatar>
-                {{ item.calibre }}
-              </v-chip>
+          <caliber-chip :value="item.calibre"></caliber-chip>
         </template>
 
         <template v-slot:item.type="{ item }">
-          <v-chip color="red darken-1">
-                <v-avatar left class="red darken-4">
-                  <v-icon>mdi-axis</v-icon>
-                </v-avatar>
-                {{ item.type }}
-              </v-chip>
+          <type-chip :value="item.type"></type-chip>
         </template>
 
         <template v-slot:item.action="{ item }">
@@ -86,77 +56,91 @@
 </template>
 
 <script>
-import {
-  mapMutations,
-  mapActions,
-  mapState,
-} from 'vuex';
+  import {
+    mapMutations,
+    mapActions,
+    mapState,
+  } from 'vuex';
+  import TypeChip from './TypeChip';
+  import ErgonomicsChip from "./ErgonomicsChip";
+  import HorizontalRecoilChip from "./HorizontalRecoilChip";
+  import VerticalRecoilChip from "./VerticalRecoilChip";
+  import RpmChip from "./RpmChip";
+  import CaliberChip from "./CaliberChip";
 
-export default {
+  export default {
 
-  methods: {
-    ...mapMutations('editLoadout', [
-      'setWeapon',
-      'calculateWeaponStats',
-    ]),
+    methods: {
+      ...mapMutations('editLoadout', [
+        'setWeapon',
+        'calculateWeaponStats',
+      ]),
 
-    ...mapActions('editLoadout', [
-      'fetchWeapons',
-    ]),
-  },
+      ...mapActions('editLoadout', [
+        'fetchWeapons',
+      ]),
+    },
 
-  computed: {
-    ...mapState('editLoadout', [
-      'availableWeapons',
-    ]),
-  },
+    computed: {
+      ...mapState('editLoadout', [
+        'availableWeapons',
+      ]),
+    },
 
-  data: () => ({
-    dialog: false,
+    components: {
+      TypeChip,
+      ErgonomicsChip,
+      HorizontalRecoilChip,
+      VerticalRecoilChip,
+      RpmChip,
+      CaliberChip
+    },
 
-    search: '',
+    data: () => ({
+      dialog: false,
 
-    headers: [{
-      text: 'Image',
-      value: 'image',
-      sortable: false,
-      filterable: false,
-    },
-    {
-      text: 'Name',
-      value: 'name',
-    },
-    {
-      text: 'Type',
-      value: 'type',
-    },
-    {
-      text: 'Ergonomics',
-      value: 'ergonomics_base',
-    },
-    {
-      text: 'Vertical Recoil',
-      value: 'vertical_recoil_base',
-    },
-    {
-      text: 'Horizontal Recoil',
-      value: 'horizontal_recoil_base',
-    },
-    {
-      text: 'RPM',
-      value: 'rpm',
-    },
-    {
-      text: 'Calibre',
-      value: 'calibre',
-    },
-    {
-      text: '',
-      value: 'action',
-      sortable: false,
-    },
-    ],
-  }),
-};
+      search: '',
 
+      headers: [{
+          text: 'Image',
+          value: 'image',
+          sortable: false,
+          filterable: false,
+        },
+        {
+          text: 'Name',
+          value: 'name',
+        },
+        {
+          text: 'Type',
+          value: 'type',
+        },
+        {
+          text: 'Ergonomics',
+          value: 'ergonomics_base',
+        },
+        {
+          text: 'Vertical Recoil',
+          value: 'vertical_recoil_base',
+        },
+        {
+          text: 'Horizontal Recoil',
+          value: 'horizontal_recoil_base',
+        },
+        {
+          text: 'RPM',
+          value: 'rpm',
+        },
+        {
+          text: 'Calibre',
+          value: 'calibre',
+        },
+        {
+          text: '',
+          value: 'action',
+          sortable: false,
+        },
+      ],
+    }),
+  };
 </script>

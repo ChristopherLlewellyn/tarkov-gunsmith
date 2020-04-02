@@ -30,7 +30,36 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
   html { overflow-y: auto }
   #main { overflow: auto; padding-bottom: 150px}
+
+  @font-face {
+    font-family: Bender;
+    src: url(assets/fonts/Bender.ttf) format("truetype");
+  }
+  @font-face {
+    font-family: Bender-Bold;
+    src: url(assets/fonts/Bender-Bold.ttf) format("truetype");
+  }
+  @font-face {
+    font-family: Bender-Light;
+    src: url(assets/fonts/Bender-Light.ttf) format("truetype");
+  }
+
+  $body-font-family: 'Bender';
+  $bold-font: 'Bender-Bold';
+  $light-font: 'Bender-Light';
+  .v-application {
+    font-family: $body-font-family, sans-serif !important;
+    .font-weight-medium {
+      font-family: $bold-font, sans-serif !important;
+    }
+    .font-weight-bold {
+      font-family: $bold-font, sans-serif !important;
+    }
+    .font-weight-light {
+      font-family: $light-font, sans-serif !important;
+    }
+  }
 </style>
