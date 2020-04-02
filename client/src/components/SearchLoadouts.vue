@@ -79,57 +79,13 @@
                   <v-divider></v-divider>
 
                   <v-card-actions class="justify-center">
-
-                    <v-tooltip bottom>
-                      <template v-slot:activator="{ on }">
-                        <v-chip class="mr-1 ml-1" color="purple" v-on="on">
-                          <v-avatar left class="purple darken-4">
-                            <v-icon>mdi-bullet</v-icon>
-                          </v-avatar>
-                          {{ loadout.gun_calibre }}
-                        </v-chip>
-                      </template>
-                      <span>Calibre</span>
-                    </v-tooltip>
+                    <caliber-chip :value="loadout.gun_calibre"></caliber-chip>
                   </v-card-actions>
 
-
                   <v-card-actions class="justify-center">
-                    <v-tooltip bottom>
-                      <template v-slot:activator="{ on }">
-                        <v-chip class="mr-1 ml-1" color="green" v-on="on">
-                          <v-avatar left class="green darken-4">
-                            <v-icon>mdi-hand</v-icon>
-                          </v-avatar>
-                          {{ loadout.ergonomics_final }}
-                        </v-chip>
-                      </template>
-                      <span>Ergonomics</span>
-                    </v-tooltip>
-
-                    <v-tooltip bottom>
-                      <template v-slot:activator="{ on }">
-                        <v-chip class="mr-1 ml-1" color="blue" v-on="on">
-                          <v-avatar left class="blue darken-4">
-                            <v-icon>mdi-arrow-split-horizontal</v-icon>
-                          </v-avatar>
-                          {{ loadout.vertical_recoil_final }}
-                        </v-chip>
-                      </template>
-                      <span>Vertical Recoil</span>
-                    </v-tooltip>
-
-                    <v-tooltip bottom>
-                      <template v-slot:activator="{ on }">
-                        <v-chip class="mr-1 ml-1" color="blue" v-on="on">
-                          <v-avatar left class="blue darken-4">
-                            <v-icon>mdi-arrow-split-vertical</v-icon>
-                          </v-avatar>
-                          {{ loadout.horizontal_recoil_final }}
-                        </v-chip>
-                      </template>
-                      <span>Horizontal Recoil</span>
-                    </v-tooltip>
+                    <ergonomics-chip class="ma-2" :value="loadout.ergonomics_final"></ergonomics-chip>
+                    <vertical-recoil-chip class="ma-2" :value="loadout.vertical_recoil_final"></vertical-recoil-chip>
+                    <horizontal-recoil-chip class="ma-2" :value="loadout.horizontal_recoil_final"></horizontal-recoil-chip>
                   </v-card-actions>
 
                   <v-card-actions class="justify-center">
@@ -235,51 +191,31 @@
 
                 <td>
                   <a :href="`/#/loadout/${item.id}`">
-                    <span class="font-weight-medium white--text">{{ item.name }}</span>
+                    <span class="white--text">{{ item.name }}</span>
                   </a>
                 </td>
 
                 <td>
                   <a :href="`/#/loadout/${item.id}`">
-                    <v-chip color="green">
-                      <v-avatar left class="green darken-4">
-                        <v-icon>mdi-hand</v-icon>
-                      </v-avatar>
-                      {{ item.ergonomics_final }}
-                    </v-chip>
+                    <ergonomics-chip class="ma-2" :value="item.ergonomics_final"></ergonomics-chip>
                   </a>
                 </td>
 
                 <td>
                   <a :href="`/#/loadout/${item.id}`">
-                    <v-chip color="blue">
-                      <v-avatar left class="blue darken-4">
-                        <v-icon>mdi-arrow-split-vertical</v-icon>
-                      </v-avatar>
-                      {{ item.horizontal_recoil_final }}
-                    </v-chip>
+                    <vertical-recoil-chip class="ma-2" :value="item.vertical_recoil_final"></vertical-recoil-chip>
                   </a>
                 </td>
 
                 <td>
                   <a :href="`/#/loadout/${item.id}`">
-                    <v-chip color="blue">
-                      <v-avatar left class="blue darken-4">
-                        <v-icon>mdi-arrow-split-horizontal</v-icon>
-                      </v-avatar>
-                      {{ item.vertical_recoil_final }}
-                    </v-chip>
+                    <horizontal-recoil-chip class="ma-2" :value="item.horizontal_recoil_final"></horizontal-recoil-chip>
                   </a>
                 </td>
 
                 <td>
                   <a :href="`/#/loadout/${item.id}`">
-                    <v-chip color="purple">
-                      <v-avatar left class="purple darken-4">
-                        <v-icon>mdi-bullet</v-icon>
-                      </v-avatar>
-                      {{ item.gun_calibre }}
-                    </v-chip>
+                    <caliber-chip class="ma-2" :value="item.gun_calibre"></caliber-chip>
                   </a>
                 </td>
 
@@ -331,13 +267,24 @@
     mapActions,
     mapMutations,
   } from 'vuex';
-
   import router from '../router';
+
+  import ErgonomicsChip from "./ErgonomicsChip";
+  import HorizontalRecoilChip from "./HorizontalRecoilChip";
+  import VerticalRecoilChip from "./VerticalRecoilChip";
+  import CaliberChip from "./CaliberChip";
 
   export default {
     mounted() {
       this.fetchGuns();
       this.fetchLoadouts();
+    },
+
+    components: {
+      ErgonomicsChip,
+      HorizontalRecoilChip,
+      VerticalRecoilChip,
+      CaliberChip
     },
 
     methods: {

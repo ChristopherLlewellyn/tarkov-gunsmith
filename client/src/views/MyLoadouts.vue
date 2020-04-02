@@ -50,8 +50,7 @@
                   </v-card>
                 </v-toolbar>
                 <v-container fluid>
-                  <v-img :src="loadout.gun_image" class="white--text align-end"
-                    height="120">
+                  <v-img :src="loadout.gun_image" class="white--text align-end" height="120">
                     <v-card-title>{{ loadout.gun_name }}</v-card-title>
                   </v-img>
                 </v-container>
@@ -59,56 +58,13 @@
                 <v-divider></v-divider>
 
                 <v-card-actions class="justify-center">
-                  <v-tooltip bottom>
-                    <template v-slot:activator="{ on }">
-                      <v-chip class="mr-1 ml-1" color="purple" v-on="on">
-                        <v-avatar left class="purple darken-4">
-                          <v-icon>mdi-bullet</v-icon>
-                        </v-avatar>
-                        {{ loadout.gun_calibre }}
-                      </v-chip>
-                    </template>
-                    <span>Calibre</span>
-                  </v-tooltip>
+                  <caliber-chip :value="loadout.gun_calibre"></caliber-chip>
                 </v-card-actions>
 
-
                 <v-card-actions class="justify-center">
-                  <v-tooltip bottom>
-                    <template v-slot:activator="{ on }">
-                      <v-chip class="mr-1 ml-1" color="green" v-on="on">
-                        <v-avatar left class="green darken-4">
-                          <v-icon>mdi-hand</v-icon>
-                        </v-avatar>
-                        {{ loadout.ergonomics_final }}
-                      </v-chip>
-                    </template>
-                    <span>Ergonomics</span>
-                  </v-tooltip>
-
-                  <v-tooltip bottom>
-                    <template v-slot:activator="{ on }">
-                      <v-chip class="mr-1 ml-1" color="blue" v-on="on">
-                        <v-avatar left class="blue darken-4">
-                          <v-icon>mdi-arrow-split-horizontal</v-icon>
-                        </v-avatar>
-                        {{ loadout.vertical_recoil_final }}
-                      </v-chip>
-                    </template>
-                    <span>Vertical Recoil</span>
-                  </v-tooltip>
-
-                  <v-tooltip bottom>
-                    <template v-slot:activator="{ on }">
-                      <v-chip class="mr-1 ml-1" color="blue" v-on="on">
-                        <v-avatar left class="blue darken-4">
-                          <v-icon>mdi-arrow-split-vertical</v-icon>
-                        </v-avatar>
-                        {{ loadout.horizontal_recoil_final }}
-                      </v-chip>
-                    </template>
-                    <span>Horizontal Recoil</span>
-                  </v-tooltip>
+                  <ergonomics-chip class="ma-2" :value="loadout.ergonomics_final"></ergonomics-chip>
+                  <vertical-recoil-chip class="ma-2" :value="loadout.vertical_recoil_final"></vertical-recoil-chip>
+                  <horizontal-recoil-chip class="ma-2" :value="loadout.horizontal_recoil_final"></horizontal-recoil-chip>
                 </v-card-actions>
 
                 <v-card-actions class="justify-center">
@@ -117,7 +73,7 @@
                   <span class="font-weight-medium">{{ loadout.updated_at }}</span>
                 </v-card-actions>
 
-              
+
               </v-card>
               <v-card tile>
                 <v-card-actions class="justify-center">
@@ -180,93 +136,103 @@
 </template>
 
 <script>
-import {
-  mapGetters,
-  mapState,
-  mapActions,
-  mapMutations,
-} from 'vuex';
+  import {
+    mapGetters,
+    mapState,
+    mapActions,
+    mapMutations,
+  } from 'vuex';
+  import router from '../router';
 
-import router from '../router';
+  import ErgonomicsChip from "../components/ErgonomicsChip";
+  import HorizontalRecoilChip from "../components/HorizontalRecoilChip";
+  import VerticalRecoilChip from "../components/VerticalRecoilChip";
+  import CaliberChip from "../components/CaliberChip";
 
-export default {
-  mounted() {
-    if (!this.isSignedIn) {
-      return router.push('/sign-in');
-    }
-    this.fetchMyLoadouts();
-  },
-
-  methods: {
-    ...mapActions('myLoadouts', [
-      'fetchMyLoadouts',
-      'deleteLoadout',
-    ]),
-
-    ...mapMutations('myLoadouts', [
-      'setLoadoutToDelete',
-    ]),
-
-    deleteItem(id) {
-      this.setLoadoutToDelete(id);
-      confirm('Are you sure you want to delete this loadout?') && this.deleteLoadout();
+  export default {
+    mounted() {
+      if (!this.isSignedIn) {
+        return router.push('/sign-in');
+      }
+      this.fetchMyLoadouts();
     },
 
-    viewLoadoutCard(id) {
-      router.push(`/loadout/${id}`);
+    components: {
+      ErgonomicsChip,
+      HorizontalRecoilChip,
+      VerticalRecoilChip,
+      CaliberChip
     },
 
-    nextPage() {
-      if (this.page + 1 <= this.numberOfPages) this.page += 1;
+    methods: {
+      ...mapActions('myLoadouts', [
+        'fetchMyLoadouts',
+        'deleteLoadout',
+      ]),
+
+      ...mapMutations('myLoadouts', [
+        'setLoadoutToDelete',
+      ]),
+
+      deleteItem(id) {
+        this.setLoadoutToDelete(id);
+        confirm('Are you sure you want to delete this loadout?') && this.deleteLoadout();
+      },
+
+      viewLoadoutCard(id) {
+        router.push(`/loadout/${id}`);
+      },
+
+      nextPage() {
+        if (this.page + 1 <= this.numberOfPages) this.page += 1;
+      },
+      formerPage() {
+        if (this.page - 1 >= 1) this.page -= 1;
+      },
+      updateItemsPerPage(number) {
+        this.itemsPerPage = number;
+      },
     },
-    formerPage() {
-      if (this.page - 1 >= 1) this.page -= 1;
+
+    computed: {
+      numberOfPages() {
+        return Math.ceil(this.loadouts.length / this.itemsPerPage);
+      },
+      filteredKeys() {
+        return this.keys.filter(key => key !== 'Name');
+      },
+
+      ...mapGetters('authentication', [
+        'isSignedIn',
+      ]),
+
+      ...mapState('myLoadouts', [
+        'loadouts',
+        'loading',
+      ]),
     },
-    updateItemsPerPage(number) {
-      this.itemsPerPage = number;
+
+    data() {
+      return {
+        transition: 'scale-transition',
+
+        search: '',
+        itemsPerPageArray: [8, 12, 16, 20],
+        filter: {},
+        sortDesc: false,
+        page: 1,
+        itemsPerPage: 8,
+        sortBy: 'name',
+        keys: [
+          'Name',
+          'Ergonomics_Final',
+          'Vertical_Recoil_Final',
+          'Horizontal_Recoil_Final',
+        ],
+        dialog: false,
+      };
     },
-  },
-
-  computed: {
-    numberOfPages() {
-      return Math.ceil(this.loadouts.length / this.itemsPerPage);
-    },
-    filteredKeys() {
-      return this.keys.filter(key => key !== 'Name');
-    },
-
-    ...mapGetters('authentication', [
-      'isSignedIn',
-    ]),
-
-    ...mapState('myLoadouts', [
-      'loadouts',
-      'loading',
-    ]),
-  },
-
-  data() {
-    return {
-      transition: 'scale-transition',
-
-      search: '',
-      itemsPerPageArray: [8, 12, 16, 20],
-      filter: {},
-      sortDesc: false,
-      page: 1,
-      itemsPerPage: 8,
-      sortBy: 'name',
-      keys: [
-        'Name',
-        'Ergonomics_Final',
-        'Vertical_Recoil_Final',
-        'Horizontal_Recoil_Final',
-      ],
-      dialog: false,
-    };
-  },
-};
-
+  };
 </script>
 
 <style scoped>
@@ -281,5 +247,4 @@ export default {
     background-color: black;
     transform: scale(1);
   }
-
 </style>
