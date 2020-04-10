@@ -8,11 +8,11 @@
 </template>
 
 <script>
-  export default {
-    name: "chip",
-    props: {
-      value: Number
-    },
-  };
+export default {
+  name: 'chip',
+  props: {
+    value: Number,
+  },
+};
 
 </script>

@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-layout row wrap>
+    <v-layout row wrap column align-center>
       <v-flex xs12>
         <v-card>
           <v-card-title class="blue-grey darken-2">Weapon</v-card-title>
