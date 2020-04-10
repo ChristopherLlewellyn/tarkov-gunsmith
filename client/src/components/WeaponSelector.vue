@@ -18,93 +18,17 @@
 
           <v-divider></v-divider>
           <v-card-actions class="justify-center">
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on }">
-                <v-skeleton-loader :loading="loading" :transition="transition" type="chip">
-                  <v-chip class="ma-2" color="red darken-1" v-on="on">
-                    <v-avatar left class="red darken-4">
-                      <v-icon>mdi-axis</v-icon>
-                    </v-avatar>
-                    {{ weapon.type }}
-                  </v-chip>
-                </v-skeleton-loader>
-              </template>
-              <span>Type</span>
-            </v-tooltip>
-
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on }">
-                <v-skeleton-loader :loading="loading" :transition="transition" type="chip">
-                  <v-chip class="ma-2" color="brown" v-on="on">
-                    <v-avatar left class="brown darken-4">
-                      <v-icon>mdi-chevron-triple-right</v-icon>
-                    </v-avatar>
-                    {{ weapon.rpm }}
-                  </v-chip>
-                </v-skeleton-loader>
-              </template>
-              <span>RPM</span>
-            </v-tooltip>
-
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on }">
-                <v-skeleton-loader :loading="loading" :transition="transition" type="chip">
-                  <v-chip class="ma-2" color="purple" v-on="on">
-                    <v-avatar left class="purple darken-4">
-                      <v-icon>mdi-bullet</v-icon>
-                    </v-avatar>
-                    {{ weapon.calibre }}
-                  </v-chip>
-                </v-skeleton-loader>
-              </template>
-              <span>Calibre</span>
-            </v-tooltip>
+            <type-chip :value="weapon.type"></type-chip>
+            <rpm-chip :value="weapon.rpm"></rpm-chip>
+            <caliber-chip :value="weapon.calibre"></caliber-chip>
           </v-card-actions>
 
           <v-divider></v-divider>
 
           <v-card-actions class="justify-center">
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on }">
-                <v-skeleton-loader :loading="loading" :transition="transition" type="chip">
-                  <v-chip class="ma-2" color="green" v-on="on">
-                    <v-avatar left class="green darken-4">
-                      <v-icon>mdi-hand</v-icon>
-                    </v-avatar>
-                    {{ weaponStatsCalculated.ergonomics }}
-                  </v-chip>
-                </v-skeleton-loader>
-              </template>
-              <span>Ergonomics</span>
-            </v-tooltip>
-
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on }">
-                <v-skeleton-loader :loading="loading" :transition="transition" type="chip">
-                  <v-chip class="ma-2" color="blue" v-on="on">
-                    <v-avatar left class="blue darken-4">
-                      <v-icon>mdi-arrow-split-horizontal</v-icon>
-                    </v-avatar>
-                    {{ weaponStatsCalculated.vertical_recoil }}
-                  </v-chip>
-                </v-skeleton-loader>
-              </template>
-              <span>Vertical Recoil</span>
-            </v-tooltip>
-
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on }">
-                <v-skeleton-loader :loading="loading" :transition="transition" type="chip">
-                  <v-chip class="ma-2" color="blue" v-on="on">
-                    <v-avatar left class="blue darken-4">
-                      <v-icon>mdi-arrow-split-vertical</v-icon>
-                    </v-avatar>
-                    {{ weaponStatsCalculated.horizontal_recoil }}
-                  </v-chip>
-                </v-skeleton-loader>
-              </template>
-              <span>Horizontal Recoil</span>
-            </v-tooltip>
+            <ergonomics-chip class="ma-2" :value="weapon.ergonomics"></ergonomics-chip>
+            <vertical-recoil-chip class="ma-2" :value="weaponStatsCalculated.vertical_recoil"></vertical-recoil-chip>
+            <horizontal-recoil-chip class="ma-2" :value="weaponStatsCalculated.horizontal_recoil"></horizontal-recoil-chip>
           </v-card-actions>
 
         </v-card>
@@ -114,29 +38,40 @@
 </template>
 
 <script>
-import {
-  mapState,
-} from 'vuex';
-import WeaponSelectorDialog from './WeaponSelectorDialog.vue';
+  import {
+    mapState,
+  } from 'vuex';
+  import WeaponSelectorDialog from './WeaponSelectorDialog.vue';
+  import TypeChip from './TypeChip';
+  import ErgonomicsChip from "./ErgonomicsChip";
+  import HorizontalRecoilChip from "./HorizontalRecoilChip";
+  import VerticalRecoilChip from "./VerticalRecoilChip";
+  import RpmChip from "./RpmChip";
+  import CaliberChip from "./CaliberChip";
 
-export default {
-  components: {
-    WeaponSelectorDialog,
-  },
+  export default {
+    components: {
+      WeaponSelectorDialog,
+      TypeChip,
+      ErgonomicsChip,
+      HorizontalRecoilChip,
+      VerticalRecoilChip,
+      RpmChip,
+      CaliberChip
+    },
 
-  computed: {
-    ...mapState('createLoadout', [
-      'weapon',
-      'weaponStatsCalculated',
-      'loading',
-    ]),
-  },
+    computed: {
+      ...mapState('createLoadout', [
+        'weapon',
+        'weaponStatsCalculated',
+        'loading',
+      ]),
+    },
 
-  data() {
-    return {
-      transition: 'scale-transition',
-    };
-  },
-};
-
+    data() {
+      return {
+        transition: 'scale-transition',
+      };
+    },
+  };
 </script>

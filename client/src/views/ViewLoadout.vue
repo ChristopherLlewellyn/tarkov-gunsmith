@@ -101,87 +101,97 @@
 </template>
 
 <script>
-import {
-  mapActions,
-  mapGetters,
-  mapMutations,
-  mapState,
-} from 'vuex';
-import VueRecaptcha from 'vue-recaptcha';
+  import {
+    mapActions,
+    mapGetters,
+    mapMutations,
+    mapState,
+  } from 'vuex';
+  import VueRecaptcha from 'vue-recaptcha';
 
-import router from '../router';
-import ViewAttachments from '@/components/ViewAttachments.vue';
-import ViewWeapon from '@/components/ViewWeapon.vue';
+  import router from '../router';
+  import ViewAttachments from '@/components/ViewAttachments.vue';
+  import ViewWeapon from '@/components/ViewWeapon.vue';
 
-export default {
-  components: {
-    ViewAttachments,
-    ViewWeapon,
-    VueRecaptcha,
-  },
-
-  mounted() {
-    this.reset();
-    this.setLoadoutId(this.$route.params.id);
-    this.fillLoadoutDetails();
-  },
-
-  computed: {
-    ...mapState('viewLoadout', [
-      'loadoutName',
-      'username',
-      'loading',
-      'votes',
-      'updated',
-    ]),
-  },
-
-  methods: {
-    ...mapActions('viewLoadout', [
-      'fillLoadoutDetails',
-      'upvote',
-      'downvote',
-    ]),
-
-    ...mapMutations('viewLoadout', [
-      'reset',
-      'setLoadoutName',
-      'setLoadoutId',
-      'setCaptcha',
-    ]),
-
-    onVerifyDownvote(token) {
-      this.setCaptcha(token);
-      this.downvote();
-      this.downvoteDialog = false;
-      this.votingDisabled = true;
+  export default {
+    components: {
+      ViewAttachments,
+      ViewWeapon,
+      VueRecaptcha,
     },
-    onVerifyUpvote(token) {
-      this.setCaptcha(token);
-      this.upvote();
-      this.upvoteDialog = false;
-      this.votingDisabled = true;
-    },
-    onExpired() {
-      this.resetRecaptcha();
-    },
-    resetRecaptcha() {
-      this.$refs.recaptcha.reset(); // Direct call reset method
-    },
-  },
 
-  data() {
-    return {
-      transition: 'scale-transition',
-      votingDisabled: false,
-      upvoteDialog: false,
-      downvoteDialog: false,
-      sitekey: process.env.VUE_APP_RECAPTCHASITEKEYV2,
-      recaptchaTheme: 'dark',
-    };
-  },
-};
+    mounted() {
+      this.reset();
+      this.checkIfAlreadyVoted();
+      this.setLoadoutId(this.$route.params.id);
+      this.fillLoadoutDetails();
+    },
 
+    computed: {
+      ...mapState('viewLoadout', [
+        'loadoutName',
+        'username',
+        'loading',
+        'votes',
+        'updated',
+        'loadoutId',
+        'votedOn',
+      ]),
+    },
+
+    methods: {
+      ...mapActions('viewLoadout', [
+        'fillLoadoutDetails',
+        'upvote',
+        'downvote',
+      ]),
+
+      ...mapMutations('viewLoadout', [
+        'reset',
+        'setLoadoutName',
+        'setLoadoutId',
+        'setCaptcha',
+        'setVotedOn',
+      ]),
+
+      onVerifyDownvote(token) {
+        this.setCaptcha(token);
+        this.downvote();
+        this.setVotedOn(this.$route.params.id)
+        this.downvoteDialog = false;
+        this.votingDisabled = true;
+      },
+      onVerifyUpvote(token) {
+        this.setCaptcha(token);
+        this.upvote();
+        this.setVotedOn(this.$route.params.id)
+        this.upvoteDialog = false;
+        this.votingDisabled = true;
+      },
+      onExpired() {
+        this.resetRecaptcha();
+      },
+      resetRecaptcha() {
+        this.$refs.recaptcha.reset(); // Direct call reset method
+      },
+      checkIfAlreadyVoted() {
+        if (this.votedOn.includes(this.$route.params.id)) {
+          this.votingDisabled = true;
+        }
+      }
+    },
+
+    data() {
+      return {
+        transition: 'scale-transition',
+        votingDisabled: false,
+        upvoteDialog: false,
+        downvoteDialog: false,
+        sitekey: process.env.VUE_APP_RECAPTCHASITEKEYV2,
+        recaptchaTheme: 'dark',
+      };
+    },
+  };
 </script>
 
 <style scoped>
@@ -200,5 +210,4 @@ export default {
   a {
     text-decoration: none;
   }
-
 </style>
