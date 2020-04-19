@@ -7,14 +7,12 @@ class GunController {
   // return all guns
   async index({ response }) {
     const guns = await Gun.all()
-    const defaultAttachments = await Database.table('default_attachments')
 
     response.status(200).json({
       message: 'Here is every gun',
       data: 
         { 
-          guns, 
-          defaultAttachments, 
+          guns
         }
     })
   }
