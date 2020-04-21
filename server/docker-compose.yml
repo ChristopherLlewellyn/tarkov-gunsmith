@@ -20,8 +20,10 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - "${PWD}/storage/mysql/mysql_conf_d:/etc/mysql"
+      - my-db:/var/lib/mysql
     command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
     environment:
       - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
       - MYSQL_DATABASE=${DB_DATABASE}
+volumes:
+  my-db:

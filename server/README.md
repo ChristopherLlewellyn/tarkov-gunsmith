@@ -21,7 +21,7 @@ In your .env file, change the ```DB_HOST``` value to ```db```, and ```PWD``` val
 
 Make sure to set all other .env variables, such as mail server details and API keys.
 
-### Build API Container
+### Build Container
 
 In the Project's root folder, run:
 
@@ -37,14 +37,24 @@ To start the container, run:
 docker-compose -f docker-compose.yml -p tarkov-armory up -d
 ```
 
-### Running Adonis Migrations (and any other commands)
+### Stop Container
+
+To stop the container, run:
+
+```bash
+docker-compose -p tarkov-armory down
+```
+
+The MYSQL database should persist for when the container is started again.
+
+### Running Adonis migrations and seeds (and any other CLI commands)
 Enter into the bash shell by running:
 
 ```bash
 docker exec -it tarkov_armory bash
 ```
 
-...and from there, run database migrations using ```adonis migration:run```
+From there, run database migrations using ```adonis migration:run```
 
 ...and also seed the database using ```adonis seed```
 
