@@ -1,0 +1,27 @@
+version: '3'
+services:
+  app:
+    container_name: tarkov_armory
+    build:
+      context: .
+      dockerfile: DockerFile
+    depends_on:
+      - db
+    environment:
+      - SERVER_ENV=development
+    ports:
+      - "3333:3333"
+      - "80:80"
+    volumes:
+      - ${PWD}:/code
+      - ${PWD}/storage/logs:/tmp/logs
+  db:
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    volumes:
+      - "${PWD}/storage/mysql/mysql_conf_d:/etc/mysql"
+    command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DATABASE=${DB_DATABASE}
