@@ -23,7 +23,7 @@ Make sure to set all other .env variables, such as mail server details and API k
 
 ### Build Container
 
-In the project's ```server``` folder, run:
+To build the container, in this directory run:
 
 ```bash
 docker-compose -f docker-compose.yml -p tarkov-armory build
