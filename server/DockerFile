@@ -51,9 +51,13 @@ COPY .env.example /code/.env
 # Expose port 80 for nginx to be able to connect
 EXPOSE 80
 
-# Install pm2, the node modules and the AdonisJS Cli tool
-RUN npm install pm2 -g && npm install
+# Install pm2
+RUN npm install pm2 -g
 
+# Install the node modules
+RUN npm install
+
+# Install the AdonisJS Cli tool
 RUN npm i -g @adonisjs/cli
 
 # To run this config in production, change this line to:
