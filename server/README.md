@@ -37,14 +37,6 @@ To start the container, run:
 docker-compose -f docker-compose.yml -p tarkov-armory up -d
 ```
 
-### Stop Container
-
-To stop the container, run:
-
-```bash
-docker-compose -p tarkov-armory down
-```
-
 The MYSQL database should persist for when the container is started again.
 
 ### Running Adonis migrations and seeds (and any other CLI commands)
@@ -60,3 +52,11 @@ From there, run database migrations using ```adonis migration:run```
 
 ### Accessing the API
 The API can now be accessed via ```http://127.0.0.1:3333/api```
+
+### Stop Container
+
+To stop the container, run:
+
+```bash
+docker-compose -p tarkov-armory down
+```
