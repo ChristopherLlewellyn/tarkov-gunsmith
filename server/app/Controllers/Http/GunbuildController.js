@@ -1,34 +1,21 @@
 'use strict'
 
+// Database
+const Database = use('Database')
+
+// Models
 const Gunbuild = use('App/Models/Gunbuild')
 const VoteCount = use('App/Models/VoteCount')
-const Database = use('Database')
+
+// Services
 const AuthService = use('App/Services/AuthService')
+const GunbuildService = use('App/Services/GunbuildService')
 
 class GunbuildController {
 
   // return all gunbuilds
   async index({ response }) {
-    const gunbuilds = await Database.raw(`
-      SELECT 
-      user.username, 
-      gunbuild.*, 
-      gun.name AS gun_name, gun.image AS gun_image, gun.calibre AS gun_calibre, gun.rpm AS gun_rpm, gun.type AS gun_type,
-      votecount.votes
-
-      FROM gunbuilds AS gunbuild 
-
-      INNER JOIN guns AS gun 
-      ON gunbuild.gun_id = gun.id
-
-      INNER JOIN users AS user
-      ON user.id = gunbuild.user_id
-      
-      INNER JOIN vote_counts AS votecount
-      ON votecount.gunbuild_id = gunbuild.id
-      `)
-
-    gunbuilds.pop() // clean up junk from RAW query
+    const gunbuilds = await GunbuildService.index()
 
     response.status(200).json({
       message: 'Here is every gunbuild',
@@ -39,28 +26,7 @@ class GunbuildController {
   // return all gunbuilds for logged in user
   async indexMine({ auth, response }) {
     const user = await auth.getUser()
-    const gunbuilds = await Database.raw(`
-      SELECT 
-      user.username, 
-      gunbuild.*, 
-      gun.name AS gun_name, gun.image AS gun_image, gun.calibre AS gun_calibre, gun.rpm AS gun_rpm, gun.type AS gun_type,
-      votecount.votes
-
-      FROM gunbuilds AS gunbuild 
-
-      INNER JOIN guns AS gun 
-      ON gunbuild.gun_id = gun.id
-
-      INNER JOIN users AS user
-      ON user.id = gunbuild.user_id
-
-      INNER JOIN vote_counts AS votecount
-      ON votecount.gunbuild_id = gunbuild.id
-
-      WHERE gunbuild.user_id = ${user.id}
-      `)
-
-    gunbuilds.pop() // clean up junk from RAW query
+    const gunbuilds = await GunbuildService.indexByUser(user.id)
 
     response.status(200).json({
       message: 'Here is every gunbuild for this user',
@@ -70,28 +36,7 @@ class GunbuildController {
 
   // return all gunbuilds by gun
   async indexByGun({ response, params: { id } }) {
-    const gunbuilds = await Database.raw(`
-      SELECT 
-      user.username,
-      gunbuild.*, 
-      gun.name AS gun_name, gun.image AS gun_image, gun.calibre AS gun_calibre, gun.rpm AS gun_rpm, gun.type AS gun_type,
-      votecount.votes
-
-      FROM gunbuilds AS gunbuild 
-
-      INNER JOIN guns AS gun 
-      ON gunbuild.gun_id = gun.id
-
-      INNER JOIN users AS user
-      ON user.id = gunbuild.user_id
-
-      INNER JOIN vote_counts AS votecount
-      ON votecount.gunbuild_id = gunbuild.id
-
-      WHERE gunbuild.gun_id = ${id}
-      `)
-
-    gunbuilds.pop() // clean up junk from RAW query
+    const gunbuilds = await GunbuildService.indexByGun(id)
 
     response.status(200).json({
       message: `Here is every gunbuild for gun ${id}`,
@@ -101,28 +46,11 @@ class GunbuildController {
 
   // return one gunbuild with attachments and username
   async show({ response, params: { id } }) {
-    const gunbuild = await Gunbuild
-      .query()
-      .with('attachments')
-      .with('voteCount')
-      .where('id', id)
-      .fetch()
-    
-    const gun = await Database.raw(
-      `SELECT gun.* FROM guns AS gun INNER JOIN gunbuilds AS gunbuild ON gunbuild.gun_id = gun.id WHERE gunbuild.id = ${id}`
-    )
-    gun.pop() // clean up junk from RAW query
-
-    const user = await Database.raw(
-      `SELECT user.username FROM users AS user INNER JOIN gunbuilds AS gunbuild ON gunbuild.user_id = user.id WHERE gunbuild.id = ${id}`
-      )
-    user.pop() // clean up junk from RAW query
+    const gunbuild = await GunbuildService.show(id)
     
     response.status(200).json({
       message: 'Here is your gunbuild',
-      gunbuild,
-      gun,
-      user
+      data: gunbuild
     })
   }
 
