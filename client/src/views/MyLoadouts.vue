@@ -50,7 +50,7 @@
                   </v-card>
                 </v-toolbar>
                 <v-container fluid>
-                  <v-img :src="loadout.gun_image" class="white--text align-end" height="120">
+                  <v-img :src="loadout.gun_img_big" class="white--text align-end" height="120">
                     <v-card-title>{{ loadout.gun_name }}</v-card-title>
                   </v-img>
                 </v-container>

@@ -9,7 +9,7 @@ class AttachmentController {
 
     response.status(200).json({
       message: 'Here is every attachment',
-      data: attachments
+      attachments
     })
   }
 

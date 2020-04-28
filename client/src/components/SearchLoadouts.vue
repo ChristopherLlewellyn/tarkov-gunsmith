@@ -71,7 +71,7 @@
                   </v-toolbar>
 
                   <v-container fluid>
-                    <v-img :src="loadout.gun_image" class="white--text align-end" gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height="120">
+                    <v-img :src="loadout.gun_img_big" class="white--text align-end" gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height="120">
                       <v-card-title>{{ loadout.gun_name }}</v-card-title>
                     </v-img>
                   </v-container>
@@ -79,7 +79,7 @@
                   <v-divider></v-divider>
 
                   <v-card-actions class="justify-center">
-                    <caliber-chip :value="loadout.gun_calibre"></caliber-chip>
+                    <caliber-chip :value="loadout.gun_caliber"></caliber-chip>
                   </v-card-actions>
 
                   <v-card-actions class="justify-center">
@@ -182,7 +182,7 @@
                 <td>
                   <a :href="`/#/loadout/${item.id}`" class="white">
                     <div class="pt-1 pb-1 pl-1 pr-1">
-                      <v-img :src="item.gun_image" alt="No image" max-height="125" max-width="300" contain class="align-end">
+                      <v-img :src="item.gun_img_big" alt="No image" max-height="125" max-width="300" contain class="align-end">
                         <p class="pl-2 white--text font-weight-medium">{{ item.gun_name }}</p>
                       </v-img>
                     </div>
@@ -215,7 +215,7 @@
 
                 <td>
                   <a :href="`/#/loadout/${item.id}`">
-                    <caliber-chip class="ma-2" :value="item.gun_calibre"></caliber-chip>
+                    <caliber-chip class="ma-2" :value="item.gun_caliber"></caliber-chip>
                   </a>
                 </td>
 
@@ -362,7 +362,7 @@
 
         headers: [{
             text: 'Image',
-            value: 'image',
+            value: 'img_big',
             sortable: false,
             filterable: false,
           },
@@ -384,7 +384,7 @@
           },
           {
             text: 'Calibre',
-            value: 'gun_calibre',
+            value: 'gun_caliber',
           },
           {
             text: 'By User',

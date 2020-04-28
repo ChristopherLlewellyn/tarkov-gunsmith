@@ -19,7 +19,7 @@ class GunbuildController {
 
     response.status(200).json({
       message: 'Here is every gunbuild',
-      data: gunbuilds
+      gunbuilds
     })
   }
 
@@ -30,7 +30,7 @@ class GunbuildController {
 
     response.status(200).json({
       message: 'Here is every gunbuild for this user',
-      data: gunbuilds
+      gunbuilds
     })
   }
 
@@ -40,7 +40,7 @@ class GunbuildController {
 
     response.status(200).json({
       message: `Here is every gunbuild for gun ${id}`,
-      data: gunbuilds
+      gunbuilds
     })
   }
 
@@ -50,7 +50,7 @@ class GunbuildController {
     
     response.status(200).json({
       message: 'Here is your gunbuild',
-      data: gunbuild
+      gunbuild
     })
   }
 

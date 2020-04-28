@@ -15,7 +15,7 @@ export default {
       commit('setLoading', true);
       return HTTP().get('/gunbuilds/mine')
         .then(({ data }) => {
-          commit('setLoadouts', data.data[0]);
+          commit('setLoadouts', data.gunbuilds);
           commit('formatDates');
           commit('setLoading', false);
         });

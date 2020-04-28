@@ -10,10 +10,7 @@ class GunController {
 
     response.status(200).json({
       message: 'Here is every gun',
-      data: 
-        { 
-          guns
-        }
+      guns
     })
   }
 

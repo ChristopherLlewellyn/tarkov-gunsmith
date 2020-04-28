@@ -82,17 +82,23 @@ class GunbuildService {
       .where('id', id)
       .fetch()
     gunbuild = gunbuild.toJSON()
+    gunbuild = gunbuild[0]
 
     let gun = await Gun
       .query()
-      .where("id", gunbuild[0].gun_id)
+      .where("id", gunbuild.gun_id)
       .fetch()
+    gun = gun.toJSON()
+    gun = gun[0]
 
     let user = await User
       .query()
       .select("username")
-      .where("id", gunbuild[0].user_id)
+      .where("id", gunbuild.user_id)
       .fetch()
+    user = user.toJSON()
+    user = user[0]
+    
 
     return { gunbuild, gun, user }
   }  
