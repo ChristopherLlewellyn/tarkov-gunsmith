@@ -71,7 +71,7 @@
                   </v-toolbar>
 
                   <v-container fluid>
-                    <v-img :src="loadout.gun_img_big" class="white--text align-end" gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height="120">
+                    <v-img :src="loadout.gun_img_big" class="white--text align-end" gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" max-height="120">
                       <v-card-title>{{ loadout.gun_name }}</v-card-title>
                     </v-img>
                   </v-container>

@@ -38,11 +38,11 @@
 
         <template v-if="!weaponsLoading && !attachmentsLoading">
           <tree v-if="!weaponsLoading && !attachmentsLoading" treeType='create' :tree-data="weapon" :availableAttachments="availableAttachments"
-            :selectedAttachments="selectedAttachments" class="mt-2"></tree>
+            class="mt-2"></tree>
         </template>
       </v-flex>
 
-      <!-- Summary Table -->
+      <!-- Build List Table -->
       <v-flex xs12>
         <build-list-table v-if="!weaponsLoading && !attachmentsLoading" :items="allItems"></build-list-table>
       </v-flex>
@@ -85,7 +85,6 @@
         'availableAttachments',
         'weaponsLoading',
         'attachmentsLoading',
-        'selectedAttachments',
         'availableWeapons',
         'allItems',
       ]),

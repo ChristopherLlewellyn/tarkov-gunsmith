@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-layout row wrap>
+    <v-layout row wrap column align-center>
       <v-flex xs12>
         <v-card>
           <v-card-title class="blue-grey darken-2">Weapon</v-card-title>
@@ -24,9 +24,9 @@
           <v-divider></v-divider>
 
           <v-card-actions class="justify-center">
-            <ergonomics-chip class="ma-2" :value="weapon.ergonomics"></ergonomics-chip>
-            <vertical-recoil-chip class="ma-2" :value="weapon.vertical_recoil"></vertical-recoil-chip>
-            <horizontal-recoil-chip class="ma-2" :value="weapon.horizontal_recoil"></horizontal-recoil-chip>
+            <ergonomics-chip class="ma-2" :value="calculatedErgonomics"></ergonomics-chip>
+            <vertical-recoil-chip class="ma-2" :value="calculatedHorizontalRecoil"></vertical-recoil-chip>
+            <horizontal-recoil-chip class="ma-2" :value="calculatedVerticalRecoil"></horizontal-recoil-chip>
           </v-card-actions>
 
         </v-card>
@@ -52,6 +52,9 @@
         'weapon',
         'weaponStatsCalculated',
         'loading',
+        'calculatedErgonomics',
+        'calculatedHorizontalRecoil',
+        'calculatedVerticalRecoil',
       ]),
     },
 

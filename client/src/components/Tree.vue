@@ -9,8 +9,8 @@
               Build tree for {{treeData.short_name ? treeData.short_name : 'Missing name'}}
             </v-card-title>
             <v-container fluid>
-              <node-tree-create v-if="treeType == 'create'" :node="treeData" :availableAttachments="availableAttachments"
-                :selectedAttachments="selectedAttachments"></node-tree-create>
+              <node-tree-create v-if="treeType == 'create'" :node="treeData" :availableAttachments="availableAttachments"></node-tree-create>
+              <node-tree-view v-if="treeType == 'view'" :node="treeData"></node-tree-view>
             </v-container>
           </v-card>
         </div>
@@ -22,6 +22,7 @@
 <script>
   // Import NodeTree types here
   import NodeTreeCreate from './NodeTreeCreate';
+  import NodeTreeView from './NodeTreeView';
 
   export default {
     props: {
@@ -32,6 +33,7 @@
     },
     components: {
       NodeTreeCreate,
+      NodeTreeView,
     },
   };
 

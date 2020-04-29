@@ -76,7 +76,7 @@
               </v-toolbar>
               <ul>
                 <node v-for="(child, index) in Object.values(node.selected.slots)" :key="'B' + index" :node="child" :availableAttachments="availableAttachments"
-                  :selectedAttachments="selectedAttachments" :slotName="Object.keys(node.selected.slots)[index]"></node>
+                  :slotName="Object.keys(node.selected.slots)[index]"></node>
               </ul>
             </template>
           </template>
@@ -87,7 +87,7 @@
 
     <!-- If the node is of kind 'firearm' then we just render the firearm's slots -->
     <ul v-if="node.slots && node.slots !== undefined">
-      <node v-for="(child, index) in slots" :key="'A' + index" :node="child" :availableAttachments="availableAttachments" :selectedAttachments="selectedAttachments"
+      <node v-for="(child, index) in slots" :key="'A' + index" :node="child" :availableAttachments="availableAttachments"
         :slotName="Object.keys(node.slots)[index]"></node>
     </ul>
 
@@ -114,7 +114,6 @@
     props: {
       node: Object,
       availableAttachments: Array,
-      selectedAttachments: Array,
       slotName: String,
     },
     components: {
