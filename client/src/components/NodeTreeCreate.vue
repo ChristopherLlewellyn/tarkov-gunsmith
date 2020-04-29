@@ -57,7 +57,7 @@
                       <v-flex xs6 sm3 md2 lg1 v-for="(attachment, index) in compatibleAttachments" :key="'C' + index">
                         <attachment-image @handle-click="handleSelection" :imgUrl="attachment.img" :name="attachment.name"
                           :ergonomicsModifier="attachment.ergonomics_modifier" :recoilModifier="attachment.recoil_modifier"
-                          :weight="attachment.weight" :marketPrice="attachment.price" :traderName="attachment.trader_name"
+                          :weight="attachment.weight" :marketPrice="attachment.avg_24h_price" :traderName="attachment.trader_name"
                           :traderPrice="attachment.trader_price" :traderCurrency="attachment.trader_price_cur">
                         </attachment-image>
                       </v-flex>

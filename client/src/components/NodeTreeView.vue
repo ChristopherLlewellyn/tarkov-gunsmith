@@ -11,7 +11,7 @@
                 {{ slotName ? slotName : 'Slot name missing' }}
                 <template v-if="node.selected">
                   <attachment-image :imgUrl="node.selected.img" :name="node.selected.name" :ergonomicsModifier="node.selected.ergonomics_modifier"
-                    :recoilModifier="node.selected.recoil_modifier" :weight="node.selected.weight" :marketPrice="node.selected.price"
+                    :recoilModifier="node.selected.recoil_modifier" :weight="node.selected.weight" :marketPrice="node.selected.avg_24h_price"
                     :traderName="node.selected.trader_name" :traderPrice="node.selected.trader_price"
                     :traderCurrency="node.selected.trader_price_cur">
                   </attachment-image>

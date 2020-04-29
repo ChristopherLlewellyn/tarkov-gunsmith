@@ -18,14 +18,14 @@
                     <td>
                       <template v-if="item.kind != 'firearm'">
                         <attachment-image :imgUrl="item.img" :name="item.name" :ergonomicsModifier="item.ergonomics_modifier"
-                          :recoilModifier="item.recoil_modifier" :weight="item.weight" :marketPrice="item.price" :traderName="item.trader_name"
+                          :recoilModifier="item.recoil_modifier" :weight="item.weight" :marketPrice="item.avg_24h_price" :traderName="item.trader_name"
                           :traderPrice="item.trader_price" :traderCurrency="item.trader_price_cur">
                         </attachment-image>
                       </template>
 
                       <template v-else-if="item.kind == 'firearm'">
                         <weapon-image :imgUrl="item.img" :name="item.name" :ergonomics="item.ergonomics" :verticalRecoil="item.vertical_recoil"
-                          :horizontalRecoil="item.horizontal_recoil" :weight="item.weight" :marketPrice="item.price" :traderName="item.trader_name"
+                          :horizontalRecoil="item.horizontal_recoil" :weight="item.weight" :marketPrice="item.avg_24h_price" :traderName="item.trader_name"
                           :traderPrice="item.trader_price" :traderCurrency="item.trader_price_cur">
                         </weapon-image>
                       </template>
@@ -43,7 +43,7 @@
 
                     <!-- Flea Market Price -->
                     <td>
-                      <price-chip :value="item.price" currency="₽" source="Flea Market"></price-chip>
+                      <price-chip :value="item.avg_24h_price" currency="₽" source="Flea Market"></price-chip>
                     </td>
 
                     <!-- Trader Portrait -->

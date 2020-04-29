@@ -108,7 +108,7 @@ export default {
         }
 
         if (attachment.price && attachment.price !== null) {
-          price += attachment.price;
+          price += attachment.avg_24h_price;
         }
       });
 
