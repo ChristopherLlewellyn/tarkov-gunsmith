@@ -14,10 +14,11 @@ export default {
     loadoutName: '',
 
     weapon: {},
-    selectedAttachments: [],
     allItems: [],
-
-    weaponStatsCalculated: {},
+    calculatedErgonomics: 0,
+    calculatedHorizontalRecoil: 0,
+    calculatedVerticalRecoil: 0,
+    market_price: 0,
 
     alert: null,
     titleError: null,
@@ -53,10 +54,12 @@ export default {
       return HTTP().post('/gunbuilds', {
         gun_id: state.weapon.id,
         name: state.loadoutName,
-        ergonomics_final: state.weaponStatsCalculated.ergonomics,
-        vertical_recoil_final: state.weaponStatsCalculated.vertical_recoil,
-        horizontal_recoil_final: state.weaponStatsCalculated.horizontal_recoil,
-        attachments: state.attachments,
+        ergonomics_final: state.calculatedErgonomics,
+        vertical_recoil_final: state.calculatedVerticalRecoil,
+        horizontal_recoil_final: state.calculatedHorizontalRecoil,
+        build: state.weapon,
+        all_items: state.allItems,
+        market_price: state.market_price
       })
         .then(({ data }) => {
           commit('reset');
@@ -84,7 +87,6 @@ export default {
       state.loadoutName = '';
   
       state.weapon = {};
-      state.selectedAttachments = [];
       state.allItems = [];
   
       state.weaponStatsCalculated = {};
@@ -97,24 +99,30 @@ export default {
       let { ergonomics } = state.weapon;
       let { horizontal_recoil } = state.weapon;
       let { vertical_recoil } = state.weapon;
+      let price = 0;
       let recoil_reduction = 0;
 
-      state.attachments.forEach((attachment) => {
-        if (attachment.ergonomics_modifier !== null) {
+      state.allItems.forEach((attachment) => {
+        if (attachment.ergonomics_modifier && attachment.ergonomics_modifier !== null) {
           ergonomics += attachment.ergonomics_modifier;
         }
 
-        if (attachment.recoil_modifier !== null && attachment.recoil_modifier !== 0) {
+        if (attachment.recoil_modifier && attachment.recoil_modifier !== null) {
           recoil_reduction += attachment.recoil_modifier;
+        }
+
+        if (attachment.price && attachment.price !== null) {
+          price += attachment.price;
         }
       });
 
       horizontal_recoil = Math.round(state.weapon.horizontal_recoil * ((100 + recoil_reduction) / 100));
       vertical_recoil = Math.round(state.weapon.vertical_recoil * ((100 + recoil_reduction) / 100));
 
-      state.weaponStatsCalculated.ergonomics = ergonomics;
-      state.weaponStatsCalculated.horizontal_recoil = horizontal_recoil;
-      state.weaponStatsCalculated.vertical_recoil = vertical_recoil;
+      state.calculatedErgonomics = ergonomics;
+      state.calculatedHorizontalRecoil = horizontal_recoil;
+      state.calculatedVerticalRecoil = vertical_recoil;
+      state.market_price = price;
     },
 
     // Weapon selector

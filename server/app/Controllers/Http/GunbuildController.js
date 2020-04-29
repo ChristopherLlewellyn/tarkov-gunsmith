@@ -57,37 +57,42 @@ class GunbuildController {
   // create a new gunbuild (requires authentication)
   async create({ auth, request, response }) {
     const user = await auth.getUser()
-    const {  
+    let {  
       gun_id, 
       name,
       horizontal_recoil_final,
       vertical_recoil_final,
       ergonomics_final,
-      attachments
+      build,
+      all_items,
+      market_price
       } 
       = request.all()
+    
+    // JSON columns need to be stringified before going to the database
+    build = JSON.stringify(build)
+    all_items = JSON.stringify(all_items)
 
     const gunbuild = await user.gunbuilds().create({
       gun_id, 
       name,
       horizontal_recoil_final,
       vertical_recoil_final,
-      ergonomics_final
+      ergonomics_final,
+      build,
+      all_items,
+      market_price
     })
 
-    const voteCount = await VoteCount.create({gunbuild_id: gunbuild.id, votes: 0})
-
-    const attachmentIds = []
-    for (var i = 0; i < attachments.length; i++) {
-      attachmentIds.push(attachments[i].id)
-    }
-    const gunbuildAttachments = await gunbuild.attachments().attach(attachmentIds, row => {
-      row.quantity = attachments.filter(attachment => attachment.id === row.attachment_id).length
+    const voteCount = await VoteCount.create({
+      gunbuild_id: gunbuild.id,
+      votes: 0
     })
     
     response.status(201).json({
       message: 'Successfully created a new gunbuild',
-      data: { gunbuild, gunbuildAttachments, voteCount }
+      gunbuild,
+      voteCount
     })
   }
 

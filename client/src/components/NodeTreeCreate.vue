@@ -54,7 +54,7 @@
                         </template>
                       </v-flex>
                       <!-- List of compatible attachment options (shows tooltip on hover) -->
-                      <v-flex xs6 sm3 md2 lg1 v-for="attachment in compatibleAttachments">
+                      <v-flex xs6 sm3 md2 lg1 v-for="(attachment, index) in compatibleAttachments" :key="'C' + index">
                         <attachment-image @handle-click="handleSelection" :imgUrl="attachment.img" :name="attachment.name"
                           :ergonomicsModifier="attachment.ergonomics_modifier" :recoilModifier="attachment.recoil_modifier"
                           :weight="attachment.weight" :marketPrice="attachment.price" :traderName="attachment.trader_name"
@@ -75,7 +75,7 @@
               <v-toolbar dense class="blue darken-3">Attachments fitting on {{ node.selected.short_name ? node.selected.short_name : 'missing name' }}
               </v-toolbar>
               <ul>
-                <node v-for="(child, index) in Object.values(node.selected.slots)" :node="child" :availableAttachments="availableAttachments"
+                <node v-for="(child, index) in Object.values(node.selected.slots)" :key="'B' + index" :node="child" :availableAttachments="availableAttachments"
                   :selectedAttachments="selectedAttachments" :slotName="Object.keys(node.selected.slots)[index]"></node>
               </ul>
             </template>
@@ -87,7 +87,7 @@
 
     <!-- If the node is of kind 'firearm' then we just render the firearm's slots -->
     <ul v-if="node.slots && node.slots !== undefined">
-      <node v-for="(child, index) in slots" :node="child" :availableAttachments="availableAttachments" :selectedAttachments="selectedAttachments"
+      <node v-for="(child, index) in slots" :key="'A' + index" :node="child" :availableAttachments="availableAttachments" :selectedAttachments="selectedAttachments"
         :slotName="Object.keys(node.slots)[index]"></node>
     </ul>
 
@@ -130,7 +130,8 @@
     methods: {
       ...mapMutations('createLoadout', [
         'refreshAllItems',
-        'addItem'
+        'addItem',
+        'calculateWeaponStats'
       ]),
       recalculateAllItems(node) {
         if (node.slots && node.slots != undefined) {
@@ -154,6 +155,7 @@
 
         this.refreshAllItems();
         this.recalculateAllItems(this.weapon);
+        this.calculateWeaponStats();
 
         this.$forceUpdate();
       },

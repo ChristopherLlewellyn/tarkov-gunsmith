@@ -26,9 +26,9 @@
           <v-divider></v-divider>
 
           <v-card-actions class="justify-center">
-            <ergonomics-chip class="ma-2" :value="weapon.ergonomics"></ergonomics-chip>
-            <vertical-recoil-chip class="ma-2" :value="weaponStatsCalculated.vertical_recoil"></vertical-recoil-chip>
-            <horizontal-recoil-chip class="ma-2" :value="weaponStatsCalculated.horizontal_recoil"></horizontal-recoil-chip>
+            <ergonomics-chip class="ma-2" :value="calculatedErgonomics"></ergonomics-chip>
+            <vertical-recoil-chip class="ma-2" :value="calculatedVerticalRecoil"></vertical-recoil-chip>
+            <horizontal-recoil-chip class="ma-2" :value="calculatedHorizontalRecoil"></horizontal-recoil-chip>
           </v-card-actions>
 
         </v-card>
@@ -63,7 +63,9 @@
     computed: {
       ...mapState('createLoadout', [
         'weapon',
-        'weaponStatsCalculated',
+        'calculatedErgonomics',
+        'calculatedHorizontalRecoil',
+        'calculatedVerticalRecoil',
         'loading',
       ]),
     },
