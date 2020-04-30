@@ -1,17 +1,20 @@
 <template>
   <v-container grid-list-xs>
-  <span class="bg"></span>
+    <span class="bg"></span>
     <v-layout row wrap>
 
+      <!-- Loadout Title -->
       <v-flex xs12>
-        <v-text-field v-model="name" :rules="rules" prepend-icon="mdi-rename-box" label="Loadout name" class="pb-2 pt-2" single-line filled></v-text-field>
+        <v-text-field v-on:input="setLoadoutName" :value="loadoutName" :rules="rules" prepend-icon="mdi-rename-box" label="Loadout name" class="pb-2 pt-2" single-line
+          filled></v-text-field>
       </v-flex>
 
       <v-flex xs12>
         <v-alert type="error" :value="titleError">{{ titleError }}</v-alert>
       </v-flex>
 
-      <v-flex xs12 md4>
+      <!-- Weapon Selector -->
+      <v-flex xs12>
         <edit-weapon-selector></edit-weapon-selector>
         <v-divider></v-divider>
         <v-layout column align-center>
@@ -22,8 +25,26 @@
         </v-layout>
       </v-flex>
 
-      <v-flex xs12 md8>
-        <edit-attachment-selector></edit-attachment-selector>
+      <!-- Build Tree -->
+      <v-flex xs12>
+        <template v-if="weaponsLoading || attachmentsLoading" class="ma-4">
+          <v-card>
+            <v-card-title class="blue-grey darken-2">Build tree</v-card-title>
+            <v-row class="fill-height ma-0" align="center" justify="center">
+              <v-progress-circular class="mt-4 mb-4" indeterminate color="grey lighten-5"></v-progress-circular>
+            </v-row>
+          </v-card>
+        </template>
+
+        <template v-if="!weaponsLoading && !attachmentsLoading">
+          <tree v-if="!weaponsLoading && !attachmentsLoading" treeType='edit' :tree-data="weapon" :availableAttachments="availableAttachments"
+            class="mt-2"></tree>
+        </template>
+      </v-flex>
+
+      <!-- Build List Table -->
+      <v-flex xs12>
+        <build-list-table v-if="!weaponsLoading && !attachmentsLoading" :items="allItems"></build-list-table>
       </v-flex>
 
     </v-layout>
@@ -31,77 +52,75 @@
 </template>
 
 <script>
-import {
-  mapActions,
-  mapGetters,
-  mapMutations,
-  mapState,
-} from 'vuex';
+  import {
+    mapActions,
+    mapGetters,
+    mapMutations,
+    mapState,
+  } from 'vuex';
 
-import router from '../router';
-import EditWeaponSelector from '@/components/EditWeaponSelector.vue';
-import EditAttachmentSelector from '@/components/EditAttachmentSelector.vue';
+  import router from '../router';
+  import EditWeaponSelector from '@/components/EditWeaponSelector.vue';
+  import BuildListTable from '@/components/BuildListTable.vue';
+  import Tree from '@/components/Tree.vue';
 
-export default {
-
-  mounted() {
-    if (!this.isSignedIn) {
-      return router.push('/sign-in');
-    }
-    this.reset();
-    this.fetchAttachments();
-    this.fetchWeapons();
-    this.setLoadoutId(this.$route.params.id);
-    this.fillLoadoutDetails();
-  },
-
-  computed: {
-    name: {
-      get() {
-        return this.loadoutName;
-      },
-      set(name) {
-        this.setLoadoutName(name);
-      },
+  export default {
+    mounted() {
+      if (!this.isSignedIn) {
+        return router.push('/sign-in');
+      }
+      this.reset();
+      this.fetchAttachments();
+      this.fetchWeapons();
+      this.setLoadoutId(this.$route.params.id);
+      this.fillLoadoutDetails();
     },
 
-    ...mapGetters('authentication', [
-      'isSignedIn',
-    ]),
+    computed: {
+      ...mapGetters('authentication', [
+        'isSignedIn',
+      ]),
 
-    ...mapState('editLoadout', [
-      'loadoutName',
-      'titleError',
-    ]),
-  },
+      ...mapState('editLoadout', [
+        'weapon',
+        'titleError',
+        'availableAttachments',
+        'weaponsLoading',
+        'attachmentsLoading',
+        'availableWeapons',
+        'allItems',
+        'loadoutName',
+      ]),
+    },
 
-  methods: {
-    ...mapActions('editLoadout', [
-      'fillLoadoutDetails',
-      'editLoadout',
-      'fetchAttachments',
-      'fetchWeapons',
-    ]),
+    methods: {
+      ...mapActions('editLoadout', [
+        'editLoadout',
+        'fetchWeapons',
+        'fetchAttachments',
+        'fillLoadoutDetails',
+      ]),
 
-    ...mapMutations('editLoadout', [
-      'reset',
-      'setLoadoutName',
-      'setLoadoutId',
-    ]),
-  },
+      ...mapMutations('editLoadout', [
+        'setLoadoutName',
+        'reset',
+        'setLoadoutId',
+      ]),
+    },
 
-  components: {
-    EditWeaponSelector,
-    EditAttachmentSelector,
-  },
+    components: {
+      EditWeaponSelector,
+      Tree,
+      BuildListTable
+    },
 
-  data: () => ({
-    rules: [
-      value => !!value || 'Required.',
-      value => (value && value.length <= 45) || 'Max 45 characters',
-    ],
-  }),
-};
+    data: () => ({
+      rules: [
+        value => !!value || 'Required.',
+        value => (value && value.length <= 45) || 'Max 45 characters',
+      ],
+    }),
+  };
 
 </script>
 

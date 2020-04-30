@@ -102,37 +102,37 @@ class GunbuildController {
     const gunbuild = request.gunbuild
     AuthService.verifyPermission(gunbuild, user)
 
-    const { 
+    let { 
       gun_id, 
       name,
       horizontal_recoil_final,
       vertical_recoil_final,
       ergonomics_final,
-      attachments
+      build,
+      all_items,
+      market_price
     } = request.post()
+
+    // JSON columns need to be stringified before going to the database
+    build = JSON.stringify(build)
+    all_items = JSON.stringify(all_items)
 
     gunbuild.merge({
       gun_id:                  gun_id,
       name:                    name,
       horizontal_recoil_final: horizontal_recoil_final,
       vertical_recoil_final:   vertical_recoil_final,
-      ergonomics_final:        ergonomics_final
+      ergonomics_final:        ergonomics_final,
+      build:                   build,
+      all_items:               all_items,
+      market_price:            market_price
     })
 
     await gunbuild.save()
 
-    const attachmentIds = []
-    for (var i = 0; i < attachments.length; i++) {
-      attachmentIds.push(attachments[i].id)
-    }
-    await gunbuild.attachments().detach()
-    const gunbuildAttachments = await gunbuild.attachments().attach(attachmentIds, row => {
-      row.quantity = attachments.filter(attachment => attachment.id === row.attachment_id).length
-    })
-
     response.status(200).json({
       message: 'Successfully updated this gunbuild',
-      data: { gunbuild, gunbuildAttachments }
+      gunbuild
     })
   }
 

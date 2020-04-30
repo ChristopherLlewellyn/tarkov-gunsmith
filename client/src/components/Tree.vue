@@ -10,6 +10,7 @@
             </v-card-title>
             <v-container fluid>
               <node-tree-create v-if="treeType == 'create'" :node="treeData" :availableAttachments="availableAttachments"></node-tree-create>
+              <node-tree-edit v-if="treeType == 'edit'" :node="treeData" :availableAttachments="availableAttachments"></node-tree-edit>
               <node-tree-view v-if="treeType == 'view'" :node="treeData"></node-tree-view>
             </v-container>
           </v-card>
@@ -22,6 +23,7 @@
 <script>
   // Import NodeTree types here
   import NodeTreeCreate from './NodeTreeCreate';
+    import NodeTreeEdit from './NodeTreeEdit';
   import NodeTreeView from './NodeTreeView';
 
   export default {
@@ -33,6 +35,7 @@
     },
     components: {
       NodeTreeCreate,
+      NodeTreeEdit,
       NodeTreeView,
     },
   };

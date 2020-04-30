@@ -78,17 +78,22 @@ export default {
     },
 
     reset(state) {
+      state.loading = true;
+      state.attachmentsLoading = true;
+      state.weaponsLoading = true;
+  
       state.availableWeapons = [];
       state.availableAttachments = [];
+      state.defaultAttachments = [];
       state.loadoutName = '';
-
+  
       state.weapon = {};
-
+      state.allItems = [];
+  
       state.weaponStatsCalculated = {};
-
-      state.attachments = [];
-
+  
       state.alert = null;
+      state.titleError = null;
     },
 
     calculateWeaponStats(state) {
