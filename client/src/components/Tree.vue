@@ -4,9 +4,10 @@
       <v-flex xs12>
         <div class="tree">
           <v-card>
-            <v-card-title class="blue-grey darken-2">
-              <v-img class="mr-3" :src="treeData.img ? treeData.img : null" max-height="60" max-width="60" contain></v-img>
-              Build tree for {{treeData.short_name ? treeData.short_name : 'Missing name'}}
+            <v-card-title class="blue-grey darken-2 justify-center">
+              <v-icon class="pr-2" large>mdi-pine-tree</v-icon>
+              Build Tree for {{treeData.short_name ? treeData.short_name : 'Missing name'}}
+              <v-img class="ml-3" :src="treeData.img ? treeData.img : null" max-height="60" max-width="60" contain></v-img>
             </v-card-title>
             <v-container fluid>
               <node-tree-create v-if="treeType == 'create'" :node="treeData" :availableAttachments="availableAttachments"></node-tree-create>

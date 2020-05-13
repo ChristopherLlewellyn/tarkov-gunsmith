@@ -14,14 +14,15 @@ export default {
     loadoutName: '',
 
     weapon: {},
+    conflicts: [],
     allItems: [],
     calculatedErgonomics: 0,
     calculatedHorizontalRecoil: 0,
     calculatedVerticalRecoil: 0,
     market_price: 0,
 
-    alert: null,
-    titleError: null,
+    snackbar: false,
+    error: null,
   },
 
   actions: {
@@ -67,9 +68,11 @@ export default {
         })
         .catch((error) => {
           if (error.response.data.message) {
-            commit('setTitleError', error.response.data.message);
+            commit('setError', error.response.data.message);
+            commit('setSnackbar', true);
           } else {
-            commit('setTitleError', error.response.data[0].message); // message from response body
+            commit('setError', error.response.data[0].message); // message from response body
+            commit('setSnackbar', true);
           }
         });
     },
@@ -87,19 +90,20 @@ export default {
       state.loadoutName = '';
   
       state.weapon = {};
+      state.conflicts = [];
       state.allItems = [];
   
       state.weaponStatsCalculated = {};
   
-      state.alert = null;
-      state.titleError = null;
+      state.snackbar = false;
+      state.error = null;
     },
 
     calculateWeaponStats(state) {
       let { ergonomics } = state.weapon;
       let { horizontal_recoil } = state.weapon;
       let { vertical_recoil } = state.weapon;
-      let price = 0;
+      let avg_24h_price = 0;
       let recoil_reduction = 0;
 
       state.allItems.forEach((attachment) => {
@@ -111,8 +115,8 @@ export default {
           recoil_reduction += attachment.recoil_modifier;
         }
 
-        if (attachment.price && attachment.price !== null) {
-          price += attachment.price;
+        if (attachment.avg_24h_price && attachment.avg_24h_price !== null) {
+          avg_24h_price += attachment.avg_24h_price;
         }
       });
 
@@ -122,7 +126,36 @@ export default {
       state.calculatedErgonomics = ergonomics;
       state.calculatedHorizontalRecoil = horizontal_recoil;
       state.calculatedVerticalRecoil = vertical_recoil;
-      state.market_price = price;
+      state.market_price = avg_24h_price;
+    },
+
+    setConflicts(state) {
+      // Conflicts - if there is a conflict with an already selected attachment, this attachment is not compatible
+      let conflicts = [];
+      for (let item of state.allItems) {
+        if (item.conflicts && Object.keys(item.conflicts).length > 0) {
+          let conflictTypes = Object.values(item.conflicts);
+          for (let conflictType of conflictTypes) {
+            let conflictIds = Object.values(conflictType);
+            for (let conflictId of conflictIds) {
+              // Find out if the conflicting ID exists in allItems
+              let conflict = state.allItems.some(a => a.bsg_id === conflictId);
+              if (conflict) {
+                let conflictingItemA = item.short_name;
+                let conflictingItemB = state.allItems.find(({
+                  bsg_id,
+                }) => bsg_id === conflictId).short_name;
+                let conflict = {
+                  conflictingItemA: conflictingItemA,
+                  conflictingItemB: conflictingItemB
+                };
+                conflicts.push(conflict);
+              }
+            }
+          }
+        }
+      }
+      state.conflicts = conflicts;
     },
 
     // Weapon selector
@@ -136,10 +169,10 @@ export default {
       state.weapon = weapon;
     },
 
-    // Attachments selector
     setAvailableAttachments(state, availableAttachments) {
       for (let attachment of availableAttachments) {
-        attachment.slots = JSON.parse(attachment.slots)
+        attachment.slots = JSON.parse(attachment.slots);
+        attachment.conflicts = JSON.parse(attachment.conflicts);
       }
       state.availableAttachments = availableAttachments;
     },
@@ -150,16 +183,14 @@ export default {
       const index = state.attachments.indexOf(attachment);
       state.attachments.splice(index, 1);
     },
-    updateAlert(state, item) {
-      const message = `${item} has been added`;
-      state.alert = message;
-    },
     setLoadoutName(state, name) {
       state.loadoutName = name;
     },
-
     setLoading(state, loading) {
       state.loading = loading;
+    },
+    setSnackbar(state, value) {
+      state.snackbar = value;
     },
     setWeaponsLoading(state, weaponsLoading) {
       state.weaponsLoading = weaponsLoading;
@@ -167,8 +198,8 @@ export default {
     setAttachmentsLoading(state, attachmentsLoading) {
       state.attachmentsLoading = attachmentsLoading;
     },
-    setTitleError(state, error) {
-      state.titleError = error;
+    setError(state, error) {
+      state.error = error;
     },
     refreshAllItems(state) {
       state.allItems = [];
@@ -177,15 +208,12 @@ export default {
     addItem(state, item) {
       state.allItems.push(item);
     },
-    setAllItems(state, node) {
-      if (node.slots && node.slots != undefined) {
-        for (let slot of Object.keys(node.slots)) {
-          if (node.slots[slot].selected && node.slots[slot].selected != undefined) {
-            state.allItems.push(node.slots[slot].selected);
-            this.setAllItems(node.slots[slot].selected);
-          }
-        }
-      }
+    removeItem(state, item) {
+      let index = state.allItems.findIndex(({
+        bsg_id,
+      }) => bsg_id === item.bsg_id);
+
+      state.allItems.splice(index, 1);
     },
   },
 };

@@ -2,24 +2,29 @@
   <div class="node-tree">
     <!-- Checking that the node is not a firearm (or magazine, because we don't care about magazines) -->
     <template v-if="node.kind !== 'firearm' && slotName !== 'magazine'">
-      <v-sheet color="green" class="pl-1">
+      <v-sheet color="blue" class="pl-1">
         <v-card class="mt-2 grey darken-3">
           <v-expansion-panels hover v-model="panel">
             <v-expansion-panel>
               <!-- Unexpanded dropdown - displays selected attachment -->
               <v-expansion-panel-header hide-actions>
-                {{ slotName ? slotName : 'Slot name missing' }}
-                <template v-if="node.selected">
-                  <attachment-image :imgUrl="node.selected.img" :name="node.selected.name" :ergonomicsModifier="node.selected.ergonomics_modifier"
-                    :recoilModifier="node.selected.recoil_modifier" :weight="node.selected.weight" :marketPrice="node.selected.price"
-                    :traderName="node.selected.trader_name" :traderPrice="node.selected.trader_price"
-                    :traderCurrency="node.selected.trader_price_cur">
-                  </attachment-image>
-                  <span class="ml-2">{{ node.selected.short_name ? node.selected.short_name : 'Missing name' }}</span>
-                </template>
-                <template v-else>
-                  <v-img :src="emptySelection" alt="No attachment" max-height="60" max-width="175" contain></v-img>
-                </template>
+                <v-row>
+                  <h4 class="ml-2 mt-5 mr-2">{{ slotName ? slotName : 'Slot name missing' }}</h4>
+                  <template v-if="node.selected">
+                    <v-row>
+                      <attachment-image :imgUrl="node.selected.img" :name="node.selected.name" :ergonomicsModifier="node.selected.ergonomics_modifier"
+                        :recoilModifier="node.selected.recoil_modifier" :weight="node.selected.weight" :marketPrice="node.selected.avg_24h_price"
+                        :traderName="node.selected.trader_name" :traderPrice="node.selected.trader_price"
+                        :traderCurrency="node.selected.trader_price_cur">
+                      </attachment-image>
+                      <h4 class="ml-4 mr-4 mt-5">{{ node.selected.short_name ? node.selected.short_name : 'Missing name' }}</h4>
+                    </v-row>
+
+                  </template>
+                  <template v-else>
+                    <v-img :src="emptySelection" alt="No attachment" max-height="60" max-width="175" contain></v-img>
+                  </template>
+                </v-row>
               </v-expansion-panel-header>
 
               <!-- Expanded dropdown - displays compatible attachments -->
@@ -54,7 +59,7 @@
                         </template>
                       </v-flex>
                       <!-- List of compatible attachment options (shows tooltip on hover) -->
-                      <v-flex xs6 sm3 md2 lg1 v-for="(attachment, index) in compatibleAttachments" :key="'C' + index">
+                      <v-flex xs6 sm3 md2 lg1 v-for="(attachment, index) in compatibleAttachments" :key="index + guid()">
                         <attachment-image @handle-click="handleSelection" :imgUrl="attachment.img" :name="attachment.name"
                           :ergonomicsModifier="attachment.ergonomics_modifier" :recoilModifier="attachment.recoil_modifier"
                           :weight="attachment.weight" :marketPrice="attachment.avg_24h_price" :traderName="attachment.trader_name"
@@ -75,8 +80,8 @@
               <v-toolbar dense class="blue darken-3">Attachments fitting on {{ node.selected.short_name ? node.selected.short_name : 'missing name' }}
               </v-toolbar>
               <ul>
-                <node v-for="(child, index) in Object.values(node.selected.slots)" :key="'B' + index" :node="child" :availableAttachments="availableAttachments"
-                  :slotName="Object.keys(node.selected.slots)[index]"></node>
+                <node v-for="(child, index) in Object.values(node.selected.slots)" :key="index + guid()" :node="child"
+                  :availableAttachments="availableAttachments" :slotName="Object.keys(node.selected.slots)[index]"></node>
               </ul>
             </template>
           </template>
@@ -87,7 +92,7 @@
 
     <!-- If the node is of kind 'firearm' then we just render the firearm's slots -->
     <ul v-if="node.slots && node.slots !== undefined">
-      <node v-for="(child, index) in slots" :key="'A' + index" :node="child" :availableAttachments="availableAttachments"
+      <node v-for="(child, index) in slots" :key="index + guid()" :node="child" :availableAttachments="availableAttachments"
         :slotName="Object.keys(node.slots)[index]"></node>
     </ul>
 
@@ -130,7 +135,9 @@
       ...mapMutations('editLoadout', [
         'refreshAllItems',
         'addItem',
-        'calculateWeaponStats'
+        'removeItem',
+        'calculateWeaponStats',
+        'setConflicts'
       ]),
       recalculateAllItems(node) {
         if (node.slots && node.slots != undefined) {
@@ -138,6 +145,26 @@
             if (node.slots[slot].selected && node.slots[slot].selected != undefined) {
               this.addItem(node.slots[slot].selected)
               this.recalculateAllItems(node.slots[slot].selected);
+            }
+          }
+        }
+      },
+      removeRelatedAttachments(node) {
+        if (node.slots && node.slots != undefined) {
+          for (let slot of Object.keys(node.slots)) {
+            if (node.slots[slot].selected && node.slots[slot].selected != undefined) {
+              this.removeItem(node.slots[slot].selected)
+              this.removeRelatedAttachments(node.slots[slot].selected);
+            }
+          }
+        }
+      },
+      addRelatedAttachments(node) {
+        if (node.slots && node.slots != undefined) {
+          for (let slot of Object.keys(node.slots)) {
+            if (node.slots[slot].selected && node.slots[slot].selected != undefined) {
+              this.addItem(node.slots[slot].selected)
+              this.addRelatedAttachments(node.slots[slot].selected);
             }
           }
         }
@@ -150,12 +177,22 @@
         }) => name === attachmentName);
 
         // Update the build tree with the newly selected attachment, or 'undefined' if 'none' was selected
-        this.node.selected = attachment;
-
-        this.refreshAllItems();
-        this.recalculateAllItems(this.weapon);
-        this.calculateWeaponStats();
-
+        if (this.node.selected && this.node.selected != undefined && attachment != undefined) {
+          if (this.node.selected.bsg_id !== attachment.bsg_id) {
+            this.removeRelatedAttachments(this.node.selected);
+            this.removeItem(this.node.selected);
+            this.node.selected = attachment;
+            this.addItem(this.node.selected)
+            this.addRelatedAttachments(this.node.selected)
+            this.calculateWeaponStats();
+          }
+        } else {
+          this.node.selected = attachment;
+          this.refreshAllItems();
+          this.recalculateAllItems(this.weapon);
+          this.calculateWeaponStats();
+        }
+        this.setConflicts();
         this.$forceUpdate();
       },
       closePanel() {
@@ -164,11 +201,15 @@
       handleSelection(attachmentName) {
         this.selectAttachment(attachmentName);
         this.closePanel();
-      }
+      },
+      guid() {
+        return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
+          (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16))
+      },
     },
     computed: {
       ...mapState('editLoadout', [
-        'weapon',
+        'weapon'
       ]),
       compatibleAttachments() {
         let listOfCompatibleAttachments = [];

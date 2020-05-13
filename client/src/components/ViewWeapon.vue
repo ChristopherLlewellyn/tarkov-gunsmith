@@ -3,7 +3,10 @@
     <v-layout row wrap column align-center>
       <v-flex xs12>
         <v-card>
-          <v-card-title class="blue-grey darken-2">Weapon</v-card-title>
+          <v-card-title class="blue-grey darken-2 justify-center">
+            <v-icon class="pr-2" large>mdi-pistol</v-icon>
+            Weapon
+          </v-card-title>
           <v-container fluid>
             <v-skeleton-loader :loading="loading" :transition="transition" max-height="180" type="image">
               <v-img v-if="weapon.img_big !== null" :src="weapon.img_big" class="white--text align-end" gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"

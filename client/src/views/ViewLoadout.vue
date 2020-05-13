@@ -33,8 +33,6 @@
 
               <!-- Votes -->
               <v-card outlined class="d-flex flex-row ma-2 align-center">
-
-
                 <v-dialog v-model="upvoteDialog" width="400">
                   <template v-slot:activator="{ on }">
                     <v-btn small icon color="green" class="ma-2" :disabled="votingDisabled" v-on="on">
@@ -97,7 +95,10 @@
       <v-flex xs12>
         <template v-if="loading" class="ma-4">
           <v-card>
-            <v-card-title class="blue-grey darken-2">Build tree</v-card-title>
+            <v-card-title class="blue-grey darken-2 justify-center">
+              <v-icon class="pr-2" large>mdi-pine-tree</v-icon>
+              Build Tree
+            </v-card-title>
             <v-row class="fill-height ma-0" align="center" justify="center">
               <v-progress-circular class="mt-4 mb-4" indeterminate color="grey lighten-5"></v-progress-circular>
             </v-row>

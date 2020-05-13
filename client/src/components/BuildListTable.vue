@@ -3,7 +3,10 @@
     <v-layout row wrap>
       <v-flex md12>
         <v-card color="grey darken-4">
-          <v-card-title class="blue-grey darken-2">Build List</v-card-title>
+          <v-card-title class="blue-grey darken-2 justify-center">
+            <v-icon class="pr-2" large>mdi-hammer-wrench</v-icon>
+            Build List
+          </v-card-title>
           <v-container fluid>
             <v-toolbar flat>
               <v-text-field v-model="search" prepend-icon="mdi-magnify" label="Filter" class="pb-2 pt-2" single-line hide-details clearable>
