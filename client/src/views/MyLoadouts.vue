@@ -58,7 +58,7 @@
                 <v-divider></v-divider>
 
                 <v-card-actions class="justify-center">
-                  <caliber-chip :value="loadout.gun_calibre"></caliber-chip>
+                  <caliber-chip :value="loadout.gun_caliber"></caliber-chip>
                 </v-card-actions>
 
                 <v-card-actions class="justify-center">

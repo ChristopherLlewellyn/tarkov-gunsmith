@@ -28,8 +28,8 @@
 
           <v-card-actions class="justify-center">
             <ergonomics-chip class="ma-2" :value="calculatedErgonomics"></ergonomics-chip>
-            <vertical-recoil-chip class="ma-2" :value="calculatedHorizontalRecoil"></vertical-recoil-chip>
-            <horizontal-recoil-chip class="ma-2" :value="calculatedVerticalRecoil"></horizontal-recoil-chip>
+            <vertical-recoil-chip class="ma-2" :value="calculatedVerticalRecoil"></vertical-recoil-chip>
+            <horizontal-recoil-chip class="ma-2" :value="calculatedHorizontalRecoil"></horizontal-recoil-chip>
           </v-card-actions>
 
         </v-card>
