@@ -7,7 +7,8 @@ const User = use('App/Models/User')
 
 class GunbuildService {
 
-  async index() {
+  // This function accepts request params for querying data
+  async index(query) {
     let gunbuilds = await Database
       .select(
         "users.username",
@@ -27,6 +28,17 @@ class GunbuildService {
       .innerJoin("guns", "guns.id", "gunbuilds.gun_id")
       .innerJoin("users", "users.id", "gunbuilds.user_id")
       .innerJoin("vote_counts", "vote_counts.gunbuild_id", "gunbuilds.id")
+
+      // Parameters in the GET request are applied to the query in .modify below
+      .modify(function (queryBuilder) {
+        if (query.gun && query.gun != 'Any' && query.gun != '') {
+          queryBuilder.where('guns.name', query.gun)
+        }
+
+        if (query.priceRangeMin && query.priceRangeMax) {
+          queryBuilder.whereBetween('market_price', [query.priceRangeMin, query.priceRangeMax])
+        }
+      })
 
     return gunbuilds
   }
@@ -71,7 +83,7 @@ class GunbuildService {
       .innerJoin("users", "users.id", "gunbuilds.user_id")
       .innerJoin("vote_counts", "vote_counts.gunbuild_id", "gunbuilds.id")
       .where("gunbuilds.gun_id", id)
-      
+
     return gunbuilds
   }
 
@@ -98,10 +110,14 @@ class GunbuildService {
       .fetch()
     user = user.toJSON()
     user = user[0]
-    
 
-    return { gunbuild, gun, user }
-  }  
+
+    return {
+      gunbuild,
+      gun,
+      user
+    }
+  }
 }
 
 module.exports = new GunbuildService()

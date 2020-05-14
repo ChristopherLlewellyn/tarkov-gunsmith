@@ -1,40 +1,84 @@
 <template>
   <v-container fluid>
     <span class="bg"></span>
-    <v-data-iterator :items="loadouts" :items-per-page="-1" :search="search" :sort-by="sortBy.toLowerCase()" :sort-desc="sortDesc"
-      hide-default-footer>
+    <v-data-iterator
+      class="ml-8 mr-8"
+      :items="loadouts"
+      :items-per-page="-1"
+      :search="search"
+      :sort-by="sortBy.toLowerCase()"
+      :sort-desc="sortDesc"
+      hide-default-footer
+    >
+      <!-- Header -->
       <template v-slot:header>
         <v-toolbar class="mb-1">
-          <v-text-field v-model="search" clearable flat solo hide-details prepend-inner-icon="mdi-magnify" label="Search"></v-text-field>
+          <v-text-field
+            v-model="search"
+            clearable
+            flat
+            solo
+            hide-details
+            prepend-inner-icon="mdi-magnify"
+            label="Search"
+          ></v-text-field>
           <v-spacer></v-spacer>
-          <v-select v-model="gun" @change="setGunToIndexBy(gun), fetchLoadouts()" flat solo dense hide-details :items="gunNamesFilter"
-            prepend-inner-icon="mdi-pistol" label="Gun">
+          <v-select
+            v-model="gun"
+            @change="setGunToIndexBy(gun), fetchLoadouts()"
+            flat
+            solo
+            dense
+            hide-details
+            :items="gunNamesFilter"
+            prepend-inner-icon="mdi-pistol"
+            label="Gun"
+          >
             <template v-slot:prepend-item>
-              <v-text-field class="pa-2" label="Search" @input="searchGunNames" clearable />
+              <v-text-field
+                class="pa-2"
+                label="Search"
+                @input="searchGunNames"
+                prepend-inner-icon="mdi-magnify"
+                clearable
+              />
             </template>
           </v-select>
-          <template>
-            <v-spacer></v-spacer>
-            <v-select v-model="sortBy" flat solo dense hide-details :items="keys" prepend-inner-icon="mdi-sort" label="Sort by"></v-select>
-            <v-spacer></v-spacer>
 
-            <v-btn-toggle v-model="sortDesc" mandatory>
-              <v-btn medium depressed color="blue" :value="false">
-                <v-icon>mdi-arrow-up</v-icon>
-              </v-btn>
-              <v-btn medium depressed color="blue" :value="true">
-                <v-icon>mdi-arrow-down</v-icon>
-              </v-btn>
-            </v-btn-toggle>
+          <v-spacer></v-spacer>
 
-            <v-spacer></v-spacer>
+          <v-select
+            v-model="sortBy"
+            flat
+            solo
+            dense
+            hide-details
+            :items="keys"
+            prepend-inner-icon="mdi-sort"
+            label="Sort by"
+          ></v-select>
 
-          </template>
+          <v-spacer></v-spacer>
+
+          <loadouts-filter :gunNames="gunNamesFilter" @apply-filters="applyFilters"></loadouts-filter>
+
+          <v-spacer></v-spacer>
+
+          <v-btn-toggle v-model="sortDesc" mandatory>
+            <v-btn medium depressed color="blue" :value="false">
+              <v-icon>mdi-arrow-up</v-icon>
+            </v-btn>
+            <v-btn medium depressed color="blue" :value="true">
+              <v-icon>mdi-arrow-down</v-icon>
+            </v-btn>
+          </v-btn-toggle>
+
+          <v-spacer></v-spacer>
         </v-toolbar>
       </template>
 
+      <!-- Content -->
       <template v-slot:default="props">
-
         <v-row v-if="loading" class="fill-height ma-3" align="center" justify="center">
           <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
         </v-row>
@@ -44,101 +88,102 @@
             <loadout-card :loadout="loadout"></loadout-card>
           </v-col>
         </v-row>
-
       </template>
     </v-data-iterator>
   </v-container>
 </template>
 
 <script>
-  import {
-    mapGetters,
-    mapState,
-    mapActions,
-    mapMutations,
-  } from 'vuex';
-  import router from '../router';
+import { mapGetters, mapState, mapActions, mapMutations } from "vuex";
+import router from "../router";
 
-  import LoadoutCard from "../components/LoadoutCard";
+import LoadoutCard from "../components/LoadoutCard";
+import LoadoutsFilter from "../components/LoadoutsFilter";
 
-  export default {
-    mounted() {
-      this.fetchGuns();
+export default {
+  mounted() {
+    this.fetchGuns();
+    this.fetchLoadouts();
+  },
+
+  components: {
+    LoadoutCard,
+    LoadoutsFilter
+  },
+
+  methods: {
+    ...mapActions("searchLoadouts", ["fetchLoadouts", "fetchGuns"]),
+
+    ...mapMutations("searchLoadouts", [
+      "setGunToIndexBy",
+      "setGunNamesFilter",
+      "setFilters"
+    ]),
+
+    searchGunNames(val) {
+      if (val) {
+        this.setGunNamesFilter(
+          this.gunNamesFilter.filter(
+            gunName => gunName.toLowerCase().indexOf(val) !== -1
+          )
+        );
+      } else {
+        this.setGunNamesFilter(this.gunNames);
+      }
+    },
+
+    applyFilters(filters) {
+      this.setFilters(filters);
       this.fetchLoadouts();
+    }
+  },
+
+  computed: {
+    filteredKeys() {
+      return this.keys.filter(key => key !== "Name");
     },
 
-    components: {
-      LoadoutCard
-    },
+    ...mapState("searchLoadouts", [
+      "loadouts",
+      "loading",
+      "guns",
+      "gunNames",
+      "gunNamesFilter"
+    ])
+  },
 
-    methods: {
-      ...mapActions('searchLoadouts', [
-        'fetchLoadouts',
-        'fetchGuns',
-      ]),
+  data() {
+    return {
+      transition: "scale-transition",
+      gun: "",
 
-      ...mapMutations('searchLoadouts', [
-        'setGunToIndexBy',
-        'setGunNamesFilter',
-      ]),
-
-      searchGunNames(val) {
-        if (val) {
-          this.setGunNamesFilter(this.gunNamesFilter.filter(gunName => gunName.toLowerCase().indexOf(val) !== -1));
-        } else {
-          this.setGunNamesFilter(this.gunNames);
-        }
-      },
-    },
-
-    computed: {
-      filteredKeys() {
-        return this.keys.filter(key => key !== 'Name');
-      },
-
-      ...mapState('searchLoadouts', [
-        'loadouts',
-        'loading',
-        'guns',
-        'gunNames',
-        'gunNamesFilter',
-      ]),
-    },
-
-    data() {
-      return {
-        transition: 'scale-transition',
-        gun: '',
-
-        search: '',
-        filter: {},
-        sortDesc: true,
-        sortBy: 'votes',
-        keys: [
-          'Votes',
-          'Name',
-          'Ergonomics_Final',
-          'Vertical_Recoil_Final',
-          'Horizontal_Recoil_Final',
-        ],
-        dialog: false,
-      };
-    },
-  };
-
+      search: "",
+      filter: {},
+      sortDesc: true,
+      sortBy: "votes",
+      keys: [
+        "Votes",
+        "Name",
+        "Ergonomics_Final",
+        "Vertical_Recoil_Final",
+        "Horizontal_Recoil_Final"
+      ],
+      dialog: false
+    };
+  }
+};
 </script>
 
 <style scoped>
-  .bg {
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    background: url('../images/originalShells.png') no-repeat center center;
-    background-size: cover;
-    background-color: black;
-    transform: scale(1);
-  }
-
+.bg {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: url("../images/originalShells.png") no-repeat center center;
+  background-size: cover;
+  background-color: black;
+  transform: scale(1);
+}
 </style>
