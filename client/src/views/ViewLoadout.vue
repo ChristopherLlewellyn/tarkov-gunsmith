@@ -33,8 +33,6 @@
 
               <!-- Votes -->
               <v-card outlined class="d-flex flex-row ma-2 align-center">
-
-
                 <v-dialog v-model="upvoteDialog" width="400">
                   <template v-slot:activator="{ on }">
                     <v-btn small icon color="green" class="ma-2" :disabled="votingDisabled" v-on="on">
@@ -88,12 +86,33 @@
         </v-flex>
       </v-container>
 
-      <v-flex xs12 md4>
+      <!-- Weapon -->
+      <v-flex xs12>
         <view-weapon></view-weapon>
       </v-flex>
 
-      <v-flex xs12 md8>
-        <view-attachments></view-attachments>
+      <!-- Build Tree -->
+      <v-flex xs12>
+        <template v-if="loading" class="ma-4">
+          <v-card>
+            <v-card-title class="blue-grey darken-2 justify-center">
+              <v-icon class="pr-2" large>mdi-pine-tree</v-icon>
+              Build Tree
+            </v-card-title>
+            <v-row class="fill-height ma-0" align="center" justify="center">
+              <v-progress-circular class="mt-4 mb-4" indeterminate color="grey lighten-5"></v-progress-circular>
+            </v-row>
+          </v-card>
+        </template>
+
+        <template v-else>
+          <tree treeType='view' :tree-data="weapon" class="mt-2"></tree>
+        </template>
+      </v-flex>
+
+      <!-- Build List Table -->
+      <v-flex xs12>
+        <build-list-table :items="allItems"></build-list-table>
       </v-flex>
 
     </v-layout>
@@ -110,13 +129,15 @@
   import VueRecaptcha from 'vue-recaptcha';
 
   import router from '../router';
-  import ViewAttachments from '@/components/ViewAttachments.vue';
   import ViewWeapon from '@/components/ViewWeapon.vue';
+  import BuildListTable from '@/components/BuildListTable.vue';
+  import Tree from '@/components/Tree.vue';
 
   export default {
     components: {
-      ViewAttachments,
       ViewWeapon,
+      BuildListTable,
+      Tree,
       VueRecaptcha,
     },
 
@@ -136,6 +157,8 @@
         'updated',
         'loadoutId',
         'votedOn',
+        'allItems',
+        'weapon',
       ]),
     },
 
@@ -192,6 +215,7 @@
       };
     },
   };
+
 </script>
 
 <style scoped>
@@ -210,4 +234,5 @@
   a {
     text-decoration: none;
   }
+
 </style>

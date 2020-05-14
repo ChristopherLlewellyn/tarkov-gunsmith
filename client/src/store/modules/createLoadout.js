@@ -5,55 +5,49 @@ export default {
   namespaced: true,
   state: {
     loading: true,
+    attachmentsLoading: true,
+    weaponsLoading: true,
 
     availableWeapons: [],
     availableAttachments: [],
     defaultAttachments: [],
     loadoutName: '',
 
-    weapon: {
-      id: 2,
-      name: 'ADAR 2-15',
-      src: 'https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/3/3c/ADAR2-15Image.png?version=5ce4ce8faa56a1c54bdb1cbab889f0d0',
-      type: 'Assault rifle',
-      calibre: '5.56x45mm NATO',
-      rpm: 800,
-      ergonomics: 48,
-      horizontal_recoil: 407,
-      vertical_recoil: 149,
-    },
+    weapon: {},
+    conflicts: [],
+    allItems: [],
+    calculatedErgonomics: 0,
+    calculatedHorizontalRecoil: 0,
+    calculatedVerticalRecoil: 0,
+    market_price: 0,
 
-    weaponStatsCalculated: {
-      ergonomics: 48,
-      horizontal_recoil: 407,
-      vertical_recoil: 149,
-    },
-
-    attachments: [],
-
-    alert: null,
-    titleError: null,
+    snackbar: false,
+    error: null,
   },
 
   actions: {
     fetchAttachments({ commit }) {
       commit('setLoading', true);
+      commit('setAttachmentsLoading', true);
       return HTTP().get('/attachments')
         .then(({ data }) => {
-          commit('setAvailableAttachments', data.data);
+          commit('setAvailableAttachments', data.attachments);
           commit('setLoading', false);
+          commit('setAttachmentsLoading', false);
         });
     },
 
     fetchWeapons({ commit }) {
       commit('setLoading', true);
+      commit('setWeaponsLoading', true);
       return HTTP().get('/guns')
         .then(({ data }) => {
-          commit('setAvailableWeapons', data.data.guns);
-          commit('setDefaultAttachments', data.data.defaultAttachments);
-          commit('setWeapon', data.data.guns[1]);
+          commit('setAvailableWeapons', data.guns);
+          commit('setWeapon', data.guns[0]);
+          commit('addItem', data.guns[0])
           commit('calculateWeaponStats');
           commit('setLoading', false);
+          commit('setWeaponsLoading', false);
         });
     },
 
@@ -61,10 +55,12 @@ export default {
       return HTTP().post('/gunbuilds', {
         gun_id: state.weapon.id,
         name: state.loadoutName,
-        ergonomics_final: state.weaponStatsCalculated.ergonomics,
-        vertical_recoil_final: state.weaponStatsCalculated.vertical_recoil,
-        horizontal_recoil_final: state.weaponStatsCalculated.horizontal_recoil,
-        attachments: state.attachments,
+        ergonomics_final: state.calculatedErgonomics,
+        vertical_recoil_final: state.calculatedVerticalRecoil,
+        horizontal_recoil_final: state.calculatedHorizontalRecoil,
+        build: state.weapon,
+        all_items: state.allItems,
+        market_price: state.market_price
       })
         .then(({ data }) => {
           commit('reset');
@@ -72,9 +68,11 @@ export default {
         })
         .catch((error) => {
           if (error.response.data.message) {
-            commit('setTitleError', error.response.data.message);
+            commit('setError', error.response.data.message);
+            commit('setSnackbar', true);
           } else {
-            commit('setTitleError', error.response.data[0].message); // message from response body
+            commit('setError', error.response.data[0].message); // message from response body
+            commit('setSnackbar', true);
           }
         });
     },
@@ -82,82 +80,101 @@ export default {
 
   mutations: {
     reset(state) {
+      state.loading = true;
+      state.attachmentsLoading = true;
+      state.weaponsLoading = true;
+  
       state.availableWeapons = [];
       state.availableAttachments = [];
+      state.defaultAttachments = [];
       state.loadoutName = '';
-
-      state.weapon = {
-        id: 2,
-        name: 'ADAR 2-15',
-        src: 'https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/3/3c/ADAR2-15Image.png?version=5ce4ce8faa56a1c54bdb1cbab889f0d0',
-        type: 'Assault rifle',
-        calibre: '5.56x45mm NATO',
-        rpm: 800,
-        ergonomics: 48,
-        horizontal_recoil: 407,
-        vertical_recoil: 149,
-      };
-
-      state.attachments = [];
-
-      state.alert = null;
-      state.titleError = null;
+  
+      state.weapon = {};
+      state.conflicts = [];
+      state.allItems = [];
+  
+      state.weaponStatsCalculated = {};
+  
+      state.snackbar = false;
+      state.error = null;
     },
 
     calculateWeaponStats(state) {
       let { ergonomics } = state.weapon;
       let { horizontal_recoil } = state.weapon;
       let { vertical_recoil } = state.weapon;
+      let avg_24h_price = 0;
       let recoil_reduction = 0;
 
-      state.attachments.forEach((attachment) => {
-        if (attachment.ergonomics_modifier !== null) {
+      state.allItems.forEach((attachment) => {
+        if (attachment.ergonomics_modifier && attachment.ergonomics_modifier !== null) {
           ergonomics += attachment.ergonomics_modifier;
         }
 
-        if (attachment.recoil_modifier !== null && attachment.recoil_modifier !== 0) {
+        if (attachment.recoil_modifier && attachment.recoil_modifier !== null) {
           recoil_reduction += attachment.recoil_modifier;
+        }
+
+        if (attachment.avg_24h_price && attachment.avg_24h_price !== null) {
+          avg_24h_price += attachment.avg_24h_price;
         }
       });
 
       horizontal_recoil = Math.round(state.weapon.horizontal_recoil * ((100 + recoil_reduction) / 100));
       vertical_recoil = Math.round(state.weapon.vertical_recoil * ((100 + recoil_reduction) / 100));
 
-      state.weaponStatsCalculated.ergonomics = ergonomics;
-      state.weaponStatsCalculated.horizontal_recoil = horizontal_recoil;
-      state.weaponStatsCalculated.vertical_recoil = vertical_recoil;
+      state.calculatedErgonomics = ergonomics;
+      state.calculatedHorizontalRecoil = horizontal_recoil;
+      state.calculatedVerticalRecoil = vertical_recoil;
+      state.market_price = avg_24h_price;
+    },
+
+    setConflicts(state) {
+      // Conflicts - if there is a conflict with an already selected attachment, this attachment is not compatible
+      let conflicts = [];
+      for (let item of state.allItems) {
+        if (item.conflicts && Object.keys(item.conflicts).length > 0) {
+          let conflictTypes = Object.values(item.conflicts);
+          for (let conflictType of conflictTypes) {
+            let conflictIds = Object.values(conflictType);
+            for (let conflictId of conflictIds) {
+              // Find out if the conflicting ID exists in allItems
+              let conflict = state.allItems.some(a => a.bsg_id === conflictId);
+              if (conflict) {
+                let conflictingItemA = item.short_name;
+                let conflictingItemB = state.allItems.find(({
+                  bsg_id,
+                }) => bsg_id === conflictId).short_name;
+                let conflict = {
+                  conflictingItemA: conflictingItemA,
+                  conflictingItemB: conflictingItemB
+                };
+                conflicts.push(conflict);
+              }
+            }
+          }
+        }
+      }
+      state.conflicts = conflicts;
     },
 
     // Weapon selector
     setAvailableWeapons(state, availableWeapons) {
+      for (let weapon of availableWeapons) {
+        weapon.slots = JSON.parse(weapon.slots)
+      }
       state.availableWeapons = availableWeapons;
     },
     setWeapon(state, weapon) {
-      state.weapon.id = weapon.id;
-      state.weapon.name = weapon.name;
-      state.weapon.src = weapon.image;
-      state.weapon.type = weapon.type;
-      state.weapon.calibre = weapon.calibre;
-      state.weapon.ergonomics = weapon.ergonomics_base;
-      state.weapon.vertical_recoil = weapon.vertical_recoil_base;
-      state.weapon.horizontal_recoil = weapon.horizontal_recoil_base;
-      state.weapon.rpm = weapon.rpm;
-
-      state.attachments = [];
-      const defaultAttachments = state.defaultAttachments.filter(x => x.gun_id === weapon.id);
-
-      for (let i = 0; i < defaultAttachments.length; i++) {
-        const attachment = state.availableAttachments.find(x => x.id === defaultAttachments[i].attachment_id);
-        state.attachments.push(attachment);
-      }
+      state.weapon = weapon;
     },
 
-    // Attachments selector
     setAvailableAttachments(state, availableAttachments) {
+      for (let attachment of availableAttachments) {
+        attachment.slots = JSON.parse(attachment.slots);
+        attachment.conflicts = JSON.parse(attachment.conflicts);
+      }
       state.availableAttachments = availableAttachments;
-    },
-    setDefaultAttachments(state, defaultAttachments) {
-      state.defaultAttachments = defaultAttachments;
     },
     addAttachment(state, attachment) {
       state.attachments.push(attachment);
@@ -166,19 +183,37 @@ export default {
       const index = state.attachments.indexOf(attachment);
       state.attachments.splice(index, 1);
     },
-    updateAlert(state, item) {
-      const message = `${item} has been added`;
-      state.alert = message;
-    },
     setLoadoutName(state, name) {
       state.loadoutName = name;
     },
-
     setLoading(state, loading) {
       state.loading = loading;
     },
-    setTitleError(state, error) {
-      state.titleError = error;
+    setSnackbar(state, value) {
+      state.snackbar = value;
+    },
+    setWeaponsLoading(state, weaponsLoading) {
+      state.weaponsLoading = weaponsLoading;
+    },
+    setAttachmentsLoading(state, attachmentsLoading) {
+      state.attachmentsLoading = attachmentsLoading;
+    },
+    setError(state, error) {
+      state.error = error;
+    },
+    refreshAllItems(state) {
+      state.allItems = [];
+      state.allItems.push(state.weapon);
+    },
+    addItem(state, item) {
+      state.allItems.push(item);
+    },
+    removeItem(state, item) {
+      let index = state.allItems.findIndex(({
+        bsg_id,
+      }) => bsg_id === item.bsg_id);
+
+      state.allItems.splice(index, 1);
     },
   },
 };

@@ -50,7 +50,7 @@
                   </v-card>
                 </v-toolbar>
                 <v-container fluid>
-                  <v-img :src="loadout.gun_image" class="white--text align-end" height="120">
+                  <v-img :src="loadout.gun_img_big" class="white--text align-end" height="120">
                     <v-card-title>{{ loadout.gun_name }}</v-card-title>
                   </v-img>
                 </v-container>
@@ -58,7 +58,7 @@
                 <v-divider></v-divider>
 
                 <v-card-actions class="justify-center">
-                  <caliber-chip :value="loadout.gun_calibre"></caliber-chip>
+                  <caliber-chip :value="loadout.gun_caliber"></caliber-chip>
                 </v-card-actions>
 
                 <v-card-actions class="justify-center">

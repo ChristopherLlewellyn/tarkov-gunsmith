@@ -13,12 +13,6 @@ class Gunbuild extends Model {
     return this.hasOne('App/Models/Gun')
   }
 
-  attachments () {
-    return this.belongsToMany('App/Models/Attachment')
-      .pivotTable('attachment_gunbuild')
-      .withPivot(['quantity'])
-  }
-
   voteCount () {
     return this.hasOne('App/Models/VoteCount')
   }

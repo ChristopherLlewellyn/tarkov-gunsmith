@@ -8,8 +8,6 @@
             <v-toolbar flat>
               <v-text-field v-model="search" prepend-icon="mdi-magnify" label="Filter" class="pb-2 pt-2" single-line hide-details clearable>
               </v-text-field>
-              <v-spacer></v-spacer>
-              <attachment-selector-dialog></attachment-selector-dialog>
             </v-toolbar>
             <v-data-table :headers="headers" :items="attachments" :search="search" :items-per-page="10" class="elevation-1">
               <template v-slot:item.image="{ item }">
@@ -43,11 +41,6 @@
                 <template v-else>
                   <h3 class="red--text">{{ item.recoil_modifier }}</h3>
                 </template>
-              </template>
-              <template v-slot:item.action="{ item }">
-                <v-btn color="red" @click="deleteAttachment(item), calculateWeaponStats()">
-                  <v-icon>mdi-delete</v-icon>
-                </v-btn>
               </template>
             </v-data-table>
           </v-container>
@@ -105,12 +98,6 @@ export default {
     {
       text: 'Recoil (%)',
       value: 'recoil_modifier',
-    },
-    {
-      text: '',
-      value: 'action',
-      sortable: false,
-      filterable: false,
     },
     ],
   }),

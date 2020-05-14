@@ -19,7 +19,7 @@ export default {
       if (state.gunToIndexBy === 'Any') {
         return HTTP().get('/gunbuilds')
           .then(({ data }) => {
-            commit('setLoadouts', data.data[0]);
+            commit('setLoadouts', data.gunbuilds);
             commit('formatDates');
             commit('setLoading', false);
           });
@@ -28,7 +28,7 @@ export default {
 
       return HTTP().get(`/gunbuilds/indexbygun/${state.gunToIndexBy}`)
         .then(({ data }) => {
-          commit('setLoadouts', data.data[0]);
+          commit('setLoadouts', data.gunbuilds);
           commit('formatDates');
           commit('setLoading', false);
         });
@@ -37,8 +37,8 @@ export default {
     fetchGuns({ commit }) {
       return HTTP().get('/guns')
         .then(({ data }) => {
-          commit('setGuns', data.data.guns);
-          commit('setGunNames', data.data.guns);
+          commit('setGuns', data.guns);
+          commit('setGunNames', data.guns);
         });
     },
   },

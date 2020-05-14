@@ -13,30 +13,30 @@
         </v-text-field>
       </v-toolbar>
       <v-data-table :headers="headers" :items="availableWeapons" :search="search" :items-per-page="5" class="elevation-1">
-        <template v-slot:item.image="{ item }">
+        <template v-slot:item.img_big="{ item }">
           <div class="pt-1 pb-1 pl-1 pr-1">
-            <v-img :src="item.image" alt="No image" max-height="125" max-width="300" contain></v-img>
+            <v-img :src="item.img_big" alt="No image" max-height="125" max-width="300" contain></v-img>
           </div>
         </template>
 
-        <template v-slot:item.ergonomics_base="{ item }">
-          <ergonomics-chip class="ma-2" :value="item.ergonomics_base"></ergonomics-chip>
+        <template v-slot:item.ergonomics="{ item }">
+          <ergonomics-chip class="ma-2" :value="item.ergonomics"></ergonomics-chip>
         </template>
 
-        <template v-slot:item.horizontal_recoil_base="{ item }">
-          <horizontal-recoil-chip class="ma-2" :value="item.horizontal_recoil_base"></horizontal-recoil-chip>
+        <template v-slot:item.horizontal_recoil="{ item }">
+          <horizontal-recoil-chip class="ma-2" :value="item.horizontal_recoil"></horizontal-recoil-chip>
         </template>
 
-        <template v-slot:item.vertical_recoil_base="{ item }">
-          <vertical-recoil-chip class="ma-2" :value="item.vertical_recoil_base"></vertical-recoil-chip>
+        <template v-slot:item.vertical_recoil="{ item }">
+          <vertical-recoil-chip class="ma-2" :value="item.vertical_recoil"></vertical-recoil-chip>
         </template>
 
         <template v-slot:item.rpm="{ item }">
           <rpm-chip :value="item.rpm"></rpm-chip>
         </template>
 
-        <template v-slot:item.calibre="{ item }">
-          <caliber-chip :value="item.calibre"></caliber-chip>
+        <template v-slot:item.caliber="{ item }">
+          <caliber-chip :value="item.caliber"></caliber-chip>
         </template>
 
         <template v-slot:item.type="{ item }">
@@ -44,7 +44,7 @@
         </template>
 
         <template v-slot:item.action="{ item }">
-          <v-btn color="green" @click="setWeapon(item), calculateWeaponStats(), dialog=false">
+          <v-btn color="green" @click="setWeapon(item), refreshAllItems(), recalculateItems(), calculateWeaponStats(), dialog=false">
             Add
             <v-icon right>mdi-plus-circle-outline</v-icon>
           </v-btn>
@@ -71,9 +71,26 @@
   export default {
 
     methods: {
+      recalculateAllItems(node) {
+        if (node.slots && node.slots != undefined) {
+          for (let slot of Object.keys(node.slots)) {
+            if (node.slots[slot].selected && node.slots[slot].selected != undefined) {
+              this.addItem(node.slots[slot].selected)
+              this.recalculateAllItems(node.slots[slot].selected);
+            }
+          }
+        }
+      },
+
+      recalculateItems() {
+        this.recalculateAllItems(this.weapon);
+      },
+
       ...mapMutations('createLoadout', [
         'setWeapon',
         'calculateWeaponStats',
+        'refreshAllItems',
+        'addItem'
       ]),
 
       ...mapActions('createLoadout', [
@@ -84,6 +101,7 @@
     computed: {
       ...mapState('createLoadout', [
         'availableWeapons',
+        'weapon'
       ]),
     },
 
@@ -103,7 +121,7 @@
 
       headers: [{
           text: 'Image',
-          value: 'image',
+          value: 'img_big',
           sortable: false,
           filterable: false,
         },
@@ -117,23 +135,23 @@
         },
         {
           text: 'Ergonomics',
-          value: 'ergonomics_base',
+          value: 'ergonomics',
         },
         {
           text: 'Vertical Recoil',
-          value: 'vertical_recoil_base',
+          value: 'vertical_recoil',
         },
         {
           text: 'Horizontal Recoil',
-          value: 'horizontal_recoil_base',
+          value: 'horizontal_recoil',
         },
         {
           text: 'RPM',
           value: 'rpm',
         },
         {
-          text: 'Calibre',
-          value: 'calibre',
+          text: 'Caliber',
+          value: 'caliber',
         },
         {
           text: '',

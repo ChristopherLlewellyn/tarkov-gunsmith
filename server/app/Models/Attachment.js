@@ -10,9 +10,6 @@ class Attachment extends Model {
     this.addTrait('NoTimestamp')
   }
 
-  gunbuilds () {
-    return this.belongsToMany('App/Models/Gunbuild').pivotTable('attachment_gunbuild')
-  }
 }
 
 module.exports = Attachment

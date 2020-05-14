@@ -8,7 +8,7 @@
         <h3 class="font-weight-medium">{{ value }}</h3>
       </v-chip>
     </template>
-    <span class="font-weight-medium">Caliber</span>
+    <h3 class="font-weight-medium">Caliber</h3>
   </v-tooltip>
 </template>
 
