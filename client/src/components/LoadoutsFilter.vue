@@ -16,7 +16,13 @@
             <v-row>
               <!-- Gun -->
               <v-col cols="12">
-                <v-autocomplete v-model="gun" :items="gunNames" label="Gun" clearable></v-autocomplete>
+                <v-autocomplete
+                  v-model="gun"
+                  :items="gunNames"
+                  label="Gun"
+                  prepend-icon="mdi-pistol"
+                  clearable
+                ></v-autocomplete>
               </v-col>
 
               <!-- Price Range -->
@@ -24,6 +30,7 @@
                 <v-range-slider
                   v-model="priceRange"
                   label="Price Range"
+                  prepend-icon="mdi-currency-rub"
                   color="blue"
                   :min="min"
                   :max="max"
