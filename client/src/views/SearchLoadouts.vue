@@ -22,28 +22,6 @@
             prepend-inner-icon="mdi-magnify"
             label="Search"
           ></v-text-field>
-          <v-spacer></v-spacer>
-          <v-select
-            v-model="gun"
-            @change="setGunToIndexBy(gun), fetchLoadouts()"
-            flat
-            solo
-            dense
-            hide-details
-            :items="gunNamesFilter"
-            prepend-inner-icon="mdi-pistol"
-            label="Gun"
-          >
-            <template v-slot:prepend-item>
-              <v-text-field
-                class="pa-2"
-                label="Search"
-                @input="searchGunNames"
-                prepend-inner-icon="mdi-magnify"
-                clearable
-              />
-            </template>
-          </v-select>
 
           <v-spacer></v-spacer>
 
