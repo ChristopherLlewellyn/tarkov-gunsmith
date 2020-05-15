@@ -11,48 +11,90 @@
       hide-default-footer
     >
       <!-- Header -->
+      <!-- Hide on small- screens -->
       <template v-slot:header>
-        <v-toolbar class="mb-1">
-          <v-text-field
-            v-model="search"
-            clearable
-            flat
-            solo
-            hide-details
-            prepend-inner-icon="mdi-magnify"
-            label="Search"
-          ></v-text-field>
+        <div class="d-none d-sm-block">
+          <v-toolbar flat>
+            <v-text-field
+              v-model="search"
+              clearable
+              flat
+              solo
+              hide-details
+              prepend-inner-icon="mdi-magnify"
+              label="Loadout Name"
+            ></v-text-field>
 
-          <v-spacer></v-spacer>
+            <v-select
+              class="ml-4 mr-4"
+              v-model="sortBy"
+              flat
+              solo
+              hide-details
+              :items="keys"
+              prepend-inner-icon="mdi-sort"
+              label="Sort by"
+            ></v-select>
 
-          <v-select
-            v-model="sortBy"
-            flat
-            solo
-            dense
-            hide-details
-            :items="keys"
-            prepend-inner-icon="mdi-sort"
-            label="Sort by"
-          ></v-select>
+            <v-btn-toggle class="ml-4 mr-4" v-model="sortDesc" mandatory>
+              <v-btn medium depressed color="blue" :value="false">
+                <v-icon>mdi-arrow-up</v-icon>
+              </v-btn>
+              <v-btn medium depressed color="blue" :value="true">
+                <v-icon>mdi-arrow-down</v-icon>
+              </v-btn>
+            </v-btn-toggle>
+          </v-toolbar>
 
-          <v-spacer></v-spacer>
+          <v-toolbar flat>
+            <loadouts-filter :gunNames="gunNamesFilter" @apply-filters="applyFilters"></loadouts-filter>
+          </v-toolbar>
+        </div>
 
-          <loadouts-filter :gunNames="gunNamesFilter" @apply-filters="applyFilters"></loadouts-filter>
+        <!-- Hide on medium+ screens -->
+        <div class="d-sm-none">
+          <v-toolbar flat>
+            <v-text-field
+              v-model="search"
+              clearable
+              flat
+              solo
+              hide-details
+              prepend-inner-icon="mdi-magnify"
+              label="Loadout Name"
+            ></v-text-field>
+          </v-toolbar>
 
-          <v-spacer></v-spacer>
+          <v-toolbar flat>
+            <v-select
+              class="ml-4 mr-4"
+              v-model="sortBy"
+              flat
+              solo
+              hide-details
+              :items="keys"
+              prepend-inner-icon="mdi-sort"
+              label="Sort by"
+            ></v-select>
+          </v-toolbar>
 
-          <v-btn-toggle v-model="sortDesc" mandatory>
-            <v-btn medium depressed color="blue" :value="false">
-              <v-icon>mdi-arrow-up</v-icon>
-            </v-btn>
-            <v-btn medium depressed color="blue" :value="true">
-              <v-icon>mdi-arrow-down</v-icon>
-            </v-btn>
-          </v-btn-toggle>
+          <v-toolbar flat>
+            <v-spacer></v-spacer>
+            <v-btn-toggle class="ml-4 mr-4" v-model="sortDesc" mandatory>
+              <v-btn medium depressed color="blue" :value="false">
+                <v-icon>mdi-arrow-up</v-icon>
+              </v-btn>
+              <v-btn medium depressed color="blue" :value="true">
+                <v-icon>mdi-arrow-down</v-icon>
+              </v-btn>
+            </v-btn-toggle>
+            <v-spacer></v-spacer>
+          </v-toolbar>
 
-          <v-spacer></v-spacer>
-        </v-toolbar>
+          <v-toolbar flat>
+            <loadouts-filter :gunNames="gunNamesFilter" @apply-filters="applyFilters"></loadouts-filter>
+          </v-toolbar>
+        </div>
       </template>
 
       <!-- Content -->
