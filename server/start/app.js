@@ -19,7 +19,8 @@ const providers = [
   '@adonisjs/validator/providers/ValidatorProvider',
   '@adonisjs/mail/providers/MailProvider',
   '@adonisjs/framework/providers/ViewProvider',
-  'adonis-scheduler/providers/SchedulerProvider'
+  'adonis-scheduler/providers/SchedulerProvider',
+  'adonis-throttle/providers/ThrottleProvider'
 ]
 
 /*
@@ -49,7 +50,8 @@ const aceProviders = [
 |
 */
 const aliases = {
-  Scheduler: 'Adonis/Addons/Scheduler'
+  Scheduler: 'Adonis/Addons/Scheduler',
+  Throttle: 'Adonis/Addons/Throttle'
 }
 
 /*
@@ -62,4 +64,9 @@ const aliases = {
 */
 const commands = []
 
-module.exports = { providers, aceProviders, aliases, commands }
+module.exports = {
+  providers,
+  aceProviders,
+  aliases,
+  commands
+}

@@ -26,22 +26,30 @@ export default {
   },
 
   actions: {
-    fetchAttachments({ commit }) {
+    fetchAttachments({
+      commit
+    }) {
       commit('setLoading', true);
       commit('setAttachmentsLoading', true);
       return HTTP().get('/attachments')
-        .then(({ data }) => {
+        .then(({
+          data
+        }) => {
           commit('setAvailableAttachments', data.attachments);
           commit('setLoading', false);
           commit('setAttachmentsLoading', false);
         });
     },
 
-    fetchWeapons({ commit }) {
+    fetchWeapons({
+      commit
+    }) {
       commit('setLoading', true);
       commit('setWeaponsLoading', true);
       return HTTP().get('/guns')
-        .then(({ data }) => {
+        .then(({
+          data
+        }) => {
           commit('setAvailableWeapons', data.guns);
           commit('setWeapon', data.guns[0]);
           commit('addItem', data.guns[0])
@@ -51,24 +59,32 @@ export default {
         });
     },
 
-    createLoadout({ commit, state }) {
+    createLoadout({
+      commit,
+      state
+    }) {
       return HTTP().post('/gunbuilds', {
-        gun_id: state.weapon.id,
-        name: state.loadoutName,
-        ergonomics_final: state.calculatedErgonomics,
-        vertical_recoil_final: state.calculatedVerticalRecoil,
-        horizontal_recoil_final: state.calculatedHorizontalRecoil,
-        build: state.weapon,
-        all_items: state.allItems,
-        market_price: state.market_price
-      })
-        .then(({ data }) => {
+          gun_id: state.weapon.id,
+          name: state.loadoutName,
+          ergonomics_final: state.calculatedErgonomics,
+          vertical_recoil_final: state.calculatedVerticalRecoil,
+          horizontal_recoil_final: state.calculatedHorizontalRecoil,
+          build: state.weapon,
+          all_items: state.allItems,
+          market_price: state.market_price
+        })
+        .then(({
+          data
+        }) => {
           commit('reset');
           router.push('/');
         })
         .catch((error) => {
           if (error.response.data.message) {
             commit('setError', error.response.data.message);
+            commit('setSnackbar', true);
+          } else if (error.response.status == '429') {
+            commit('setError', 'Too many requests, slow down');
             commit('setSnackbar', true);
           } else {
             commit('setError', error.response.data[0].message); // message from response body
@@ -83,26 +99,32 @@ export default {
       state.loading = true;
       state.attachmentsLoading = true;
       state.weaponsLoading = true;
-  
+
       state.availableWeapons = [];
       state.availableAttachments = [];
       state.defaultAttachments = [];
       state.loadoutName = '';
-  
+
       state.weapon = {};
       state.conflicts = [];
       state.allItems = [];
-  
+
       state.weaponStatsCalculated = {};
-  
+
       state.snackbar = false;
       state.error = null;
     },
 
     calculateWeaponStats(state) {
-      let { ergonomics } = state.weapon;
-      let { horizontal_recoil } = state.weapon;
-      let { vertical_recoil } = state.weapon;
+      let {
+        ergonomics
+      } = state.weapon;
+      let {
+        horizontal_recoil
+      } = state.weapon;
+      let {
+        vertical_recoil
+      } = state.weapon;
       let avg_24h_price = 0;
       let recoil_reduction = 0;
 
