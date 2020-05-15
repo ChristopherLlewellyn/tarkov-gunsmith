@@ -3,8 +3,8 @@
     <v-dialog v-model="dialog" persistent max-width="800px">
       <!-- Open Dialog Button -->
       <template v-slot:activator="{ on }">
-        <v-btn color="primary" v-on="on">
-          <span>Filters</span>
+        <v-btn color="blue-grey darken-1" v-on="on">
+          <span>Filter</span>
           <v-icon right>mdi-filter</v-icon>
         </v-btn>
       </template>
@@ -80,8 +80,8 @@ export default {
   },
 
   data: () => ({
-    gun: "",
-    priceRange: [0, 0],
+    gun: "Any",
+    priceRange: [0, 750000],
 
     // Price Range
     min: 0,

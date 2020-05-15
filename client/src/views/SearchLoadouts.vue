@@ -49,6 +49,17 @@
           <v-toolbar flat>
             <loadouts-filter :gunNames="gunNamesFilter" @apply-filters="applyFilters"></loadouts-filter>
           </v-toolbar>
+
+          <v-toolbar flat>
+            <v-spacer></v-spacer>
+            <v-chip
+              class="ml-1 mr-1"
+              label
+              v-for="(filter, index) in Object.values(filters)"
+              :key="index"
+            >{{ filter }}</v-chip>
+            <v-spacer></v-spacer>
+          </v-toolbar>
         </div>
 
         <!-- MOBILE VIEW (hide on medium+ screens) -->
@@ -94,6 +105,17 @@
           <v-toolbar flat>
             <loadouts-filter :gunNames="gunNamesFilter" @apply-filters="applyFilters"></loadouts-filter>
           </v-toolbar>
+
+          <v-toolbar flat>
+            <v-spacer></v-spacer>
+            <v-chip
+              class="ml-1 mr-1"
+              label
+              v-for="(filter, index) in Object.values(filters)"
+              :key="index"
+            >{{ filter }}</v-chip>
+            <v-spacer></v-spacer>
+          </v-toolbar>
         </div>
       </template>
 
@@ -110,6 +132,12 @@
         </v-row>
       </template>
     </v-data-iterator>
+
+    <v-row class="justify-center" v-if="loadouts.length == 0 && !loading">
+      <v-card>
+        <h4 class="ma-2">No loadouts found</h4>
+      </v-card>
+    </v-row>
   </v-container>
 </template>
 
@@ -168,7 +196,8 @@ export default {
       "loading",
       "guns",
       "gunNames",
-      "gunNamesFilter"
+      "gunNamesFilter",
+      "filters"
     ])
   },
 
