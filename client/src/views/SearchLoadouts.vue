@@ -11,7 +11,7 @@
       hide-default-footer
     >
       <!-- Header -->
-      <!-- Hide on small- screens -->
+      <!-- DESKTOP VIEW (hide on small- screens) -->
       <template v-slot:header>
         <div class="d-none d-sm-block">
           <v-toolbar flat>
@@ -51,7 +51,7 @@
           </v-toolbar>
         </div>
 
-        <!-- Hide on medium+ screens -->
+        <!-- MOBILE VIEW (hide on medium+ screens) -->
         <div class="d-sm-none">
           <v-toolbar flat>
             <v-text-field
