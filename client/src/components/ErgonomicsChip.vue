@@ -1,7 +1,7 @@
 <template>
   <v-tooltip bottom>
     <template v-slot:activator="{ on }">
-      <v-chip class="ma-1" color="green" v-on="on">
+      <v-chip label class="ma-1" color="green" v-on="on">
         <v-avatar left class="green darken-4">
           <v-icon>mdi-hand</v-icon>
         </v-avatar>
@@ -13,10 +13,10 @@
 </template>
 
 <script>
-  export default {
-    name: "chip",
-    props: {
-      value: Number
-    },
-  };
+export default {
+  name: "chip",
+  props: {
+    value: Number
+  }
+};
 </script>

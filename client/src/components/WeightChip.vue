@@ -1,7 +1,7 @@
 <template>
   <v-tooltip bottom>
     <template v-slot:activator="{ on }">
-      <v-chip class="ma-1" color="grey darken-2" v-on="on">
+      <v-chip label class="ma-1" color="grey darken-2" v-on="on">
         <v-avatar left class="grey darken-4">
           <v-icon>mdi-weight-kilogram</v-icon>
         </v-avatar>
@@ -13,10 +13,10 @@
 </template>
 
 <script>
-  export default {
-    name: "chip",
-    props: {
-      value: Number
-    },
-  };
+export default {
+  name: "chip",
+  props: {
+    value: Number
+  }
+};
 </script>

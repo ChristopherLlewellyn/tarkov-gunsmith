@@ -14,8 +14,12 @@ const GunbuildService = use('App/Services/GunbuildService')
 class GunbuildController {
 
   // return all gunbuilds
-  async index({ response }) {
-    const gunbuilds = await GunbuildService.index()
+  async index({
+    request,
+    response
+  }) {
+    const query = request.get()
+    const gunbuilds = await GunbuildService.index(query)
 
     response.status(200).json({
       message: 'Here is every gunbuild',
@@ -24,7 +28,10 @@ class GunbuildController {
   }
 
   // return all gunbuilds for logged in user
-  async indexMine({ auth, response }) {
+  async indexMine({
+    auth,
+    response
+  }) {
     const user = await auth.getUser()
     const gunbuilds = await GunbuildService.indexByUser(user.id)
 
@@ -35,7 +42,12 @@ class GunbuildController {
   }
 
   // return all gunbuilds by gun
-  async indexByGun({ response, params: { id } }) {
+  async indexByGun({
+    response,
+    params: {
+      id
+    }
+  }) {
     const gunbuilds = await GunbuildService.indexByGun(id)
 
     response.status(200).json({
@@ -45,9 +57,14 @@ class GunbuildController {
   }
 
   // return one gunbuild with attachments and username
-  async show({ response, params: { id } }) {
+  async show({
+    response,
+    params: {
+      id
+    }
+  }) {
     const gunbuild = await GunbuildService.show(id)
-    
+
     response.status(200).json({
       message: 'Here is your gunbuild',
       gunbuild
@@ -55,10 +72,14 @@ class GunbuildController {
   }
 
   // create a new gunbuild (requires authentication)
-  async create({ auth, request, response }) {
+  async create({
+    auth,
+    request,
+    response
+  }) {
     const user = await auth.getUser()
-    let {  
-      gun_id, 
+    let {
+      gun_id,
       name,
       horizontal_recoil_final,
       vertical_recoil_final,
@@ -66,15 +87,14 @@ class GunbuildController {
       build,
       all_items,
       market_price
-      } 
-      = request.all()
-    
+    } = request.all()
+
     // JSON columns need to be stringified before going to the database
     build = JSON.stringify(build)
     all_items = JSON.stringify(all_items)
 
     const gunbuild = await user.gunbuilds().create({
-      gun_id, 
+      gun_id,
       name,
       horizontal_recoil_final,
       vertical_recoil_final,
@@ -88,7 +108,7 @@ class GunbuildController {
       gunbuild_id: gunbuild.id,
       votes: 0
     })
-    
+
     response.status(201).json({
       message: 'Successfully created a new gunbuild',
       gunbuild,
@@ -97,13 +117,20 @@ class GunbuildController {
   }
 
   // update a gunbuild (requires authentication and permission)
-  async update({ auth, request, response, params: { id } }) {
+  async update({
+    auth,
+    request,
+    response,
+    params: {
+      id
+    }
+  }) {
     const user = await auth.getUser()
     const gunbuild = request.gunbuild
     AuthService.verifyPermission(gunbuild, user)
 
-    let { 
-      gun_id, 
+    let {
+      gun_id,
       name,
       horizontal_recoil_final,
       vertical_recoil_final,
@@ -118,14 +145,14 @@ class GunbuildController {
     all_items = JSON.stringify(all_items)
 
     gunbuild.merge({
-      gun_id:                  gun_id,
-      name:                    name,
+      gun_id: gun_id,
+      name: name,
       horizontal_recoil_final: horizontal_recoil_final,
-      vertical_recoil_final:   vertical_recoil_final,
-      ergonomics_final:        ergonomics_final,
-      build:                   build,
-      all_items:               all_items,
-      market_price:            market_price
+      vertical_recoil_final: vertical_recoil_final,
+      ergonomics_final: ergonomics_final,
+      build: build,
+      all_items: all_items,
+      market_price: market_price
     })
 
     await gunbuild.save()
@@ -137,7 +164,14 @@ class GunbuildController {
   }
 
   // delete a gunbuild (requires authentication and permission)
-  async delete({ request, auth, response, params: { id } }) {
+  async delete({
+    request,
+    auth,
+    response,
+    params: {
+      id
+    }
+  }) {
     const user = await auth.getUser()
     const gunbuild = request.gunbuild
     AuthService.verifyPermission(gunbuild, user)
@@ -151,15 +185,19 @@ class GunbuildController {
   }
 
   // vote for a gunbuild (+1 or -1)
-  async vote({ request, response, params: { id } }) {
+  async vote({
+    request,
+    response,
+    params: {
+      id
+    }
+  }) {
     const gunbuild = await Gunbuild.find(id)
     const voteCount = await gunbuild.voteCount().fetch()
 
     if (request.body.vote > 0) {
       voteCount.votes += 1
-    }
-
-    else {
+    } else {
       voteCount.votes -= 1
     }
 
@@ -167,7 +205,8 @@ class GunbuildController {
 
     response.status(200).json({
       message: 'Successfully voted on this gunbuild',
-      data: gunbuild, voteCount
+      data: gunbuild,
+      voteCount
     })
   }
 

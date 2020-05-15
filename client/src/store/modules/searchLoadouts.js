@@ -6,37 +6,46 @@ export default {
   state: {
     loading: true,
     loadouts: [],
-    gunToIndexBy: 'Any',
+    filters: {},
     guns: [],
     gunNames: [],
     gunNamesFilter: [],
   },
 
   actions: {
-    fetchLoadouts({ commit, state }) {
+    fetchLoadouts({
+      commit,
+      state
+    }) {
       commit('setLoading', true);
 
-      if (state.gunToIndexBy === 'Any') {
-        return HTTP().get('/gunbuilds')
-          .then(({ data }) => {
-            commit('setLoadouts', data.gunbuilds);
-            commit('formatDates');
-            commit('setLoading', false);
-          });
-      }
+      let gun = state.filters.gun; // 'Any' or '' are acceptable values for the gun parameter
+      let priceRangeMin = state.filters.priceRangeMin;
+      let priceRangeMax = state.filters.priceRangeMax;
 
-
-      return HTTP().get(`/gunbuilds/indexbygun/${state.gunToIndexBy}`)
-        .then(({ data }) => {
+      return HTTP().get('/gunbuilds', {
+          params: {
+            gun: gun,
+            priceRangeMin: priceRangeMin,
+            priceRangeMax: priceRangeMax
+          }
+        })
+        .then(({
+          data
+        }) => {
           commit('setLoadouts', data.gunbuilds);
           commit('formatDates');
           commit('setLoading', false);
         });
     },
 
-    fetchGuns({ commit }) {
+    fetchGuns({
+      commit
+    }) {
       return HTTP().get('/guns')
-        .then(({ data }) => {
+        .then(({
+          data
+        }) => {
           commit('setGuns', data.guns);
           commit('setGunNames', data.guns);
         });
@@ -52,19 +61,18 @@ export default {
       state.loading = loading;
     },
 
-    setGunToIndexBy(state, gun) {
-      let gun_id = gun;
-      if (gun !== 'Any') {
-        gun_id = state.guns.filter(x => x.name === gun)[0].id;
-      }
-
-      state.gunToIndexBy = gun_id;
+    setFilters(state, filters) {
+      // Need to perform a clone in order to avoid "do not mutate outside the store"
+      state.filters = Object.assign(filters);
     },
 
     setGuns(state, guns) {
       const gunList = [];
       for (let i = 0; i < guns.length; i++) {
-        const gun = { id: guns[i].id, name: guns[i].name };
+        const gun = {
+          id: guns[i].id,
+          name: guns[i].name
+        };
         gunList.push(gun);
       }
       state.guns = gunList;
@@ -86,7 +94,11 @@ export default {
     },
 
     formatDates(state) {
-      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      const options = {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      };
 
       for (let i = 0; i < state.loadouts.length; i++) {
         const date = state.loadouts[i].updated_at;

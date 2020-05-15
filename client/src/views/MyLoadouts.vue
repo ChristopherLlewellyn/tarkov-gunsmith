@@ -1,15 +1,38 @@
 <template>
-
   <v-container fluid>
     <span class="bg"></span>
-    <v-data-iterator :items="loadouts" :items-per-page.sync="itemsPerPage" :page="page" :search="search" :sort-by="sortBy.toLowerCase()"
-      :sort-desc="sortDesc" hide-default-footer>
+    <v-data-iterator
+      class="ml-8 mr-8"
+      :items="loadouts"
+      :items-per-page.sync="itemsPerPage"
+      :page="page"
+      :search="search"
+      :sort-by="sortBy.toLowerCase()"
+      :sort-desc="sortDesc"
+      hide-default-footer
+    >
       <template v-slot:header>
         <v-toolbar class="mb-1">
-          <v-text-field v-model="search" clearable flat solo hide-details prepend-inner-icon="mdi-magnify" label="Search"></v-text-field>
+          <v-text-field
+            v-model="search"
+            clearable
+            flat
+            solo
+            hide-details
+            prepend-inner-icon="mdi-magnify"
+            label="Search"
+          ></v-text-field>
           <template v-if="$vuetify.breakpoint.mdAndUp">
             <v-spacer></v-spacer>
-            <v-select v-model="sortBy" flat solo hide-details :items="keys" prepend-inner-icon="mdi-sort" label="Sort by"></v-select>
+            <v-select
+              v-model="sortBy"
+              flat
+              solo
+              hide-details
+              :items="keys"
+              prepend-inner-icon="mdi-sort"
+              label="Sort by"
+            ></v-select>
             <v-spacer></v-spacer>
             <v-btn-toggle v-model="sortDesc" mandatory>
               <v-btn medium depressed color="blue" :value="false">
@@ -26,8 +49,12 @@
       <template v-slot:default="props">
         <v-row>
           <v-col v-for="loadout in props.items" :key="loadout.id" cols="12" sm="6" md="4" lg="3">
-
-            <v-skeleton-loader :loading="loading" :transition-group="transition" height="400" type="card">
+            <v-skeleton-loader
+              :loading="loading"
+              :transition-group="transition"
+              height="400"
+              type="card"
+            >
               <v-card :href="`/#/loadout/${loadout.id}`" tile>
                 <v-toolbar>
                   {{ loadout.name }}
@@ -72,8 +99,6 @@
                   &nbsp;
                   <span class="font-weight-medium">{{ loadout.updated_at }}</span>
                 </v-card-actions>
-
-
               </v-card>
               <v-card tile>
                 <v-card-actions class="justify-center">
@@ -90,9 +115,7 @@
                   </template>
                 </v-card-actions>
               </v-card>
-
             </v-skeleton-loader>
-
           </v-col>
         </v-row>
       </template>
@@ -111,7 +134,11 @@
               </v-btn>
             </template>
             <v-list>
-              <v-list-item v-for="(number, index) in itemsPerPageArray" :key="index" @click="updateItemsPerPage(number)">
+              <v-list-item
+                v-for="(number, index) in itemsPerPageArray"
+                :key="index"
+                @click="updateItemsPerPage(number)"
+              >
                 <v-list-item-title>{{ number }}</v-list-item-title>
               </v-list-item>
             </v-list>
@@ -132,119 +159,104 @@
       </template>
     </v-data-iterator>
   </v-container>
-
 </template>
 
 <script>
-  import {
-    mapGetters,
-    mapState,
-    mapActions,
-    mapMutations,
-  } from 'vuex';
-  import router from '../router';
+import { mapGetters, mapState, mapActions, mapMutations } from "vuex";
+import router from "../router";
 
-  import ErgonomicsChip from "../components/ErgonomicsChip";
-  import HorizontalRecoilChip from "../components/HorizontalRecoilChip";
-  import VerticalRecoilChip from "../components/VerticalRecoilChip";
-  import CaliberChip from "../components/CaliberChip";
+import ErgonomicsChip from "../components/ErgonomicsChip";
+import HorizontalRecoilChip from "../components/HorizontalRecoilChip";
+import VerticalRecoilChip from "../components/VerticalRecoilChip";
+import CaliberChip from "../components/CaliberChip";
 
-  export default {
-    mounted() {
-      if (!this.isSignedIn) {
-        return router.push('/sign-in');
-      }
-      this.fetchMyLoadouts();
+export default {
+  mounted() {
+    if (!this.isSignedIn) {
+      return router.push("/sign-in");
+    }
+    this.fetchMyLoadouts();
+  },
+
+  components: {
+    ErgonomicsChip,
+    HorizontalRecoilChip,
+    VerticalRecoilChip,
+    CaliberChip
+  },
+
+  methods: {
+    ...mapActions("myLoadouts", ["fetchMyLoadouts", "deleteLoadout"]),
+
+    ...mapMutations("myLoadouts", ["setLoadoutToDelete"]),
+
+    deleteItem(id) {
+      this.setLoadoutToDelete(id);
+      confirm("Are you sure you want to delete this loadout?") &&
+        this.deleteLoadout();
     },
 
-    components: {
-      ErgonomicsChip,
-      HorizontalRecoilChip,
-      VerticalRecoilChip,
-      CaliberChip
+    viewLoadoutCard(id) {
+      router.push(`/loadout/${id}`);
     },
 
-    methods: {
-      ...mapActions('myLoadouts', [
-        'fetchMyLoadouts',
-        'deleteLoadout',
-      ]),
+    nextPage() {
+      if (this.page + 1 <= this.numberOfPages) this.page += 1;
+    },
+    formerPage() {
+      if (this.page - 1 >= 1) this.page -= 1;
+    },
+    updateItemsPerPage(number) {
+      this.itemsPerPage = number;
+    }
+  },
 
-      ...mapMutations('myLoadouts', [
-        'setLoadoutToDelete',
-      ]),
-
-      deleteItem(id) {
-        this.setLoadoutToDelete(id);
-        confirm('Are you sure you want to delete this loadout?') && this.deleteLoadout();
-      },
-
-      viewLoadoutCard(id) {
-        router.push(`/loadout/${id}`);
-      },
-
-      nextPage() {
-        if (this.page + 1 <= this.numberOfPages) this.page += 1;
-      },
-      formerPage() {
-        if (this.page - 1 >= 1) this.page -= 1;
-      },
-      updateItemsPerPage(number) {
-        this.itemsPerPage = number;
-      },
+  computed: {
+    numberOfPages() {
+      return Math.ceil(this.loadouts.length / this.itemsPerPage);
+    },
+    filteredKeys() {
+      return this.keys.filter(key => key !== "Name");
     },
 
-    computed: {
-      numberOfPages() {
-        return Math.ceil(this.loadouts.length / this.itemsPerPage);
-      },
-      filteredKeys() {
-        return this.keys.filter(key => key !== 'Name');
-      },
+    ...mapGetters("authentication", ["isSignedIn"]),
 
-      ...mapGetters('authentication', [
-        'isSignedIn',
-      ]),
+    ...mapState("myLoadouts", ["loadouts", "loading"])
+  },
 
-      ...mapState('myLoadouts', [
-        'loadouts',
-        'loading',
-      ]),
-    },
+  data() {
+    return {
+      transition: "scale-transition",
 
-    data() {
-      return {
-        transition: 'scale-transition',
-
-        search: '',
-        itemsPerPageArray: [8, 12, 16, 20],
-        filter: {},
-        sortDesc: false,
-        page: 1,
-        itemsPerPage: 8,
-        sortBy: 'name',
-        keys: [
-          'Name',
-          'Ergonomics_Final',
-          'Vertical_Recoil_Final',
-          'Horizontal_Recoil_Final',
-        ],
-        dialog: false,
-      };
-    },
-  };
+      search: "",
+      itemsPerPageArray: [8, 12, 16, 20],
+      filter: {},
+      sortDesc: false,
+      page: 1,
+      itemsPerPage: 8,
+      sortBy: "name",
+      keys: [
+        "Name",
+        "Ergonomics_Final",
+        "Vertical_Recoil_Final",
+        "Horizontal_Recoil_Final"
+      ],
+      dialog: false
+    };
+  }
+};
 </script>
 
 <style scoped>
-  .bg {
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    background: url('../images/pmcAiming2.png') no-repeat center center;
-    background-size: cover;
-    background-color: black;
-    transform: scale(1);
-  }
+.bg {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: url("../images/pmcAiming2.png") no-repeat center center;
+  background-size: cover;
+  background-color: black;
+  transform: scale(1);
+}
 </style>
