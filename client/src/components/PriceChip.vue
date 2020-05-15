@@ -1,7 +1,7 @@
 <template>
   <v-tooltip bottom>
     <template v-slot:activator="{ on }">
-      <v-chip class="ma-1" color="teal" v-on="on">
+      <v-chip label class="ma-1" color="teal" v-on="on">
         <v-avatar left class="teal darken-4">
           <v-icon>{{icon}}</v-icon>
         </v-avatar>
@@ -13,32 +13,32 @@
 </template>
 
 <script>
-  export default {
-    name: "priceChip",
-    props: {
-      value: Number,
-      currency: String,
-      source: String
-    },
-    computed: {
-      icon() {
-        switch (this.currency) {
-          case "₽":
-            return "mdi-currency-rub"
-            break;
+export default {
+  name: "priceChip",
+  props: {
+    value: Number,
+    currency: String,
+    source: String
+  },
+  computed: {
+    icon() {
+      switch (this.currency) {
+        case "₽":
+          return "mdi-currency-rub";
+          break;
 
-          case "$":
-            return "mdi-currency-usd"
-            break;
-            
-          case "€":
-            return "mdi-currency-eur"
-            break;
-          
-          default:
-            return "mdi-help"
-        }
+        case "$":
+          return "mdi-currency-usd";
+          break;
+
+        case "€":
+          return "mdi-currency-eur";
+          break;
+
+        default:
+          return "mdi-help";
       }
     }
-  };
+  }
+};
 </script>
