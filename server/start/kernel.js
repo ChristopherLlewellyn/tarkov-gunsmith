@@ -44,6 +44,7 @@ const namedMiddleware = {
   verifyCaptchaV2: 'App/Middleware/VerifyCaptchaV2',
   profanityFilterGunbuild: 'App/Middleware/ProfanityFilterGunbuild',
   profanityFilterUser: 'App/Middleware/ProfanityFilterUser',
+  throttle: 'Adonis/Middleware/Throttle'
 }
 
 /*

@@ -27,6 +27,7 @@
     "@adonisjs/mail": "^3.0.10",
     "@adonisjs/validator": "^5.0.6",
     "adonis-scheduler": "^3.0.2",
+    "adonis-throttle": "^2.3.6",
     "axios": "^0.19.2",
     "bad-words": "^3.0.3",
     "badwords-list": "^1.0.0",
