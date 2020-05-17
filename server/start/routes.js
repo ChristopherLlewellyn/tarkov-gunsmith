@@ -59,12 +59,12 @@ Route.group(() => {
     // get all
     Route
       .get('gunbuilds', 'GunbuildController.index')
-      .middleware(['throttle:60', 'auth', ])
+      .middleware(['throttle:60'])
 
     // get all for logged in user
     Route
       .get('gunbuilds/mine', 'GunbuildController.indexMine')
-      .middleware(['throttle:60', 'auth', ])
+      .middleware(['throttle:60', 'auth'])
 
     // get all by gun (DEPRECATED - we can now make queries using parameters on the /gunbuilds endpoint)
     Route
