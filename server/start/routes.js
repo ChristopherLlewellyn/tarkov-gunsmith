@@ -80,13 +80,13 @@ Route.group(() => {
     Route
       .post('gunbuilds', 'GunbuildController.create')
       .validator('Gunbuild')
-      .middleware(['throttle:3', 'auth', 'profanityFilterGunbuild'])
+      .middleware(['throttle:3', 'auth', 'profanityFilterGunbuild', 'verifyCaptchaV3'])
 
     // update one
     Route
       .patch('gunbuilds/:id', 'GunbuildController.update')
       .validator('Gunbuild')
-      .middleware(['throttle:60', 'auth', 'findGunbuild', 'profanityFilterGunbuild'])
+      .middleware(['throttle:60', 'auth', 'findGunbuild', 'profanityFilterGunbuild', 'verifyCaptchaV3'])
 
     // delete one
     Route
