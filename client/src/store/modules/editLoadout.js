@@ -24,6 +24,7 @@ export default {
 
     snackbar: false,
     error: null,
+    captcha: null,
   },
 
   actions: {
@@ -93,7 +94,9 @@ export default {
           horizontal_recoil_final: state.calculatedHorizontalRecoil,
           build: state.weapon,
           all_items: state.allItems,
-          market_price: state.market_price
+          market_price: state.market_price,
+
+          captcha: state.captcha
         })
         .then(({
           data
@@ -243,6 +246,9 @@ export default {
     },
     setSnackbar(state, value) {
       state.snackbar = value;
+    },
+    setCaptcha(state, captcha) {
+      state.captcha = captcha;
     },
     setWeaponsLoading(state, weaponsLoading) {
       state.weaponsLoading = weaponsLoading;
