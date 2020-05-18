@@ -50,7 +50,7 @@
             <loadouts-filter :gunNames="gunNamesFilter" @apply-filters="applyFilters"></loadouts-filter>
           </v-toolbar>
 
-          <v-toolbar flat>
+          <v-toolbar flat v-if="Object.keys(filters).length > 0">
             <v-spacer></v-spacer>
             <v-chip
               class="ml-1 mr-1"
@@ -106,7 +106,7 @@
             <loadouts-filter :gunNames="gunNamesFilter" @apply-filters="applyFilters"></loadouts-filter>
           </v-toolbar>
 
-          <v-toolbar flat>
+          <v-toolbar flat v-if="Object.keys(filters).length > 0">
             <v-spacer></v-spacer>
             <v-chip
               class="ml-1 mr-1"
