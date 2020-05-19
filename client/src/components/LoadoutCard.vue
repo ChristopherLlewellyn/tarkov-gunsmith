@@ -23,7 +23,12 @@
       </v-toolbar>
 
       <v-container fluid>
-        <v-img :src="loadout.gun_img_big" class="white--text align-end" gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" max-height="120">
+        <v-img
+          :src="loadout.gun_img_big"
+          class="white--text align-end"
+          gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+          max-height="120"
+        >
           <v-card-title>{{ loadout.gun_name }}</v-card-title>
         </v-img>
       </v-container>
@@ -38,6 +43,10 @@
         <ergonomics-chip class="ma-2" :value="loadout.ergonomics_final"></ergonomics-chip>
         <vertical-recoil-chip class="ma-2" :value="loadout.vertical_recoil_final"></vertical-recoil-chip>
         <horizontal-recoil-chip class="ma-2" :value="loadout.horizontal_recoil_final"></horizontal-recoil-chip>
+      </v-card-actions>
+
+      <v-card-actions class="justify-center">
+        <price-chip class="ma-2" :value="loadout.market_price" currency="₽" source="Flea Market"></price-chip>
       </v-card-actions>
 
       <v-card-actions class="justify-center">
@@ -56,25 +65,26 @@
 </template>
 
 <script>
-  import ErgonomicsChip from "./ErgonomicsChip";
-  import HorizontalRecoilChip from "./HorizontalRecoilChip";
-  import VerticalRecoilChip from "./VerticalRecoilChip";
-  import CaliberChip from "./CaliberChip";
+import ErgonomicsChip from "./ErgonomicsChip";
+import HorizontalRecoilChip from "./HorizontalRecoilChip";
+import VerticalRecoilChip from "./VerticalRecoilChip";
+import CaliberChip from "./CaliberChip";
+import PriceChip from "./PriceChip";
 
-  export default {
-    name: "card",
-    props: {
-      loadout: Object
-    },
-    components: {
-      ErgonomicsChip,
-      HorizontalRecoilChip,
-      VerticalRecoilChip,
-      CaliberChip
-    },
-    data: () => ({
-      isActive: false
-    })
-  };
-
+export default {
+  name: "card",
+  props: {
+    loadout: Object
+  },
+  components: {
+    ErgonomicsChip,
+    HorizontalRecoilChip,
+    VerticalRecoilChip,
+    CaliberChip,
+    PriceChip
+  },
+  data: () => ({
+    isActive: false
+  })
+};
 </script>

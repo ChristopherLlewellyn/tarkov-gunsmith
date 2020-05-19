@@ -95,6 +95,15 @@
                 </v-card-actions>
 
                 <v-card-actions class="justify-center">
+                  <price-chip
+                    class="ma-2"
+                    :value="loadout.market_price"
+                    currency="₽"
+                    source="Flea Market"
+                  ></price-chip>
+                </v-card-actions>
+
+                <v-card-actions class="justify-center">
                   <span class="font-weight-light">Updated</span>
                   &nbsp;
                   <span class="font-weight-medium">{{ loadout.updated_at }}</span>
@@ -169,6 +178,7 @@ import ErgonomicsChip from "../components/ErgonomicsChip";
 import HorizontalRecoilChip from "../components/HorizontalRecoilChip";
 import VerticalRecoilChip from "../components/VerticalRecoilChip";
 import CaliberChip from "../components/CaliberChip";
+import PriceChip from "../components/PriceChip";
 
 export default {
   mounted() {
@@ -182,7 +192,8 @@ export default {
     ErgonomicsChip,
     HorizontalRecoilChip,
     VerticalRecoilChip,
-    CaliberChip
+    CaliberChip,
+    PriceChip
   },
 
   methods: {
