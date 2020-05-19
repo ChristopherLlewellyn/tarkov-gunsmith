@@ -142,10 +142,13 @@ export default {
       state.conflicts = [];
       state.allItems = [];
 
-      state.weaponStatsCalculated = {};
+      state.calculatedErgonomics = 0;
+      state.calculatedHorizontalRecoil = 0;
+      state.calculatedVerticalRecoil = 0;
 
       state.snackbar = false;
       state.error = null;
+      state.captcha = null;
     },
 
     calculateWeaponStats(state) {
