@@ -11,25 +11,39 @@ export default {
   },
 
   actions: {
-    fetchMyLoadouts({ commit }) {
+    fetchMyLoadouts({
+      commit
+    }) {
       commit('setLoading', true);
       return HTTP().get('/gunbuilds/mine')
-        .then(({ data }) => {
+        .then(({
+          data
+        }) => {
           commit('setLoadouts', data.gunbuilds);
           commit('formatDates');
           commit('setLoading', false);
         });
     },
 
-    deleteLoadout({ commit, state }) {
+    deleteLoadout({
+      commit,
+      state
+    }) {
       return HTTP().delete(`/gunbuilds/${state.loadoutToDelete}`)
-        .then(({ data }) => {
+        .then(({
+          data
+        }) => {
           commit('removeLoadout', state.loadoutToDelete);
         });
     },
   },
 
   mutations: {
+    reset(state) {
+      state.loading = true;
+      state.loadouts = [];
+      state.loadoutToDelete = null;
+    },
     setLoadouts(state, myLoadouts) {
       state.loadouts = myLoadouts;
     },
@@ -47,7 +61,11 @@ export default {
     },
 
     formatDates(state) {
-      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      const options = {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      };
 
       for (let i = 0; i < state.loadouts.length; i++) {
         const date = state.loadouts[i].updated_at;

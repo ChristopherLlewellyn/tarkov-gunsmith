@@ -18,6 +18,7 @@ export default {
 
     loading: false,
   },
+
   actions: {
     register({
       commit,
@@ -92,6 +93,21 @@ export default {
     },
   },
   mutations: {
+    reset(state) {
+      state.signUpEmail = null;
+      state.signUpPassword = null;
+      state.signUpUsername = null;
+      state.signUpError = null;
+      state.signUpSuccess = null;
+
+      state.signInEmail = null;
+      state.signInPassword = null;
+      state.signInError = null;
+      state.token = null;
+      state.captcha = null;
+
+      state.loading = false;
+    },
     resetSignUp(state) {
       state.signUpEmail = null;
       state.signUpPassword = null;

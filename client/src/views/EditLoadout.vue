@@ -11,8 +11,7 @@
       <!-- Loadout Title -->
       <v-flex xs12>
         <v-text-field
-          v-on:input="setLoadoutName"
-          :value="loadoutName"
+          v-model="loadoutNameField"
           :rules="rules"
           prepend-icon="mdi-rename-box"
           label="Loadout name"
@@ -131,6 +130,9 @@ export default {
     },
     showSnackbar(newValue) {
       this.setSnackbar(newValue);
+    },
+    loadoutName(newValue) {
+      this.loadoutNameField = newValue;
     }
   },
 
@@ -167,6 +169,7 @@ export default {
     async recaptchaEditLoadout() {
       const token = await this.recaptchaToken();
       this.setCaptcha(token);
+      this.setLoadoutName(this.loadoutNameField);
       this.editLoadout();
     }
   },
@@ -179,6 +182,7 @@ export default {
   },
 
   data: () => ({
+    loadoutNameField: "",
     showSnackbar: false,
     rules: [
       value => !!value || "Required.",

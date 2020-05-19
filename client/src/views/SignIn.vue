@@ -11,11 +11,21 @@
           </v-toolbar>
           <v-card-text>
             <v-form class="text-center">
-              <v-text-field v-on:input="setSignInEmail" label="Email" placeholder="Email" prepend-icon="mdi-email" :value="signInEmail">
-              </v-text-field>
-              <v-text-field v-on:input="setSignInPassword" label="Password" placeholder="Password" type="password" prepend-icon="mdi-lock"
-                :value="signInPassword">
-              </v-text-field>
+              <v-text-field
+                v-model="email"
+                label="Email"
+                placeholder="Email"
+                prepend-icon="mdi-email"
+                :value="signInEmail"
+              ></v-text-field>
+              <v-text-field
+                v-model="password"
+                label="Password"
+                placeholder="Password"
+                type="password"
+                prepend-icon="mdi-lock"
+                :value="signInPassword"
+              ></v-text-field>
               <a href="#/reset-password" color="white" class="font-weight-bold">Forgot password</a>
             </v-form>
 
@@ -31,17 +41,25 @@
           </v-card-actions>
 
           <v-card-text class="text-center">
-            <span class="font-weight-medium">Don't have an account? <a href="#/sign-up" color="white" class="font-weight-bold">Sign up</a></span>
+            <span class="font-weight-medium">
+              Don't have an account?
+              <a
+                href="#/sign-up"
+                color="white"
+                class="font-weight-bold"
+              >Sign up</a>
+            </span>
 
             <v-divider class="mb-3 mt-2"></v-divider>
 
             <span class="caption">
               This site is protected by reCAPTCHA and the Google
-              <a href="https://policies.google.com/privacy">Privacy Policy</a> and
+              <a
+                href="https://policies.google.com/privacy"
+              >Privacy Policy</a> and
               <a href="https://policies.google.com/terms">Terms of Service</a> apply.
             </span>
           </v-card-text>
-
         </v-card>
       </v-flex>
     </v-layout>
@@ -50,37 +68,41 @@
 
 
 <script>
-import {
-  mapState,
-  mapMutations,
-  mapActions,
-} from 'vuex';
+import { mapState, mapMutations, mapActions } from "vuex";
 
 export default {
+  mounted() {
+    (this.email = this.signInEmail), (this.password = this.signInPassword);
+  },
+  data: () => ({
+    email: "",
+    password: ""
+  }),
   computed: {
-    ...mapState('authentication', [
-      'signInEmail',
-      'signInPassword',
-      'signInError',
-      'loading',
-    ]),
+    ...mapState("authentication", [
+      "signInEmail",
+      "signInPassword",
+      "signInError",
+      "loading"
+    ])
   },
   methods: {
-    ...mapMutations('authentication', [
-      'setSignInEmail',
-      'setSignInPassword',
-      'setCaptcha',
+    ...mapMutations("authentication", [
+      "setSignInEmail",
+      "setSignInPassword",
+      "setCaptcha"
     ]),
-    ...mapActions('authentication', [
-      'signIn',
-    ]),
+    ...mapActions("authentication", ["signIn"]),
 
     async recaptchaToken() {
-      return new Promise((resolve) => {
+      return new Promise(resolve => {
         grecaptcha.ready(async () => {
-          const token = await grecaptcha.execute(process.env.VUE_APP_RECAPTCHASITEKEY, {
-            action: 'login',
-          });
+          const token = await grecaptcha.execute(
+            process.env.VUE_APP_RECAPTCHASITEKEY,
+            {
+              action: "login"
+            }
+          );
           resolve(token);
         });
       });
@@ -89,29 +111,28 @@ export default {
     async recaptchaSignIn() {
       const token = await this.recaptchaToken();
       this.setCaptcha(token);
+      this.setSignInEmail(this.email);
+      this.setSignInPassword(this.password);
       this.signIn();
-    },
-  },
+    }
+  }
 };
-
 </script>
 
 <style scoped>
-  .bg {
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    background: url('../images/pmcNight.png') no-repeat center center;
-    background-size: cover;
-    background-color: black;
-    transform: scale(1);
-  }
+.bg {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: url("../images/pmcNight.png") no-repeat center center;
+  background-size: cover;
+  background-color: black;
+  transform: scale(1);
+}
 
-
-  a {
-    text-decoration: none;
-  }
-
+a {
+  text-decoration: none;
+}
 </style>

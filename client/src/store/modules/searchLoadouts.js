@@ -53,6 +53,15 @@ export default {
   },
 
   mutations: {
+    reset(state) {
+      state.loading = true;
+      state.loadouts = [];
+      state.filters = {};
+      state.guns = [];
+      state.gunNames = [];
+      state.gunNamesFilter = [];
+    },
+
     setLoadouts(state, myLoadouts) {
       state.loadouts = myLoadouts;
     },

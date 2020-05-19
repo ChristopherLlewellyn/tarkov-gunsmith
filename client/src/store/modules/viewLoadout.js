@@ -26,10 +26,15 @@ export default {
 
   actions: {
 
-    fillLoadoutDetails({ commit, state }) {
+    fillLoadoutDetails({
+      commit,
+      state
+    }) {
       commit('setLoading', true);
       return HTTP().get(`/gunbuilds/${state.loadoutId}`)
-        .then(({ data }) => {
+        .then(({
+          data
+        }) => {
           commit('setLoadoutDetails', data);
           commit('calculateWeaponStats');
           commit('formatDates');
@@ -44,22 +49,32 @@ export default {
         });
     },
 
-    upvote({ commit, state }) {
+    upvote({
+      commit,
+      state
+    }) {
       return HTTP().patch(`/gunbuilds/${state.loadoutId}/vote`, {
-        vote: 1,
-        captcha: state.captcha,
-      })
-        .then(({ data }) => {
+          vote: 1,
+          captcha: state.captcha,
+        })
+        .then(({
+          data
+        }) => {
           commit('incrementVotes');
         });
     },
 
-    downvote({ commit, state }) {
+    downvote({
+      commit,
+      state
+    }) {
       return HTTP().patch(`/gunbuilds/${state.loadoutId}/vote`, {
-        vote: -1,
-        captcha: state.captcha,
-      })
-        .then(({ data }) => {
+          vote: -1,
+          captcha: state.captcha,
+        })
+        .then(({
+          data
+        }) => {
           commit('decrementVotes');
         });
     },
@@ -79,27 +94,32 @@ export default {
 
     reset(state) {
       state.loading = true;
-      state.attachmentsLoading = true;
-      state.weaponsLoading = true;
-  
-      state.availableWeapons = [];
-      state.availableAttachments = [];
-      state.defaultAttachments = [];
+      state.loadoutId = null;
       state.loadoutName = '';
-  
+      state.username = null;
+      state.votes = null;
+      state.updated = null;
+      state.captcha = null;
+      state.votedOn = [];
       state.weapon = {};
       state.allItems = [];
-  
-      state.weaponStatsCalculated = {};
-  
-      state.alert = null;
-      state.titleError = null;
+      state.market_price = 0;
+      state.calculatedErgonomics = 0;
+      state.calculatedHorizontalRecoil = 0;
+      state.calculatedVerticalRecoil = 0;
+      state.attachments = [];
     },
 
     calculateWeaponStats(state) {
-      let { ergonomics } = state.weapon;
-      let { horizontal_recoil } = state.weapon;
-      let { vertical_recoil } = state.weapon;
+      let {
+        ergonomics
+      } = state.weapon;
+      let {
+        horizontal_recoil
+      } = state.weapon;
+      let {
+        vertical_recoil
+      } = state.weapon;
       let price = 0;
       let recoil_reduction = 0;
 
@@ -147,7 +167,11 @@ export default {
     },
 
     formatDates(state) {
-      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      const options = {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      };
 
       const date = state.updated;
       let dateNew = new Date(date);

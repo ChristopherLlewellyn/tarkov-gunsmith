@@ -13,7 +13,16 @@ class GunbuildService {
       .select(
         "users.username",
 
-        "gunbuilds.*",
+        "gunbuilds.id",
+        "gunbuilds.user_id",
+        "gunbuilds.gun_id",
+        "gunbuilds.name",
+        "gunbuilds.horizontal_recoil_final",
+        "gunbuilds.vertical_recoil_final",
+        "gunbuilds.ergonomics_final",
+        "gunbuilds.created_at",
+        "gunbuilds.updated_at",
+        "gunbuilds.market_price",
 
         "guns.name AS gun_name",
         "guns.img AS gun_img",
@@ -47,13 +56,25 @@ class GunbuildService {
     let gunbuilds = await Database
       .select(
         "users.username",
-        "gunbuilds.*",
+
+        "gunbuilds.id",
+        "gunbuilds.user_id",
+        "gunbuilds.gun_id",
+        "gunbuilds.name",
+        "gunbuilds.horizontal_recoil_final",
+        "gunbuilds.vertical_recoil_final",
+        "gunbuilds.ergonomics_final",
+        "gunbuilds.created_at",
+        "gunbuilds.updated_at",
+        "gunbuilds.market_price",
+
         "guns.name AS gun_name",
         "guns.img AS gun_img",
         "guns.img_big AS gun_img_big",
         "guns.caliber AS gun_caliber",
         "guns.rpm AS gun_rpm",
         "guns.type AS gun_type",
+
         "vote_counts.votes"
       )
       .from("gunbuilds")
@@ -61,28 +82,6 @@ class GunbuildService {
       .innerJoin("users", "users.id", "gunbuilds.user_id")
       .innerJoin("vote_counts", "vote_counts.gunbuild_id", "gunbuilds.id")
       .where("gunbuilds.user_id", id)
-
-    return gunbuilds
-  }
-
-  async indexByGun(id) {
-    let gunbuilds = await Database
-      .select(
-        "users.username",
-        "gunbuilds.*",
-        "guns.name AS gun_name",
-        "guns.img AS gun_img",
-        "guns.img_big AS gun_img_big",
-        "guns.caliber AS gun_caliber",
-        "guns.rpm AS gun_rpm",
-        "guns.type AS gun_type",
-        "vote_counts.votes"
-      )
-      .from("gunbuilds")
-      .innerJoin("guns", "guns.id", "gunbuilds.gun_id")
-      .innerJoin("users", "users.id", "gunbuilds.user_id")
-      .innerJoin("vote_counts", "vote_counts.gunbuild_id", "gunbuilds.id")
-      .where("gunbuilds.gun_id", id)
 
     return gunbuilds
   }
