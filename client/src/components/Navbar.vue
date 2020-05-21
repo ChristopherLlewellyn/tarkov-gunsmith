@@ -4,7 +4,7 @@
     <v-app-bar app clipped-left class="grey darken-4">
       <router-link to="/">
         <v-img
-          :src="require('../images/logo1-transparent.png')"
+          :src="require('../images/logo1-transparent-thick.svg')"
           class="ml-2"
           max-height="55"
           max-width="55"
