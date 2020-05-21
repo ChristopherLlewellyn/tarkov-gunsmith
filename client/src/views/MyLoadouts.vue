@@ -35,10 +35,10 @@
             ></v-select>
             <v-spacer></v-spacer>
             <v-btn-toggle v-model="sortDesc" mandatory>
-              <v-btn medium depressed color="blue" :value="false">
+              <v-btn medium depressed color="blue-grey darken-1" :value="false">
                 <v-icon>mdi-arrow-up</v-icon>
               </v-btn>
-              <v-btn medium depressed color="blue" :value="true">
+              <v-btn medium depressed color="blue-grey darken-1" :value="true">
                 <v-icon>mdi-arrow-down</v-icon>
               </v-btn>
             </v-btn-toggle>
