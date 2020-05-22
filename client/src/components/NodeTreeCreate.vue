@@ -9,7 +9,10 @@
               <!-- Unexpanded dropdown - displays selected attachment -->
               <v-expansion-panel-header hide-actions>
                 <v-row>
-                  <h4 class="ml-2 mt-5 mr-2">{{ slotName ? slotName : 'Slot name missing' }}</h4>
+                  <slot-icon :slotName="slotName"></slot-icon>
+                  <h4
+                    class="ml-2 mt-5 mr-2"
+                  >{{ slotName ? slotName.toUpperCase().split('_')[0] : 'Slot name missing' }}</h4>
                   <template v-if="node.selected">
                     <v-row>
                       <attachment-image
@@ -154,6 +157,7 @@ import WeightChip from "./WeightChip";
 import TraderPriceCard from "./TraderPriceCard";
 import MarketPriceCard from "./MarketPriceCard";
 import AttachmentImage from "./AttachmentImage";
+import SlotIcon from "./SlotIcon";
 
 export default {
   name: "node",
@@ -170,7 +174,8 @@ export default {
     WeightChip,
     TraderPriceCard,
     MarketPriceCard,
-    AttachmentImage
+    AttachmentImage,
+    SlotIcon
   },
   methods: {
     ...mapMutations("createLoadout", [
