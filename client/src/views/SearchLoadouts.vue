@@ -215,7 +215,8 @@ export default {
         "Name",
         "Ergonomics_Final",
         "Vertical_Recoil_Final",
-        "Horizontal_Recoil_Final"
+        "Horizontal_Recoil_Final",
+        "Market_Price"
       ],
       dialog: false
     };
