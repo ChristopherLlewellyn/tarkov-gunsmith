@@ -20,6 +20,7 @@ export default {
     calculatedErgonomics: 0,
     calculatedHorizontalRecoil: 0,
     calculatedVerticalRecoil: 0,
+    calculatedWeight: 0,
 
     attachments: [],
   },
@@ -120,6 +121,7 @@ export default {
       let {
         vertical_recoil
       } = state.weapon;
+      let weight = 0;
       let price = 0;
       let recoil_reduction = 0;
 
@@ -135,6 +137,10 @@ export default {
         if (attachment.price && attachment.price !== null) {
           price += attachment.avg_24h_price;
         }
+
+        if (attachment.weight && attachment.weight !== null) {
+          weight += attachment.weight;
+        }
       });
 
       horizontal_recoil = Math.round(state.weapon.horizontal_recoil * ((100 + recoil_reduction) / 100));
@@ -143,6 +149,7 @@ export default {
       state.calculatedErgonomics = ergonomics;
       state.calculatedHorizontalRecoil = horizontal_recoil;
       state.calculatedVerticalRecoil = vertical_recoil;
+      state.calculatedWeight = Math.round((weight + Number.EPSILON) * 100) / 100;
       state.market_price = price;
     },
 

@@ -48,6 +48,7 @@
           <v-divider></v-divider>
 
           <v-card-actions class="justify-center">
+            <weight-chip :value="calculatedWeight"></weight-chip>
             <price-chip class="ma-2" :value="market_price" currency="₽" source="Flea Market"></price-chip>
           </v-card-actions>
         </v-card>
@@ -65,6 +66,7 @@ import VerticalRecoilChip from "./VerticalRecoilChip";
 import RpmChip from "./RpmChip";
 import CaliberChip from "./CaliberChip";
 import PriceChip from "./PriceChip";
+import WeightChip from "./WeightChip";
 
 export default {
   computed: {
@@ -75,6 +77,7 @@ export default {
       "calculatedErgonomics",
       "calculatedHorizontalRecoil",
       "calculatedVerticalRecoil",
+      "calculatedWeight",
       "market_price"
     ])
   },
@@ -92,7 +95,8 @@ export default {
     VerticalRecoilChip,
     RpmChip,
     CaliberChip,
-    PriceChip
+    PriceChip,
+    WeightChip
   }
 };
 </script>
