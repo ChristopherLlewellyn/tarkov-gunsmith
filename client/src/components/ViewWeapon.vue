@@ -44,6 +44,12 @@
             <vertical-recoil-chip class="ma-2" :value="calculatedVerticalRecoil"></vertical-recoil-chip>
             <horizontal-recoil-chip class="ma-2" :value="calculatedHorizontalRecoil"></horizontal-recoil-chip>
           </v-card-actions>
+
+          <v-divider></v-divider>
+
+          <v-card-actions class="justify-center">
+            <price-chip class="ma-2" :value="market_price" currency="₽" source="Flea Market"></price-chip>
+          </v-card-actions>
         </v-card>
       </v-flex>
     </v-layout>
@@ -58,6 +64,7 @@ import HorizontalRecoilChip from "./HorizontalRecoilChip";
 import VerticalRecoilChip from "./VerticalRecoilChip";
 import RpmChip from "./RpmChip";
 import CaliberChip from "./CaliberChip";
+import PriceChip from "./PriceChip";
 
 export default {
   computed: {
@@ -67,7 +74,8 @@ export default {
       "loading",
       "calculatedErgonomics",
       "calculatedHorizontalRecoil",
-      "calculatedVerticalRecoil"
+      "calculatedVerticalRecoil",
+      "market_price"
     ])
   },
 
@@ -83,7 +91,8 @@ export default {
     HorizontalRecoilChip,
     VerticalRecoilChip,
     RpmChip,
-    CaliberChip
+    CaliberChip,
+    PriceChip
   }
 };
 </script>
