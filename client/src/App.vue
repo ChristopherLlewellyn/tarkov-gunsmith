@@ -39,7 +39,6 @@ html {
 }
 #main {
   overflow: auto;
-  padding-bottom: 150px;
 }
 
 @font-face {
