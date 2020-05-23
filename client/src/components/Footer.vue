@@ -25,7 +25,6 @@
 
           <v-col class="text-center">
             <v-card color="grey darken-4" outlined>
-              <v-card-title></v-card-title>
               <v-card-title class="justify-center">
                 <v-img
                   max-width="60"
@@ -37,6 +36,7 @@
                 &nbsp;
                 {{ new Date().getFullYear() }}
               </v-card-title>
+              <v-card-text class="justify-center">Version {{ version }}</v-card-text>
             </v-card>
           </v-col>
 
@@ -85,7 +85,7 @@
           </v-card>
         </v-row>
 
-        <v-row class="justify-center">
+        <v-row class="justify-center text-center">
           <v-card color="grey darken-4" outlined>
             <v-card-title class="justify-center">
               <v-img
@@ -98,6 +98,7 @@
               &nbsp;
               {{ new Date().getFullYear() }}
             </v-card-title>
+            <v-card-text>Version {{ version }}</v-card-text>
           </v-card>
         </v-row>
 
@@ -124,6 +125,14 @@
     </div>
   </div>
 </template>
+
+<script>
+import { mapState } from "vuex";
+
+export default {
+  computed: mapState(["version"])
+};
+</script>
 
 <style scoped>
 a {
