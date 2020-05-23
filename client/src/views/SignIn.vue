@@ -126,7 +126,7 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
-  background: url("../images/pmcNight.png") no-repeat center center;
+  background: url("../images/backgrounds/pmcNight.png") no-repeat center center;
   background-size: cover;
   background-color: black;
   transform: scale(1);
