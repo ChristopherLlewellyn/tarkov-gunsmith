@@ -26,7 +26,9 @@
                 prepend-icon="mdi-lock"
                 :value="signInPassword"
               ></v-text-field>
-              <a href="#/reset-password" color="white" class="font-weight-bold">Forgot password</a>
+              <router-link to="/reset-password">
+                <span class="font-weight-bold">Forgot password</span>
+              </router-link>
             </v-form>
 
             <v-alert type="error" :value="signInError">{{ signInError }}</v-alert>
@@ -43,11 +45,9 @@
           <v-card-text class="text-center">
             <span class="font-weight-medium">
               Don't have an account?
-              <a
-                href="#/sign-up"
-                color="white"
-                class="font-weight-bold"
-              >Sign up</a>
+              <router-link to="/sign-up">
+                <span class="font-weight-bold">Sign up</span>
+              </router-link>
             </span>
 
             <v-divider class="mb-3 mt-2"></v-divider>
@@ -126,7 +126,7 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
-  background: url("../images/pmcNight.png") no-repeat center center;
+  background: url("../images/backgrounds/pmcNight.png") no-repeat center center;
   background-size: cover;
   background-color: black;
   transform: scale(1);

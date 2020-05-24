@@ -2,9 +2,20 @@
   <nav>
     <!-- Toolbar -->
     <v-app-bar app clipped-left class="grey darken-4">
+      <router-link to="/">
+        <v-img
+          :src="require('../images/logo1-transparent-thick.svg')"
+          class="ml-2"
+          max-height="55"
+          max-width="55"
+          contain
+        ></v-img>
+      </router-link>
       <v-toolbar-title>
-        <span class="font-weight-light ml-1">Tarkov</span>
-        <span>Armory</span>
+        <router-link to="/">
+          <span class="font-weight-light ml-1">Tarkov</span>
+          <span>Armory</span>
+        </router-link>
       </v-toolbar-title>
       <v-spacer />
 
@@ -52,7 +63,7 @@
       </v-toolbar-items>
 
       <!-- Mobile View -->
-      <v-menu class="hidden-md-and-up">
+      <v-menu class="hidden-md-and-up" offset-y>
         <template v-slot:activator="{ on }">
           <v-btn class="hidden-md-and-up mr-1" icon v-on="on">
             <v-icon>mdi-menu</v-icon>
@@ -170,5 +181,10 @@ export default {
 }
 .default {
   cursor: default;
+}
+
+a {
+  color: inherit !important;
+  text-decoration: none;
 }
 </style>

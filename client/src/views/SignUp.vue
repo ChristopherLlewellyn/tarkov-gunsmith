@@ -48,7 +48,9 @@
           <v-card-text class="text-center">
             <span class="font-weight-medium">
               Already have an account?
-              <a href="#/sign-in" color="white" class="font-weight-bold">Sign In</a>
+              <router-link to="/sign-in">
+                <span class="font-weight-bold">Sign in</span>
+              </router-link>
             </span>
 
             <v-divider class="mb-3 mt-2"></v-divider>
@@ -133,7 +135,7 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
-  background: url("../images/pmcNight.png") no-repeat center center;
+  background: url("../images/backgrounds/customs5.png") no-repeat center center;
   background-size: cover;
   background-color: black;
   transform: scale(1);

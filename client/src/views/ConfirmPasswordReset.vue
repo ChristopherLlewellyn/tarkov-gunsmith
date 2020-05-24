@@ -11,14 +11,30 @@
           </v-toolbar>
           <v-card-text>
             <v-form>
-              <v-text-field v-model="email" label="Email" placeholder="Email" prepend-icon="mdi-email">
-              </v-text-field>
+              <v-text-field
+                v-model="email"
+                label="Email"
+                placeholder="Email"
+                prepend-icon="mdi-email"
+              ></v-text-field>
 
-              <v-text-field v-model="password" label="Password" placeholder="Password" prepend-icon="mdi-lock" type="password" autocomplete="new-password">
-              </v-text-field>
+              <v-text-field
+                v-model="password"
+                label="Password"
+                placeholder="Password"
+                prepend-icon="mdi-lock"
+                type="password"
+                autocomplete="new-password"
+              ></v-text-field>
 
-              <v-text-field v-model="password_confirmation" label="Confirm Password" placeholder="Confirm Password" prepend-icon="mdi-lock-question" type="password" autocomplete="new-password">
-              </v-text-field>
+              <v-text-field
+                v-model="password_confirmation"
+                label="Confirm Password"
+                placeholder="Confirm Password"
+                prepend-icon="mdi-lock-question"
+                type="password"
+                autocomplete="new-password"
+              ></v-text-field>
             </v-form>
 
             <v-card-actions v-if="loading" class="justify-center">
@@ -42,11 +58,12 @@
 
             <span class="caption">
               This site is protected by reCAPTCHA and the Google
-              <a href="https://policies.google.com/privacy">Privacy Policy</a> and
+              <a
+                href="https://policies.google.com/privacy"
+              >Privacy Policy</a> and
               <a href="https://policies.google.com/terms">Terms of Service</a> apply.
             </span>
           </v-card-text>
-
         </v-card>
       </v-flex>
     </v-layout>
@@ -55,7 +72,7 @@
 
 
 <script>
-import HTTP from '../http';
+import HTTP from "../http";
 
 export default {
   mounted() {
@@ -63,27 +80,27 @@ export default {
   },
 
   methods: {
-
     confirmPasswordReset(email) {
       this.resetError = null;
       this.loading = true;
-      return HTTP().post('auth/password/reset', {
-        email: this.email,
-        password: this.password,
-        password_confirmation: this.password_confirmation,
-        token: this.token,
-        captcha: this.captcha,
-      })
+      return HTTP()
+        .post("auth/password/reset", {
+          email: this.email,
+          password: this.password,
+          password_confirmation: this.password_confirmation,
+          token: this.token,
+          captcha: this.captcha
+        })
         .then(({ data }) => {
           this.resetError = null;
           this.loading = false;
           this.resetSuccess = data.message;
         })
-        .catch((error) => {
+        .catch(error => {
           this.resetSuccess = null;
           this.loading = false;
 
-          if (error.response.status == '404') {
+          if (error.response.status == "404") {
             this.resetError = error.response.data.message;
           } else {
             this.resetError = error.response.data[0].message; // message from response body
@@ -92,11 +109,14 @@ export default {
     },
 
     async recaptchaToken() {
-      return new Promise((resolve) => {
+      return new Promise(resolve => {
         grecaptcha.ready(async () => {
-          const token = await grecaptcha.execute(process.env.VUE_APP_RECAPTCHASITEKEY, {
-            action: 'resetpassword',
-          });
+          const token = await grecaptcha.execute(
+            process.env.VUE_APP_RECAPTCHASITEKEY,
+            {
+              action: "resetpassword"
+            }
+          );
           resolve(token);
         });
       });
@@ -106,7 +126,7 @@ export default {
       const token = await this.recaptchaToken();
       this.captcha = token;
       this.confirmPasswordReset();
-    },
+    }
   },
 
   data: () => ({
@@ -118,27 +138,25 @@ export default {
     resetSuccess: null,
     resetError: null,
     captcha: null,
-    loading: false,
-  }),
+    loading: false
+  })
 };
 </script>
 
 <style scoped>
-  .bg {
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    background: url('../images/pmcNight.png') no-repeat center center;
-    background-size: cover;
-    background-color: black;
-    transform: scale(1);
-  }
+.bg {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: url("../images/backgrounds/customs5.png") no-repeat center center;
+  background-size: cover;
+  background-color: black;
+  transform: scale(1);
+}
 
-
-  a {
-    text-decoration: none;
-  }
-
+a {
+  text-decoration: none;
+}
 </style>

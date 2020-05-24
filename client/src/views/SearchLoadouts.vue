@@ -37,10 +37,10 @@
             ></v-select>
 
             <v-btn-toggle class="ml-4 mr-4" v-model="sortDesc" mandatory>
-              <v-btn medium depressed color="blue" :value="false">
+              <v-btn medium depressed color="blue-grey darken-1" :value="false">
                 <v-icon>mdi-arrow-up</v-icon>
               </v-btn>
-              <v-btn medium depressed color="blue" :value="true">
+              <v-btn medium depressed color="blue-grey darken-1" :value="true">
                 <v-icon>mdi-arrow-down</v-icon>
               </v-btn>
             </v-btn-toggle>
@@ -215,7 +215,8 @@ export default {
         "Name",
         "Ergonomics_Final",
         "Vertical_Recoil_Final",
-        "Horizontal_Recoil_Final"
+        "Horizontal_Recoil_Final",
+        "Market_Price"
       ],
       dialog: false
     };
@@ -230,7 +231,7 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
-  background: url("../images/originalShells.png") no-repeat center center;
+  background: url("../images/backgrounds/customs11.png") no-repeat center center;
   background-size: cover;
   background-color: black;
   transform: scale(1);

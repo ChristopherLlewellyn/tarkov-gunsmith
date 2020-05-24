@@ -35,10 +35,10 @@
             ></v-select>
             <v-spacer></v-spacer>
             <v-btn-toggle v-model="sortDesc" mandatory>
-              <v-btn medium depressed color="blue" :value="false">
+              <v-btn medium depressed color="blue-grey darken-1" :value="false">
                 <v-icon>mdi-arrow-up</v-icon>
               </v-btn>
-              <v-btn medium depressed color="blue" :value="true">
+              <v-btn medium depressed color="blue-grey darken-1" :value="true">
                 <v-icon>mdi-arrow-down</v-icon>
               </v-btn>
             </v-btn-toggle>
@@ -55,7 +55,7 @@
               height="400"
               type="card"
             >
-              <v-card :href="`/#/loadout/${loadout.id}`" tile>
+              <v-card :to="`/loadout/${loadout.id}`" tile>
                 <v-toolbar>
                   {{ loadout.name }}
                   <v-spacer></v-spacer>
@@ -265,7 +265,7 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
-  background: url("../images/pmcAiming2.png") no-repeat center center;
+  background: url("../images/backgrounds/customs11.png") no-repeat center center;
   background-size: cover;
   background-color: black;
   transform: scale(1);

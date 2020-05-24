@@ -14,66 +14,86 @@ import ConfirmEmail from './views/ConfirmEmail.vue';
 Vue.use(Router);
 
 export default new Router({
-  routes: [
-    {
+  mode: 'history',
+  routes: [{
       path: '/',
       name: 'search',
       component: SearchLoadouts,
-      meta: { title: 'Search - TarkovArmory' },
+      meta: {
+        title: 'Search - TarkovArmory'
+      },
     },
     {
       path: '/sign-in',
       name: 'sign-in',
       component: SignIn,
-      meta: { title: 'Sign In - TarkovArmory' },
+      meta: {
+        title: 'Sign In - TarkovArmory'
+      },
     },
     {
       path: '/sign-up',
       name: 'sign-up',
       component: SignUp,
-      meta: { title: 'Sign Up - TarkovArmory' },
+      meta: {
+        title: 'Sign Up - TarkovArmory'
+      },
     },
     {
       path: '/confirm-email/:token',
       name: 'confirm-email',
       component: ConfirmEmail,
-      meta: { title: 'Confirm Email - TarkovArmory' },
+      meta: {
+        title: 'Confirm Email - TarkovArmory'
+      },
     },
     {
       path: '/reset-password',
       name: 'reset-password',
       component: ResetPassword,
-      meta: { title: 'Reset Password - TarkovArmory' },
+      meta: {
+        title: 'Reset Password - TarkovArmory'
+      },
     },
     {
       path: '/confirm-password-reset/:token',
       name: 'confirm-password-reset',
       component: ConfirmPasswordReset,
-      meta: { title: 'Confirm - TarkovArmory' },
+      meta: {
+        title: 'Confirm - TarkovArmory'
+      },
     },
     {
       path: '/loadout/:id',
       name: 'view-loadout',
       component: ViewLoadout,
-      meta: { title: 'Loadout - TarkovArmory' },
+      meta: {
+        title: 'Loadout - TarkovArmory'
+      },
     },
     {
       path: '/create-loadout',
       name: 'create-loadout',
       component: CreateLoadout,
-      meta: { title: 'Create Loadout - TarkovArmory' },
+      meta: {
+        title: 'Create Loadout - TarkovArmory'
+      },
     },
     {
       path: '/my-loadouts',
       name: 'my-loadouts',
       component: MyLoadouts,
-      meta: { title: 'My Loadouts - TarkovArmory' },
+      meta: {
+        title: 'My Loadouts - TarkovArmory'
+      },
     },
     {
       path: '/my-loadouts/edit/:id',
       name: 'my-loadouts-edit',
       component: EditLoadout,
-      meta: { title: 'Edit Loadout - TarkovArmory' },
+      meta: {
+        title: 'Edit Loadout - TarkovArmory'
+      },
     },
   ],
 });
