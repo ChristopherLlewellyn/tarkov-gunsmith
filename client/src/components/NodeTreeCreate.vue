@@ -240,13 +240,17 @@ export default {
         if (this.node.selected.bsg_id !== attachment.bsg_id) {
           this.removeRelatedAttachments(this.node.selected);
           this.removeItem(this.node.selected);
-          this.node.selected = attachment;
+          this.node.selected = JSON.parse(JSON.stringify(attachment));
           this.addItem(this.node.selected);
           this.addRelatedAttachments(this.node.selected);
           this.calculateWeaponStats();
         }
       } else {
-        this.node.selected = attachment;
+        if (attachment == undefined) {
+          this.node.selected = undefined;
+        } else {
+          this.node.selected = JSON.parse(JSON.stringify(attachment));
+        }
         this.refreshAllItems();
         this.recalculateAllItems(this.weapon);
         this.calculateWeaponStats();
