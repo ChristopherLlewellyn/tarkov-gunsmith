@@ -101,7 +101,6 @@ export default {
       state.votes = null;
       state.updated = null;
       state.captcha = null;
-      state.votedOn = [];
       state.weapon = {};
       state.allItems = [];
       state.market_price = 0;
