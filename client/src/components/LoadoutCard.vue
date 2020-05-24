@@ -1,6 +1,6 @@
 <template>
   <v-lazy v-model="isActive" transition="fade-transition">
-    <v-card :href="`/#/loadout/${loadout.id}`" tile>
+    <v-card :to="`/loadout/${loadout.id}`" tile>
       <v-toolbar>
         {{ loadout.name }}
         <v-spacer></v-spacer>

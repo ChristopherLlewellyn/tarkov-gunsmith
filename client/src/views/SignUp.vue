@@ -48,11 +48,9 @@
           <v-card-text class="text-center">
             <span class="font-weight-medium">
               Already have an account?
-              <a
-                href="#/sign-in"
-                color="white"
-                class="font-weight-bold"
-              >Sign In</a>
+              <router-link to="/sign-in">
+                <span class="font-weight-bold">Sign in</span>
+              </router-link>
             </span>
 
             <v-divider class="mb-3 mt-2"></v-divider>
