@@ -73,32 +73,24 @@
 
                     <!-- Flea Market Price -->
                     <td>
-                      <price-chip :value="item.avg_24h_price" currency="₽" source="Flea Market"></price-chip>
+                      <price-chip :value="item.avg_24h_price ? item.avg_24h_price : 0" currency="₽" source="Flea Market"></price-chip>
                     </td>
 
                     <!-- Trader Portrait -->
                     <td>
-                      <template v-if="item.trader_name">
-                        <trader-portrait :traderName="item.trader_name"></trader-portrait>
-                      </template>
-
-                      <template v-else>
-                        <span>-</span>
+                      <template>
+                        <trader-portrait :traderName="item.trader_name ? item.trader_name : null"></trader-portrait>
                       </template>
                     </td>
 
                     <!-- Trader Price -->
                     <td>
-                      <template v-if="item.trader_price">
+                      <template>
                         <price-chip
-                          :value="item.trader_price"
-                          :currency="item.trader_price_cur"
+                          :value="item.trader_price ? item.trader_price : 0"
+                          :currency="item.trader_price_cur ? item.trader_price_cur : '?'"
                           source="Trader"
                         ></price-chip>
-                      </template>
-
-                      <template v-else>
-                        <span>-</span>
                       </template>
                     </td>
 
