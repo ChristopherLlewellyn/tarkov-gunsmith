@@ -126,7 +126,11 @@
           filterable: false,
         },
         {
-          text: 'Name',
+          text: 'Short Name',
+          value: 'short_name',
+        },
+        {
+          text: 'Full Name',
           value: 'name',
         },
         {
