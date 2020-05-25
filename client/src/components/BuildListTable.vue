@@ -211,7 +211,7 @@ export default {
         value: "trader_price"
       },
       {
-        text: "Ergo",
+        text: "Ergonomics",
         value: "ergonomics_modifier"
       },
       {
