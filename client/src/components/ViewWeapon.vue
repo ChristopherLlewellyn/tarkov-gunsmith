@@ -14,8 +14,7 @@
               type="image"
             >
               <v-img
-                v-if="weapon.img_big !== null"
-                :src="weapon.img_big"
+                :src="weapon.img_big ? weapon.img_big : ''"
                 class="white--text align-end"
                 gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
                 max-height="180"

@@ -9,7 +9,7 @@ export default {
     loadoutName: '',
     username: null,
     votes: null,
-    updated: null,
+    created: null,
     captcha: null,
 
     votedOn: [],
@@ -90,7 +90,7 @@ export default {
       state.loadoutName = data.gunbuild.gunbuild.name;
       state.username = data.gunbuild.user.username;
       state.votes = data.gunbuild.gunbuild.voteCount.votes;
-      state.updated = data.gunbuild.gunbuild.updated_at;
+      state.created = data.gunbuild.gunbuild.created_at;
     },
 
     reset(state) {
@@ -99,7 +99,7 @@ export default {
       state.loadoutName = '';
       state.username = null;
       state.votes = null;
-      state.updated = null;
+      state.created = null;
       state.captcha = null;
       state.weapon = {};
       state.allItems = [];
@@ -179,10 +179,10 @@ export default {
         day: 'numeric'
       };
 
-      const date = state.updated;
+      const date = state.created;
       let dateNew = new Date(date);
       dateNew = dateNew.toLocaleDateString(undefined, options);
-      state.updated = dateNew;
+      state.created = dateNew;
     },
   },
 };

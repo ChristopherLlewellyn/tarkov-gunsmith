@@ -31,7 +31,7 @@
               <v-card outlined class="d-flex flex-row ma-2 align-center">
                 <h4 class="font-weight-medium grey--text d-flex flex-row ma-2">
                   <v-icon class="pr-2">mdi-update</v-icon>
-                  {{ updated }}
+                  {{ created }}
                 </h4>
               </v-card>
 
@@ -164,7 +164,7 @@ export default {
       "username",
       "loading",
       "votes",
-      "updated",
+      "created",
       "loadoutId",
       "votedOn",
       "allItems",

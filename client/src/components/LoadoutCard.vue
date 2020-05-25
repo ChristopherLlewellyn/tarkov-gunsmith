@@ -23,14 +23,17 @@
       </v-toolbar>
 
       <v-container fluid>
-        <v-img
-          :src="loadout.gun_img_big"
-          class="white--text align-end"
+        <v-sheet height="120" color="black">
+          <v-img
+          :src="loadout.gun_img_big ? loadout.gun_img_big : ''"
+          class="white--text align-end pt-12"
           gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
           max-height="120"
+          contain
         >
           <v-card-title>{{ loadout.gun_name }}</v-card-title>
         </v-img>
+        </v-sheet>
       </v-container>
 
       <v-divider></v-divider>
@@ -50,9 +53,9 @@
       </v-card-actions>
 
       <v-card-actions class="justify-center">
-        <span class="font-weight-light">Updated</span>
+        <span class="font-weight-light">Created</span>
         &nbsp;
-        <span class="font-weight-medium">{{ loadout.updated_at }}</span>
+        <span class="font-weight-medium">{{ loadout.created_at }}</span>
       </v-card-actions>
 
       <v-card-actions class="justify-center">

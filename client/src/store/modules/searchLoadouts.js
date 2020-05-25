@@ -115,6 +115,13 @@ export default {
         dateNew = dateNew.toLocaleDateString(undefined, options);
         state.loadouts[i].updated_at = dateNew;
       }
+
+      for (let i = 0; i < state.loadouts.length; i++) {
+        const date = state.loadouts[i].created_at;
+        let dateNew = new Date(date);
+        dateNew = dateNew.toLocaleDateString(undefined, options);
+        state.loadouts[i].created_at = dateNew;
+      }
     },
   },
 };

@@ -55,60 +55,9 @@
               height="400"
               type="card"
             >
-              <v-card :to="`/loadout/${loadout.id}`" tile>
-                <v-toolbar>
-                  {{ loadout.name }}
-                  <v-spacer></v-spacer>
-                  <v-card outlined class="d-flex flex-row ma-2">
-                    <template v-if="loadout.votes < 0">
-                      <v-icon color="red" class="ma-2">mdi-thumb-down</v-icon>
-                      <h4 class="ma-2 red--text">{{ loadout.votes }}</h4>
-                    </template>
+              <loadout-card :loadout="loadout">
+              </loadout-card>
 
-                    <template v-else-if="loadout.votes > 0">
-                      <v-icon color="green" class="ma-2">mdi-thumb-up</v-icon>
-                      <h4 class="ma-2 green--text">{{ loadout.votes }}</h4>
-                    </template>
-
-                    <template v-else>
-                      <v-icon color="grey" class="ma-2">mdi-thumbs-up-down</v-icon>
-                      <h4 class="ma-2 grey--text">{{ loadout.votes }}</h4>
-                    </template>
-                  </v-card>
-                </v-toolbar>
-                <v-container fluid>
-                  <v-img :src="loadout.gun_img_big" class="white--text align-end" height="120">
-                    <v-card-title>{{ loadout.gun_name }}</v-card-title>
-                  </v-img>
-                </v-container>
-
-                <v-divider></v-divider>
-
-                <v-card-actions class="justify-center">
-                  <caliber-chip :value="loadout.gun_caliber"></caliber-chip>
-                </v-card-actions>
-
-                <v-card-actions class="justify-center">
-                  <ergonomics-chip class="ma-2" :value="loadout.ergonomics_final"></ergonomics-chip>
-                  <vertical-recoil-chip class="ma-2" :value="loadout.vertical_recoil_final"></vertical-recoil-chip>
-                  <horizontal-recoil-chip class="ma-2" :value="loadout.horizontal_recoil_final"></horizontal-recoil-chip>
-                </v-card-actions>
-
-                <v-card-actions class="justify-center">
-                  <price-chip
-                    class="ma-2"
-                    :value="loadout.market_price"
-                    currency="₽"
-                    source="Flea Market"
-                  ></price-chip>
-                </v-card-actions>
-
-                <v-card-actions class="justify-center">
-                  <span class="font-weight-light">Updated</span>
-                  &nbsp;
-                  <span class="font-weight-medium">{{ loadout.updated_at }}</span>
-                </v-card-actions>
-              </v-card>
               <v-card tile>
                 <v-card-actions class="justify-center">
                   <v-btn class="ma-1" color="blue" :to="'/my-loadouts/edit/' + loadout.id">
@@ -179,6 +128,7 @@ import HorizontalRecoilChip from "../components/HorizontalRecoilChip";
 import VerticalRecoilChip from "../components/VerticalRecoilChip";
 import CaliberChip from "../components/CaliberChip";
 import PriceChip from "../components/PriceChip";
+import LoadoutCard from "../components/LoadoutCard";
 
 export default {
   mounted() {
@@ -193,7 +143,8 @@ export default {
     HorizontalRecoilChip,
     VerticalRecoilChip,
     CaliberChip,
-    PriceChip
+    PriceChip,
+    LoadoutCard
   },
 
   methods: {
