@@ -21,7 +21,12 @@ class AttachmentUpdater extends Task {
   }
 
   async handle () {
-    console.log("Starting Attachment Updater Task...")
+    var before = new Date();
+    var date = before.getFullYear()+'-'+(before.getMonth()+1)+'-'+before.getDate();
+    var time = before.getHours() + ":" + before.getMinutes() + ":" + before.getSeconds();
+    var dateTime = date+' '+time;
+
+    console.log("Starting Attachment Updater Task at " + dateTime)
     
     try {
       await AttachmentUpdaterService.getNewAttachments()
@@ -30,7 +35,11 @@ class AttachmentUpdater extends Task {
       console.log("Error running Attachment Updater task. ", e)
     }
 
-    console.log("Completed Attachment Updater Task.")
+    var after = new Date();
+    date = after.getFullYear()+'-'+(after.getMonth()+1)+'-'+after.getDate();
+    time = after.getHours() + ":" + after.getMinutes() + ":" + after.getSeconds();
+    dateTime = date+' '+time;
+    console.log("Completed Attachment Updater Task at " + dateTime)
   }
 }
 

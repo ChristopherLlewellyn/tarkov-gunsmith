@@ -21,7 +21,11 @@ class GunUpdater extends Task {
   }
 
   async handle () {
-    console.log("Starting Gun Updater Task...")
+    var before = new Date();
+    var date = before.getFullYear()+'-'+(before.getMonth()+1)+'-'+before.getDate();
+    var time = before.getHours() + ":" + before.getMinutes() + ":" + before.getSeconds();
+    var dateTime = date+' '+time;
+    console.log("Starting Gun Updater Task at " + dateTime)
 
     try {
       await GunUpdaterService.getNewGuns()
@@ -30,7 +34,11 @@ class GunUpdater extends Task {
       console.log("Error running Gun Updater task. ", e)
     }
 
-    console.log("Completed Gun Updater Task.")
+    var after = new Date();
+    date = after.getFullYear()+'-'+(after.getMonth()+1)+'-'+after.getDate();
+    time = after.getHours() + ":" + after.getMinutes() + ":" + after.getSeconds();
+    dateTime = date+' '+time;
+    console.log("Completed Gun Updater Task at " + dateTime)
   }
 }
 
