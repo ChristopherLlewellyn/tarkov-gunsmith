@@ -9,6 +9,16 @@
             <v-toolbar-title>Sign Up</v-toolbar-title>
             <v-spacer></v-spacer>
           </v-toolbar>
+          <v-card-actions class="justify-center">
+            <v-btn min-width="130" class="ma-2" color="red darken-2">
+              <v-icon left>mdi-google</v-icon>
+              <b>Google</b>
+            </v-btn>
+          </v-card-actions>
+          <v-divider></v-divider>
+          <v-card-text class="text-center">
+            <b>Or</b>
+          </v-card-text>
           <v-card-text>
             <v-form>
               <v-text-field

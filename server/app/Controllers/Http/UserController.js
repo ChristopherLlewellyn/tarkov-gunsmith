@@ -4,6 +4,7 @@ const User = use('App/Models/User')
 const Mail = use('Mail')
 const PasswordReset = use('App/Models/PasswordReset')
 const randomString = require('random-string')
+const GoogleAuthService = use('App/Services/GoogleAuthService')
 const UsernameGenerator = require('username-generator')
 
 class UserController {
@@ -161,23 +162,33 @@ class UserController {
   }
 
   // --- SOCIAL SIGN UP/LOG IN ---
+  
   // 'provider' is the 3rd party authenticator's name, e.g. 'google' or 'facebook'
-  async redirect ({ ally, params: { provider }}) {
-    const redirectUrl = await ally.driver(provider).getRedirectUrl()
-    return redirectUrl
-  }
+  async socialLogin ({ ally, auth, request, response, params: { provider } }) {
+    const accessToken = request.input('token')
 
-  // 'provider' is the 3rd party authenticator's name, e.g. 'google' or 'facebook'
-  async callback ({ ally, auth, params: { provider } }) {
     try {
-      const providerUser = await ally.driver(provider).getUser()
+      let providerUser = {}
+      let userDetails = {}
 
-      // user details to be saved
-      // the username is randomly generated
-      const userDetails = {
-        email: providerUser.getEmail(),
-        username: UsernameGenerator.generateUsername(),
-        is_active: 1,
+      // Use GoogleAuthService if the provider is google
+      if (provider == 'google') {
+        providerUser = await GoogleAuthService.verify(accessToken)
+        
+        userDetails = {
+          email: providerUser.email,
+          username: UsernameGenerator.generateUsername(),
+          is_active: 1,
+        }
+      }
+      // Otherwise, use Ally
+      else {
+        providerUser = await ally.driver(provider).getUserByToken(accessToken)
+        userDetails = {
+          email: providerUser.getEmail(),
+          username: UsernameGenerator.generateUsername(),
+          is_active: 1,
+        }
       }
       
       // check if username is taken
@@ -189,7 +200,6 @@ class UserController {
           checking = false;
         }
         else {
-          console.log(alreadyExists.username + " already exists")
           let newUsername = UsernameGenerator.generateUsername()
           let randomNumber = Math.floor(Math.random() * 999) + 1
           userDetails.username = newUsername + randomNumber.toString()
@@ -198,7 +208,7 @@ class UserController {
 
       // search for existing user
       const whereClause = {
-        email: providerUser.getEmail()
+        email: userDetails.email
       }
 
       const user = await User.findOrCreate(whereClause, userDetails)
@@ -206,7 +216,10 @@ class UserController {
 
       return token
     } catch (error) {
-      return 'Unable to authenticate. Try again later'
+      console.log(error)
+      response.status(404).json({
+        message: `Unable to authenticate using ${provider}. Try again later`
+      })
     }
   }
 
