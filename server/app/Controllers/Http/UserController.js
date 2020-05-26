@@ -4,6 +4,7 @@ const User = use('App/Models/User')
 const Mail = use('Mail')
 const PasswordReset = use('App/Models/PasswordReset')
 const randomString = require('random-string')
+const UsernameGenerator = require('username-generator')
 
 class UserController {
 
@@ -157,6 +158,56 @@ class UserController {
       message: 'Here is your user',
       data: user
     })
+  }
+
+  // --- SOCIAL SIGN UP/LOG IN ---
+  // 'provider' is the 3rd party authenticator's name, e.g. 'google' or 'facebook'
+  async redirect ({ ally, params: { provider }}) {
+    const redirectUrl = await ally.driver(provider).getRedirectUrl()
+    return redirectUrl
+  }
+
+  // 'provider' is the 3rd party authenticator's name, e.g. 'google' or 'facebook'
+  async callback ({ ally, auth, params: { provider } }) {
+    try {
+      const providerUser = await ally.driver(provider).getUser()
+
+      // user details to be saved
+      // the username is randomly generated
+      const userDetails = {
+        email: providerUser.getEmail(),
+        username: UsernameGenerator.generateUsername(),
+        is_active: 1,
+      }
+      
+      // check if username is taken
+      // if it is, generate a new username with a random number on the end and check again
+      let checking = true;
+      while (checking) {
+        let alreadyExists = await User.findBy('username', userDetails.username)
+        if (!alreadyExists) {
+          checking = false;
+        }
+        else {
+          console.log(alreadyExists.username + " already exists")
+          let newUsername = UsernameGenerator.generateUsername()
+          let randomNumber = Math.floor(Math.random() * 999) + 1
+          userDetails.username = newUsername + randomNumber.toString()
+        }
+      }
+
+      // search for existing user
+      const whereClause = {
+        email: providerUser.getEmail()
+      }
+
+      const user = await User.findOrCreate(whereClause, userDetails)
+      const token = await auth.generate(user) // generates JWT token for user
+
+      return token
+    } catch (error) {
+      return 'Unable to authenticate. Try again later'
+    }
   }
 
 }

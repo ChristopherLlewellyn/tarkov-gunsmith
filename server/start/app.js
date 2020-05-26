@@ -20,7 +20,8 @@ const providers = [
   '@adonisjs/mail/providers/MailProvider',
   '@adonisjs/framework/providers/ViewProvider',
   'adonis-scheduler/providers/SchedulerProvider',
-  'adonis-throttle/providers/ThrottleProvider'
+  'adonis-throttle/providers/ThrottleProvider',
+  '@adonisjs/ally/providers/AllyProvider'
 ]
 
 /*
