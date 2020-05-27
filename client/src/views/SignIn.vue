@@ -9,13 +9,6 @@
             <v-toolbar-title>Sign In</v-toolbar-title>
             <v-spacer></v-spacer>
           </v-toolbar>
-          <v-card-actions class="justify-center">
-            <GoogleLogin :params="googleParams" :renderParams="googleRenderParams" :onSuccess="onGoogleSuccess" :onFailure="onGoogleFailure"></GoogleLogin>
-          </v-card-actions>
-          <v-divider></v-divider>
-          <v-card-text class="text-center">
-            <b>Or</b>
-          </v-card-text>
           <v-card-text>
             <v-form class="text-center">
               <v-text-field v-model="email" label="Email" placeholder="Email" prepend-icon="mdi-email" :value="signInEmail"></v-text-field>
@@ -26,7 +19,7 @@
               </router-link>
             </v-form>
 
-            <v-alert type="error" :value="signInError">{{ signInError }}</v-alert>
+            <v-alert class="mt-4" type="error" :value="signInError">{{ signInError }}</v-alert>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
@@ -44,6 +37,14 @@
                 <span class="font-weight-bold">Sign up</span>
               </router-link>
             </span>
+
+            <v-card-text class="text-center">
+              <b>Or</b>
+            </v-card-text>
+
+            <v-card-actions class="justify-center">
+              <google-sign-in type="sign-in"></google-sign-in>
+            </v-card-actions>
 
             <v-divider class="mb-3 mt-2"></v-divider>
 
@@ -66,26 +67,19 @@
     mapMutations,
     mapActions
   } from "vuex";
-  import GoogleLogin from 'vue-google-login';
+  import GoogleSignIn from "@/components/GoogleSignIn.vue";
 
   export default {
     mounted() {
       (this.email = this.signInEmail), (this.password = this.signInPassword);
+      this.setSignInError(null);
     },
     data: () => ({
       email: "",
       password: "",
-
-      googleParams: {
-        client_id: "228755433678-3jngo1n8o3us6su2p2duvakecopnkffr.apps.googleusercontent.com"
-      },
-      // only needed if you want to render the button with the google ui
-      googleRenderParams: {
-        width: 150,
-      }
     }),
     components: {
-      GoogleLogin
+      GoogleSignIn
     },
     computed: {
       ...mapState("authentication", [
@@ -100,13 +94,10 @@
         "setSignInEmail",
         "setSignInPassword",
         "setCaptcha",
-        "setSocialProvider",
-        "setSocialEmail",
-        "setSocialToken"
+        "setSignInError"
       ]),
       ...mapActions("authentication", [
         "signIn",
-        "socialSignIn"
       ]),
 
       async recaptchaToken() {
@@ -128,22 +119,6 @@
         this.setSignInEmail(this.email);
         this.setSignInPassword(this.password);
         this.signIn();
-      },
-
-      async onGoogleSuccess(googleUser) {
-        // Get user's access token from the successful sign in response
-        let googleToken = googleUser.getAuthResponse().id_token;
-
-        // Set the provider name and the user's access token in the authentication store
-        this.setSocialProvider('google')
-        this.setSocialToken(googleToken);
-
-        // Sign in (verify Google token and receive our own API's auth token, like we would with a regular sign in)
-        this.socialSignIn();
-      },
-
-      onGoogleFailure() {
-        console.log('Google sign in failed');
       },
     }
   };

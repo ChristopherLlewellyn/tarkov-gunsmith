@@ -9,16 +9,6 @@
             <v-toolbar-title>Sign Up</v-toolbar-title>
             <v-spacer></v-spacer>
           </v-toolbar>
-          <v-card-actions class="justify-center">
-            <v-btn min-width="130" class="ma-2" color="red darken-2">
-              <v-icon left>mdi-google</v-icon>
-              <b>Google</b>
-            </v-btn>
-          </v-card-actions>
-          <v-divider></v-divider>
-          <v-card-text class="text-center">
-            <b>Or</b>
-          </v-card-text>
           <v-card-text>
             <v-form>
               <v-text-field
@@ -44,8 +34,8 @@
               ></v-text-field>
             </v-form>
 
-            <v-alert type="error" :value="signUpError">{{ signUpError }}</v-alert>
-            <v-alert type="success" :value="signUpSuccess">{{ signUpSuccess }}</v-alert>
+            <v-alert class="mt-4" type="error" :value="signUpError">{{ signUpError }}</v-alert>
+            <v-alert class="mt-4" type="success" :value="signUpSuccess">{{ signUpSuccess }}</v-alert>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
@@ -62,6 +52,14 @@
                 <span class="font-weight-bold">Sign in</span>
               </router-link>
             </span>
+
+            <v-card-text class="text-center">
+              <b>Or</b>
+            </v-card-text>
+
+            <v-card-actions class="justify-center">
+              <google-sign-in type="sign-in"></google-sign-in>
+            </v-card-actions>
 
             <v-divider class="mb-3 mt-2"></v-divider>
 
@@ -82,10 +80,14 @@
 
 <script>
 import { mapState, mapMutations, mapActions } from "vuex";
+import GoogleSignIn from "@/components/GoogleSignIn.vue";
 
 export default {
   mounted() {
     this.resetSignUp();
+  },
+  components: {
+      GoogleSignIn
   },
   data: () => ({
     email: "",

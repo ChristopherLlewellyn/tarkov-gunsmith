@@ -92,7 +92,6 @@ export default {
     },
 
     socialSignIn({ commit, state }) {
-      commit('setLoading', true);
       return HTTP().post(`/auth/social/${state.socialProvider}`, {
         token: state.socialToken
       })
@@ -101,11 +100,9 @@ export default {
       }) => {
         commit('setToken', data.token);
         commit('setSignInError', null);
-        commit('setLoading', false);
         router.push('/');
       })
       .catch((error) => {
-        commit('setLoading', false);
         if (error.response.status == '404') {
           commit('setSignInError', error.response.data.message);
         } else if (error.response.status == '429') {
