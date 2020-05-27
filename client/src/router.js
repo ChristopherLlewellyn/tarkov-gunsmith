@@ -15,6 +15,7 @@ import DiscordRedirect from './views/DiscordRedirect.vue';
 Vue.use(Router);
 
 export default new Router({
+  mode: 'history',
   routes: [{
       path: '/',
       name: 'search',
