@@ -14,7 +14,6 @@ import ConfirmEmail from './views/ConfirmEmail.vue';
 Vue.use(Router);
 
 export default new Router({
-  mode: 'history',
   routes: [{
       path: '/',
       name: 'search',
