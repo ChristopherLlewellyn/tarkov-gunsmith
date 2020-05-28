@@ -60,6 +60,17 @@ Route.group(() => {
     Route
       .post('auth/social/:provider', 'UserController.socialLogin')
 
+    // change username
+    Route
+      .patch('auth/change-username', 'UserController.changeUsername')
+      .validator('ChangeUsername')
+      .middleware(['throttle:10', 'profanityFilterUser'])
+
+    // get profile data
+    Route
+      .get('auth/profile', 'UserController.profile')
+      .middleware(['throttle:60'])
+      
     // ----- Gunbuilds -----
     // get all
     Route

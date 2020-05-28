@@ -11,6 +11,7 @@ import ResetPassword from './views/ResetPassword.vue';
 import ConfirmPasswordReset from './views/ConfirmPasswordReset.vue';
 import ConfirmEmail from './views/ConfirmEmail.vue';
 import DiscordRedirect from './views/DiscordRedirect.vue';
+import Account from './views/Account.vue';
 
 Vue.use(Router);
 
@@ -70,6 +71,14 @@ export default new Router({
       component: ConfirmPasswordReset,
       meta: {
         title: 'Confirm - TarkovArmory'
+      },
+    },
+    {
+      path: '/account',
+      name: 'account',
+      component: Account,
+      meta: {
+        title: 'Account - TarkovArmory'
       },
     },
     {

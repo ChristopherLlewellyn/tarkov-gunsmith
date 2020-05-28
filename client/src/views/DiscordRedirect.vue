@@ -2,11 +2,13 @@
   <v-container>
     <span class="bg"></span>
     <v-layout align-center justify-center>
-      <v-flex xs12 sm8 md4>
+      <v-flex xs12 sm8 md6 lg4>
         <v-card>
-          <v-toolbar color="blue-grey">
+          <v-toolbar color="#7289da">
             <v-spacer></v-spacer>
-            <v-toolbar-title color="#7289da">Authenticating with Discord</v-toolbar-title>
+            <v-toolbar-title>
+              <v-icon left>mdi-discord</v-icon>
+              Authenticating with Discord</v-toolbar-title>
             <v-spacer></v-spacer>
           </v-toolbar>
           <v-card-actions>

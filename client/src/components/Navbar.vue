@@ -49,6 +49,11 @@
             item.title
             }}
           </v-btn>
+
+          <v-btn to="/account" text>
+            <v-icon left>mdi-account</v-icon>
+            Account
+          </v-btn>
         </template>
 
         <v-btn color="blue-grey darken-2" v-if="!isSignedIn" to="/sign-in">
@@ -105,6 +110,16 @@
 
               <v-list-item-content>
                 <v-list-item-title>{{ item.title }}</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+
+            <v-list-item link to="/account">
+              <v-list-item-icon>
+                <v-icon>mdi-account</v-icon>
+              </v-list-item-icon>
+
+              <v-list-item-content>
+                <v-list-item-title>Account</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </template>

@@ -148,6 +148,32 @@ class UserController {
     }
   }
 
+  async changeUsername({ request, response, auth }) {
+    let newUsername = request.input('username')
+    let user = await auth.getUser()
+    user.username = newUsername
+    await user.save()
+
+    response.status(200).json({
+      message: 'Username updated',
+      username: newUsername
+    })
+  }
+
+  async profile({ response, auth }) {
+    let user = await auth.getUser()
+    let profile = {
+      username: user.username,
+      email: user.email,
+      created: user.created_at
+    }
+
+    response.status(200).json({
+      message: 'Here is your profile data',
+      profile: profile
+    })
+  }
+
   // return all users
   async index({ response }) {
     const users = await User.all()
