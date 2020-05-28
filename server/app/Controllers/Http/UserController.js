@@ -184,6 +184,7 @@ class UserController {
         
         userDetails = {
           email: providerUser.email,
+          password: randomString({ length: 30 }),
           username: UsernameGenerator.generateUsername(),
           is_active: 1,
         }
@@ -199,6 +200,7 @@ class UserController {
         
         userDetails = {
           email: providerUser.email,
+          password: randomString({ length: 30 }),
           username: UsernameGenerator.generateUsername(),
           is_active: 1,
         }
@@ -209,6 +211,7 @@ class UserController {
         providerUser = await ally.driver(provider).getUserByToken(accessToken)
         userDetails = {
           email: providerUser.getEmail(),
+          password: randomString({ length: 30 }),
           username: UsernameGenerator.generateUsername(),
           is_active: 1,
         }
