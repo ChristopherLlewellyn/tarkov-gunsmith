@@ -53,14 +53,6 @@
               </router-link>
             </span>
 
-            <v-card-text class="text-center">
-              <b>Or</b>
-            </v-card-text>
-
-            <v-card-actions class="justify-center">
-              <google-sign-in type="sign-in"></google-sign-in>
-            </v-card-actions>
-
             <v-divider class="mb-3 mt-2"></v-divider>
 
             <span class="caption">

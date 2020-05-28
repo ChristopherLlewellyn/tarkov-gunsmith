@@ -43,6 +43,13 @@
             </v-card-text>
 
             <v-card-actions class="justify-center">
+              <v-btn color="#7289da" to="/discord-redirect">
+                <v-icon left>mdi-discord</v-icon>
+                <b>Sign in with Discord</b>
+              </v-btn>
+            </v-card-actions>
+            
+            <v-card-actions class="justify-center">
               <google-sign-in type="sign-in"></google-sign-in>
             </v-card-actions>
 

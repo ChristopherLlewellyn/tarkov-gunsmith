@@ -1,5 +1,23 @@
 <template>
-  <span class="bg"></span>
+  <v-container>
+    <span class="bg"></span>
+    <v-layout align-center justify-center>
+      <v-flex xs12 sm8 md4>
+        <v-card>
+          <v-toolbar color="blue-grey">
+            <v-spacer></v-spacer>
+            <v-toolbar-title color="#7289da">Authenticating with Discord</v-toolbar-title>
+            <v-spacer></v-spacer>
+          </v-toolbar>
+          <v-card-actions>
+            <v-row class="fill-height ma-3" align="center" justify="center">
+              <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+            </v-row>
+          </v-card-actions>
+        </v-card>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 
@@ -21,11 +39,9 @@
 
         // Verify the Discord code and fetch an auth token from our API
         this.socialSignIn();
-      }
-
-      else {
+      } else {
         let url = process.env.VUE_APP_DISCORD_AUTH_URL;
-        window.open(url,"_self")
+        window.open(url, "_self")
       }
     },
 
@@ -49,7 +65,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    background: url("../images/backgrounds/pmcNight.png") no-repeat center center;
+    background: url("../images/backgrounds/discord.jpg") no-repeat center center;
     background-size: cover;
     background-color: black;
     transform: scale(1);

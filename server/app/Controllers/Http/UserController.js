@@ -1,10 +1,17 @@
 'use strict'
 
+// Models
 const User = use('App/Models/User')
-const Mail = use('Mail')
 const PasswordReset = use('App/Models/PasswordReset')
-const randomString = require('random-string')
+
+const Mail = use('Mail')
+
+// Services
 const GoogleAuthService = use('App/Services/GoogleAuthService')
+const DiscordAuthService = use('App/Services/DiscordAuthService')
+
+// Libraries
+const randomString = require('random-string')
 const UsernameGenerator = require('username-generator')
 
 class UserController {
@@ -181,6 +188,22 @@ class UserController {
           is_active: 1,
         }
       }
+
+      // Use DiscordAuthService if the provider is discord
+      if (provider == 'discord') {
+        const discordRedirectUri = request.input('discordRedirectUri')
+        // In this case, accessToken is actually a code provided by discord
+        // that can be exchanged for a real access token
+        const discordAccessToken = await DiscordAuthService.requestToken(accessToken, discordRedirectUri)
+        providerUser = await DiscordAuthService.getUser(discordAccessToken)
+        
+        userDetails = {
+          email: providerUser.email,
+          username: UsernameGenerator.generateUsername(),
+          is_active: 1,
+        }
+      }
+
       // Otherwise, use Ally
       else {
         providerUser = await ally.driver(provider).getUserByToken(accessToken)

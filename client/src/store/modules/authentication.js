@@ -93,7 +93,8 @@ export default {
 
     socialSignIn({ commit, state }) {
       return HTTP().post(`/auth/social/${state.socialProvider}`, {
-        token: state.socialToken
+        token: state.socialToken,
+        discordRedirectUri: process.env.VUE_APP_DISCORD_REDIRECT_URI
       })
       .then(({
         data
