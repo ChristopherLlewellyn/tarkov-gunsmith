@@ -190,7 +190,7 @@ class UserController {
       }
 
       // Use DiscordAuthService if the provider is discord
-      if (provider == 'discord') {
+      else if (provider == 'discord') {
         const discordRedirectUri = request.input('discordRedirectUri')
         // In this case, accessToken is actually a code provided by discord
         // that can be exchanged for a real access token
