@@ -1,9 +1,18 @@
 'use strict'
 
+// Models
 const User = use('App/Models/User')
-const Mail = use('Mail')
 const PasswordReset = use('App/Models/PasswordReset')
+
+const Mail = use('Mail')
+
+// Services
+const GoogleAuthService = use('App/Services/GoogleAuthService')
+const DiscordAuthService = use('App/Services/DiscordAuthService')
+
+// Libraries
 const randomString = require('random-string')
+const UsernameGenerator = require('username-generator')
 
 class UserController {
 
@@ -157,6 +166,84 @@ class UserController {
       message: 'Here is your user',
       data: user
     })
+  }
+
+  // --- SOCIAL SIGN UP/LOG IN ---
+  
+  // 'provider' is the 3rd party authenticator's name, e.g. 'google' or 'facebook'
+  async socialLogin ({ ally, auth, request, response, params: { provider } }) {
+    const accessToken = request.input('token')
+
+    try {
+      let providerUser = {}
+      let userDetails = {}
+
+      // Use GoogleAuthService if the provider is google
+      if (provider == 'google') {
+        providerUser = await GoogleAuthService.verify(accessToken)
+        
+        userDetails = {
+          email: providerUser.email,
+          username: UsernameGenerator.generateUsername(),
+          is_active: 1,
+        }
+      }
+
+      // Use DiscordAuthService if the provider is discord
+      else if (provider == 'discord') {
+        const discordRedirectUri = request.input('discordRedirectUri')
+        // In this case, accessToken is actually a code provided by discord
+        // that can be exchanged for a real access token
+        const discordAccessToken = await DiscordAuthService.requestToken(accessToken, discordRedirectUri)
+        providerUser = await DiscordAuthService.getUser(discordAccessToken)
+        
+        userDetails = {
+          email: providerUser.email,
+          username: UsernameGenerator.generateUsername(),
+          is_active: 1,
+        }
+      }
+
+      // Otherwise, use Ally
+      else {
+        providerUser = await ally.driver(provider).getUserByToken(accessToken)
+        userDetails = {
+          email: providerUser.getEmail(),
+          username: UsernameGenerator.generateUsername(),
+          is_active: 1,
+        }
+      }
+      
+      // check if username is taken
+      // if it is, generate a new username with a random number on the end and check again
+      let checking = true;
+      while (checking) {
+        let alreadyExists = await User.findBy('username', userDetails.username)
+        if (!alreadyExists) {
+          checking = false;
+        }
+        else {
+          let newUsername = UsernameGenerator.generateUsername()
+          let randomNumber = Math.floor(Math.random() * 999) + 1
+          userDetails.username = newUsername + randomNumber.toString()
+        }
+      }
+
+      // search for existing user
+      const whereClause = {
+        email: userDetails.email
+      }
+
+      const user = await User.findOrCreate(whereClause, userDetails)
+      const token = await auth.generate(user) // generates JWT token for user
+
+      return token
+    } catch (error) {
+      console.log(error)
+      response.status(404).json({
+        message: `Unable to authenticate using ${provider}. Try again later`
+      })
+    }
   }
 
 }

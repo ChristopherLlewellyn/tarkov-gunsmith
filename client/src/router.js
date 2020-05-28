@@ -10,6 +10,7 @@ import ViewLoadout from './views/ViewLoadout.vue';
 import ResetPassword from './views/ResetPassword.vue';
 import ConfirmPasswordReset from './views/ConfirmPasswordReset.vue';
 import ConfirmEmail from './views/ConfirmEmail.vue';
+import DiscordRedirect from './views/DiscordRedirect.vue';
 
 Vue.use(Router);
 
@@ -45,6 +46,14 @@ export default new Router({
       component: ConfirmEmail,
       meta: {
         title: 'Confirm Email - TarkovArmory'
+      },
+    },
+    {
+      path: '/discord-redirect',
+      name: 'discord-redirect',
+      component: DiscordRedirect,
+      meta: {
+        title: 'Discord Auth - TarkovArmory'
       },
     },
     {

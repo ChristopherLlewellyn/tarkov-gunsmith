@@ -34,8 +34,8 @@
               ></v-text-field>
             </v-form>
 
-            <v-alert type="error" :value="signUpError">{{ signUpError }}</v-alert>
-            <v-alert type="success" :value="signUpSuccess">{{ signUpSuccess }}</v-alert>
+            <v-alert class="mt-4" type="error" :value="signUpError">{{ signUpError }}</v-alert>
+            <v-alert class="mt-4" type="success" :value="signUpSuccess">{{ signUpSuccess }}</v-alert>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
@@ -72,10 +72,14 @@
 
 <script>
 import { mapState, mapMutations, mapActions } from "vuex";
+import GoogleSignIn from "@/components/GoogleSignIn.vue";
 
 export default {
   mounted() {
     this.resetSignUp();
+  },
+  components: {
+      GoogleSignIn
   },
   data: () => ({
     email: "",

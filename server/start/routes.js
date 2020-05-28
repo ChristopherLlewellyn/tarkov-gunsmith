@@ -55,6 +55,11 @@ Route.group(() => {
       .validator('LoginUser')
       .middleware('throttle:10', 'verifyCaptchaV3')
 
+    // social sign up/log in 
+    // 'provider' is the 3rd party authenticator's name, e.g. 'google' or 'facebook'
+    Route
+      .post('auth/social/:provider', 'UserController.socialLogin')
+
     // ----- Gunbuilds -----
     // get all
     Route

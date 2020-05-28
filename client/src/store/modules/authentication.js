@@ -16,6 +16,10 @@ export default {
     token: null,
     captcha: null,
 
+    // Social login
+    socialProvider: null,
+    socialToken: null,
+
     loading: false,
   },
 
@@ -86,6 +90,29 @@ export default {
       commit('setToken', null);
       router.push('/sign-in');
     },
+
+    socialSignIn({ commit, state }) {
+      return HTTP().post(`/auth/social/${state.socialProvider}`, {
+        token: state.socialToken,
+        discordRedirectUri: process.env.VUE_APP_DISCORD_REDIRECT_URI
+      })
+      .then(({
+        data
+      }) => {
+        commit('setToken', data.token);
+        commit('setSignInError', null);
+        router.push('/');
+      })
+      .catch((error) => {
+        if (error.response.status == '404') {
+          commit('setSignInError', error.response.data.message);
+        } else if (error.response.status == '429') {
+          commit('setSignInError', 'Too many attempts, wait 60s');
+        } else {
+          commit('setSignInError', error.response.data[0].message);
+        }
+      });
+    }
   },
   getters: {
     isSignedIn(state) {
@@ -149,6 +176,12 @@ export default {
     },
     setLoading(state, loading) {
       state.loading = loading;
+    },
+    setSocialProvider(state, provider) {
+      state.socialProvider = provider;
+    },
+    setSocialToken(state, token) {
+      state.socialToken = token;
     },
   },
 };
