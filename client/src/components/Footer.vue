@@ -48,6 +48,7 @@
               >If you like this project, and would like to support me.</v-card-text>
               <v-card-actions class="justify-center">
                 <v-btn
+                  class="mr-2"
                   rounded
                   color="amber lighten-1"
                   href="https://www.paypal.me/welshllama"
@@ -55,6 +56,17 @@
                   rel="noopener noreferrer"
                 >
                   <b class="black--text">Donate</b>
+                </v-btn>
+
+                <span>or</span>
+
+                <v-btn class="ml-2" color="teal"
+                  rounded
+                  href="https://www.buymeacoffee.com/ChrisLlewellyn"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <b class="grey--text text--lighten-3">☕ Buy me a coffee</b>
                 </v-btn>
               </v-card-actions>
             </v-card>
@@ -110,6 +122,7 @@
             >If you like this project, and would like to support me.</v-card-text>
             <v-card-actions class="justify-center">
               <v-btn
+                class="mr-2"
                 rounded
                 color="amber lighten-1"
                 href="https://www.paypal.me/welshllama"
@@ -118,6 +131,17 @@
               >
                 <b class="black--text">Donate</b>
               </v-btn>
+
+              <span>or</span>
+
+                <v-btn class="ml-2" color="teal"
+                  rounded
+                  href="https://www.buymeacoffee.com/ChrisLlewellyn"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <b class="grey--text text--lighten-3">☕ Buy me a coffee</b>
+                </v-btn>
             </v-card-actions>
           </v-card>
         </v-row>
