@@ -14,7 +14,7 @@
       <v-toolbar-title>
         <router-link to="/">
           <span class="font-weight-light ml-1">Tarkov</span>
-          <span>Armory</span>
+          <span>Gunsmith</span>
         </router-link>
       </v-toolbar-title>
       <v-spacer />

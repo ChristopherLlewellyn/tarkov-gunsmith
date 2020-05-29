@@ -51,7 +51,7 @@ class UserController {
     // send confirmation email to user
     await Mail.send('emails.confirm_email', user.toJSON(), message => {
       message.to(user.email)
-      .from('quartermaster@tarkovarmory.com')
+      .from('quartermaster@tarkov-gunsmith.com')
       .subject('Please confirm your email address')
     })
 

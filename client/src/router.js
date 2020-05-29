@@ -22,7 +22,7 @@ export default new Router({
       name: 'search',
       component: SearchLoadouts,
       meta: {
-        title: 'Search - TarkovArmory'
+        title: 'Search - Tarkov Gunsmith'
       },
     },
     {
@@ -30,7 +30,7 @@ export default new Router({
       name: 'sign-in',
       component: SignIn,
       meta: {
-        title: 'Sign In - TarkovArmory'
+        title: 'Sign In - Tarkov Gunsmith'
       },
     },
     {
@@ -38,7 +38,7 @@ export default new Router({
       name: 'sign-up',
       component: SignUp,
       meta: {
-        title: 'Sign Up - TarkovArmory'
+        title: 'Sign Up - Tarkov Gunsmith'
       },
     },
     {
@@ -46,7 +46,7 @@ export default new Router({
       name: 'confirm-email',
       component: ConfirmEmail,
       meta: {
-        title: 'Confirm Email - TarkovArmory'
+        title: 'Confirm Email - Tarkov Gunsmith'
       },
     },
     {
@@ -54,7 +54,7 @@ export default new Router({
       name: 'discord-redirect',
       component: DiscordRedirect,
       meta: {
-        title: 'Discord Auth - TarkovArmory'
+        title: 'Discord Auth - Tarkov Gunsmith'
       },
     },
     {
@@ -62,7 +62,7 @@ export default new Router({
       name: 'reset-password',
       component: ResetPassword,
       meta: {
-        title: 'Reset Password - TarkovArmory'
+        title: 'Reset Password - Tarkov Gunsmith'
       },
     },
     {
@@ -70,7 +70,7 @@ export default new Router({
       name: 'confirm-password-reset',
       component: ConfirmPasswordReset,
       meta: {
-        title: 'Confirm - TarkovArmory'
+        title: 'Confirm - Tarkov Gunsmith'
       },
     },
     {
@@ -78,7 +78,7 @@ export default new Router({
       name: 'account',
       component: Account,
       meta: {
-        title: 'Account - TarkovArmory'
+        title: 'Account - Tarkov Gunsmith'
       },
     },
     {
@@ -86,7 +86,7 @@ export default new Router({
       name: 'view-loadout',
       component: ViewLoadout,
       meta: {
-        title: 'Loadout - TarkovArmory'
+        title: 'Loadout - Tarkov Gunsmith'
       },
     },
     {
@@ -94,7 +94,7 @@ export default new Router({
       name: 'create-loadout',
       component: CreateLoadout,
       meta: {
-        title: 'Create Loadout - TarkovArmory'
+        title: 'Create Loadout - Tarkov Gunsmith'
       },
     },
     {
@@ -102,7 +102,7 @@ export default new Router({
       name: 'my-loadouts',
       component: MyLoadouts,
       meta: {
-        title: 'My Loadouts - TarkovArmory'
+        title: 'My Loadouts - Tarkov Gunsmith'
       },
     },
     {
@@ -110,7 +110,7 @@ export default new Router({
       name: 'my-loadouts-edit',
       component: EditLoadout,
       meta: {
-        title: 'Edit Loadout - TarkovArmory'
+        title: 'Edit Loadout - Tarkov Gunsmith'
       },
     },
   ],
