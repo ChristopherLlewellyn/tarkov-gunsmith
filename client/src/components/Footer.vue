@@ -106,7 +106,7 @@
                 :src="require('../images/logo1-transparent-thick.svg')"
               ></v-img>
               <span class="font-weight-light">Tarkov</span>
-              <span>Armory</span>
+              <span>Gunsmith</span>
               &nbsp;
               {{ new Date().getFullYear() }}
             </v-card-title>
