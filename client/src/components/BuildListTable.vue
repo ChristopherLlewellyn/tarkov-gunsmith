@@ -77,13 +77,16 @@
                     </td>
 
                     <!-- Trader Portrait -->
+                    <!-- Commented this out because we don't currently have the correct data available to display
                     <td>
                       <template>
                         <trader-portrait :traderName="item.trader_name ? item.trader_name : null"></trader-portrait>
                       </template>
                     </td>
+                    //-->
 
                     <!-- Trader Price -->
+                    <!-- Commented this out because we don't currently have the correct data available to display
                     <td>
                       <template>
                         <price-chip
@@ -93,6 +96,7 @@
                         ></price-chip>
                       </template>
                     </td>
+                    //-->
 
                     <!-- Ergo -->
                     <td>
@@ -202,6 +206,7 @@ export default {
         text: "Flea Market (24h Avg)",
         value: "price"
       },
+      /* Commented this out because we don't currently have the correct data available to display
       {
         text: "Trader",
         value: "none"
@@ -209,7 +214,8 @@ export default {
       {
         text: "Trader Price",
         value: "trader_price"
-      },
+      }, 
+      */
       {
         text: "Ergonomics",
         value: "ergonomics_modifier"

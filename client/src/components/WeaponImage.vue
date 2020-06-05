@@ -36,8 +36,10 @@
       <v-card-actions class="justify-center">
         <market-price-card :marketPrice="marketPrice ? marketPrice : 0"></market-price-card>
 
+        <!-- Commenting out this because we currently don't have the correct data to display
         <trader-price-card :traderName="traderName ? traderName : 'Unknown'" :traderPrice="traderPrice ? traderPrice : 0"
           :traderCurrency="traderCurrency ? traderCurrency : '?'"></trader-price-card>
+        //-->
       </v-card-actions>
     </v-card>
   </v-tooltip>
