@@ -48,7 +48,12 @@ class GunUpdaterService {
         // JSON values must be stringified before being added to the database
         guns[i].slots = JSON.stringify(guns[i].slots)
 
-        const newGun = await Factory.model('App/Models/Gun').create(guns[i])
+        try {
+          const newGun = await Factory.model('App/Models/Gun').create(guns[i])
+        } catch (err) {
+          console.log(`\nError creating new gun '${guns[i].name}' with Factory (GunUpdaterService). See error below:`)
+          console.log(err + '\n')
+        }
       }   
     }
   }

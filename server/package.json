@@ -1,8 +1,8 @@
 {
-  "name": "adonis-api-app",
-  "version": "4.1.0",
+  "name": "tarkov-gunsmith-api",
+  "version": "1.0.0",
   "adonis-version": "4.1.0",
-  "description": "Adonisjs boilerplate for API server with pre-configured JWT",
+  "description": "The API for tarkov-gunsmith.com",
   "main": "index.js",
   "scripts": {
     "start": "node server.js",

@@ -52,7 +52,12 @@ class GunSeeder {
       // All JSON objects need to be stringified before they can be inserted into the database
       guns[i].slots = JSON.stringify(guns[i].slots)
       
-      const newGun = await Factory.model('App/Models/Gun').create(guns[i])
+      try {
+        const newGun = await Factory.model('App/Models/Gun').create(guns[i])
+      } catch (err) {
+        console.log(`\nError creating new gun '${guns[i].name}' with Factory (GunSeeder). See error below:`)
+        console.log(err + '\n')
+      }
     }
   }
 }

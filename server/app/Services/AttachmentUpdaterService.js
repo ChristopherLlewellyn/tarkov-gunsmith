@@ -50,7 +50,12 @@ class AttachmentUpdaterService {
         attachments[i].compatibility = JSON.stringify(attachments[i].compatibility)
         attachments[i].conflicts = JSON.stringify(attachments[i].conflicts)
 
-        const newAttachment = await Factory.model('App/Models/Attachment').create(attachments[i])
+        try {
+          const newAttachment = await Factory.model('App/Models/Attachment').create(attachments[i])
+        } catch (err) {
+          console.log(`\nError creating new attachment '${attachments[i].name}' with Factory (AttachmentUpdaterService). See error below:`)
+          console.log(err + '\n')
+        }
       }   
     }
   }
