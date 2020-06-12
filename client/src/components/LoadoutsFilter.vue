@@ -81,11 +81,11 @@ export default {
 
   data: () => ({
     gun: "Any",
-    priceRange: [0, 750000],
+    priceRange: [0, 1500000],
 
     // Price Range
     min: 0,
-    max: 750000,
+    max: 1500000,
 
     dialog: false
   })
