@@ -91,6 +91,7 @@
                         :key="index + guid()"
                       >
                         <attachment-image
+                          v-if="attachment"
                           @handle-click="handleSelection"
                           :imgUrl="attachment.img"
                           :name="attachment.name"
