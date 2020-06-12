@@ -37,6 +37,11 @@
                 {{ new Date().getFullYear() }}
               </v-card-title>
               <v-card-text class="justify-center">Version {{ version }}</v-card-text>
+              <v-card-text>
+                <router-link to="/privacy-policy">
+                  <span>Privacy Policy</span>
+                </router-link>
+              </v-card-text>
             </v-card>
           </v-col>
 
@@ -111,6 +116,11 @@
               {{ new Date().getFullYear() }}
             </v-card-title>
             <v-card-text>Version {{ version }}</v-card-text>
+            <v-card-text>
+              <router-link to="/privacy-policy">
+                <span>Privacy Policy</span>
+              </router-link>
+            </v-card-text>
           </v-card>
         </v-row>
 

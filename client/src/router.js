@@ -12,6 +12,7 @@ import ConfirmPasswordReset from './views/ConfirmPasswordReset.vue';
 import ConfirmEmail from './views/ConfirmEmail.vue';
 import DiscordRedirect from './views/DiscordRedirect.vue';
 import Account from './views/Account.vue';
+import PrivacyPolicy from './views/PrivacyPolicy.vue';
 
 Vue.use(Router);
 
@@ -71,6 +72,14 @@ export default new Router({
       component: ConfirmPasswordReset,
       meta: {
         title: 'Confirm - Tarkov Gunsmith'
+      },
+    },
+    {
+      path: '/privacy-policy',
+      name: 'privacy-policy',
+      component: PrivacyPolicy,
+      meta: {
+        title: 'Privacy Policy - Tarkov Gunsmith'
       },
     },
     {
