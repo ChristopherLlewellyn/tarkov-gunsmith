@@ -171,6 +171,11 @@ export default {
           title: "Search Loadouts",
           icon: "mdi-crosshairs",
           route: "/"
+        },
+        {
+          title: "Create Loadout",
+          icon: "mdi-hammer",
+          route: "/create-loadout"
         }
       ],
       requiresSignIn: [
@@ -179,11 +184,6 @@ export default {
           icon: "mdi-pistol",
           route: "/my-loadouts"
         },
-        {
-          title: "Create Loadout",
-          icon: "mdi-hammer",
-          route: "/create-loadout"
-        }
       ]
     };
   }

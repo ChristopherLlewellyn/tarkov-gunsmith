@@ -2,14 +2,26 @@
   <v-container grid-list-xs>
     <span class="bg"></span>
     <v-layout row wrap>
-      <!-- Snackbar -->
+      <!-- Error Snackbar -->
       <v-snackbar v-model="showSnackbar" multi-line top color="error">
         <h3>{{ error }}</h3>
         <v-btn text @click="showSnackbar = false, setSnackbar(false)">Close</v-btn>
       </v-snackbar>
 
+      <v-snackbar v-model="notSignedInSnackbar" :timeout="0" color="blue darken-2" class="mb-6">
+        <v-icon left>mdi-information-outline</v-icon>
+        <h3>Sign in to publish your loadout</h3>
+          <v-btn
+            color="white"
+            text
+            @click="notSignedInSnackbar = false"
+          >
+            Close
+          </v-btn>
+    </v-snackbar>
+
       <!-- Loadout Title -->
-      <v-flex xs12>
+      <v-flex xs12 v-if="isSignedIn">
         <v-text-field
           v-model="loadoutName"
           :rules="rules"
@@ -25,7 +37,7 @@
       <v-flex xs12>
         <weapon-selector></weapon-selector>
         <v-divider></v-divider>
-        <v-layout column align-center>
+        <v-layout v-if="isSignedIn" column align-center>
           <v-btn
             class="justify-center"
             color="green"
@@ -90,8 +102,8 @@ import ConflictsPanel from "@/components/ConflictsPanel.vue";
 
 export default {
   mounted() {
-    if (!this.isSignedIn) {
-      return router.push("/sign-in");
+    if(!this.isSignedIn) {
+      this.notSignedInSnackbar = true;
     }
     this.reset();
     this.fetchAttachments();
@@ -176,6 +188,7 @@ export default {
   data: () => ({
     loadoutName: "",
     showSnackbar: false,
+    notSignedInSnackbar: false,
     rules: [
       value => !!value || "Required.",
       value => (value && value.length <= 45) || "Max 45 characters"
