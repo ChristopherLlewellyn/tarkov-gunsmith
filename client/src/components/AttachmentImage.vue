@@ -17,7 +17,7 @@
       </v-card-title>
       <!-- Attachment Properties -->
       <v-card-actions class="justify-center">
-        <ergonomics-chip v-if="ergonomicsModifier" class="ml-1 mr-1" :value="ergonomicsModifier">
+        <ergonomics-chip v-if="ergonomicsModifier" class="ml-2 mr-2" :value="ergonomicsModifier" :showBadge="true">
         </ergonomics-chip>
 
         <recoil-modifier-chip v-if="recoilModifier" class="ml-1 mr-1" :value="recoilModifier">

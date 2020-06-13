@@ -101,7 +101,7 @@
                     <!-- Ergo -->
                     <td>
                       <template v-if="item.ergonomics_modifier">
-                        <ergonomics-chip :value="item.ergonomics_modifier"></ergonomics-chip>
+                        <ergonomics-chip :value="item.ergonomics_modifier" :showBadge="true"></ergonomics-chip>
                       </template>
 
                       <template v-else-if="item.ergonomics">
