@@ -1,7 +1,7 @@
 # Tarkov Gunsmith 
-A web application providing community curated weapon builds complete with compatibility, stats and flea market prices for [Escape from Tarkov] (https://www.escapefromtarkov.com/).
+A web application providing community curated weapon builds complete with compatibility, stats and flea market prices for [Escape from Tarkov](https://www.escapefromtarkov.com/).
 
-[Track the development on Trello] (https://trello.com/b/e82gBsJD/tarkov-gunsmith)
+[Track the development on Trello](https://trello.com/b/e82gBsJD/tarkov-gunsmith)
 
 ## Features
 * Weapon builder with all weapon/attachment compatibility
@@ -15,11 +15,11 @@ A web application providing community curated weapon builds complete with compat
 * Item stats and prices are automatically kept up to date
 
 ## Tools
-### Client
+**Client**
 
 The client/frontend has been built with [Vue](https://vuejs.org/) and [Vuetify](https://vuetifyjs.com/).
 
-### Server
+**Server**
 
 The server/API has been built with [AdonisJs](https://adonisjs.com/) and connects to a [MYSQL](https://www.mysql.com/) database.
 
