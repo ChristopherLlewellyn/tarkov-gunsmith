@@ -108,6 +108,19 @@
         <view-weapon></view-weapon>
       </v-flex>
 
+      <!-- Description -->
+      <v-flex xs12>
+        <v-card class="ma-3">
+          <v-card-title class="blue-grey darken-2 justify-center">
+            <v-icon class="pr-2" large>mdi-card-text</v-icon>
+            Description
+          </v-card-title>
+          <v-card-actions>
+            <tiptap-editor :disabled="true" :data="loadoutDescription"></tiptap-editor>
+          </v-card-actions>
+        </v-card>
+      </v-flex>
+
       <!-- Build Tree -->
       <v-flex xs12>
         <template v-if="loading" class="ma-4">
@@ -142,13 +155,15 @@ import router from "../router";
 import ViewWeapon from "@/components/ViewWeapon.vue";
 import BuildListTable from "@/components/BuildListTable.vue";
 import Tree from "@/components/Tree.vue";
+import TiptapEditor from "@/components/TiptapEditor.vue";
 
 export default {
   components: {
     ViewWeapon,
     BuildListTable,
     Tree,
-    VueRecaptcha
+    VueRecaptcha,
+    TiptapEditor
   },
 
   mounted() {
@@ -161,6 +176,7 @@ export default {
   computed: {
     ...mapState("viewLoadout", [
       "loadoutName",
+      "loadoutDescription",
       "username",
       "loading",
       "votes",

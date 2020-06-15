@@ -13,6 +13,7 @@ export default {
     defaultAttachments: [],
     loadoutId: null,
     loadoutName: '',
+    loadoutDescription: '',
 
     weapon: {},
     conflicts: [],
@@ -96,6 +97,7 @@ export default {
           build: state.weapon,
           all_items: state.allItems,
           market_price: state.market_price,
+          description: state.loadoutDescription,
 
           captcha: state.captcha
         })
@@ -127,6 +129,7 @@ export default {
       state.allItems = JSON.parse(data.gunbuild.gunbuild.all_items)
 
       state.loadoutName = data.gunbuild.gunbuild.name;
+      state.loadoutDescription = data.gunbuild.gunbuild.description;
     },
 
     reset(state) {
@@ -138,6 +141,7 @@ export default {
       state.availableAttachments = [];
       state.defaultAttachments = [];
       state.loadoutName = '';
+      state.loadoutDescription = '';
 
       state.weapon = {};
       state.conflicts = [];
@@ -250,6 +254,9 @@ export default {
     },
     setLoadoutName(state, name) {
       state.loadoutName = name;
+    },
+    setLoadoutDescription(state, description) {
+      state.loadoutDescription = description;
     },
     setLoading(state, loading) {
       state.loading = loading;

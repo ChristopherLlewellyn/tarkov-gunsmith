@@ -47,6 +47,19 @@
         ></conflicts-panel>
       </v-flex>
 
+      <!-- Description -->
+      <v-flex xs12>
+        <v-card class="ma-3">
+          <v-card-title class="blue-grey darken-2 justify-center">
+            <v-icon class="pr-2" large>mdi-card-text</v-icon>
+            Description
+          </v-card-title>
+          <v-card-actions>
+            <tiptap-editor :disabled="false" :data="loadoutDescriptionData" @update-description="updateDescription"></tiptap-editor>
+          </v-card-actions>
+        </v-card>
+      </v-flex>
+
       <!-- Build Tree -->
       <v-flex xs12>
         <template v-if="weaponsLoading || attachmentsLoading" class="ma-4">
@@ -87,6 +100,7 @@ import EditWeaponSelector from "@/components/EditWeaponSelector.vue";
 import BuildListTable from "@/components/BuildListTable.vue";
 import Tree from "@/components/Tree.vue";
 import ConflictsPanel from "@/components/ConflictsPanel.vue";
+import TiptapEditor from "@/components/TiptapEditor.vue";
 
 export default {
   mounted() {
@@ -112,6 +126,7 @@ export default {
       "availableWeapons",
       "allItems",
       "loadoutName",
+      "loadoutDescription",
       "conflicts",
       "snackbar"
     ]),
@@ -133,6 +148,9 @@ export default {
     },
     loadoutName(newValue) {
       this.loadoutNameField = newValue;
+    },
+    loadoutDescription(newValue) {
+      this.loadoutDescriptionData = newValue;
     }
   },
 
@@ -146,11 +164,16 @@ export default {
 
     ...mapMutations("editLoadout", [
       "setLoadoutName",
+      "setLoadoutDescription",
       "reset",
       "setLoadoutId",
       "setSnackbar",
       "setCaptcha"
     ]),
+
+    updateDescription(newDescription) {
+      this.loadoutDescriptionData = newDescription;
+    },
 
     async recaptchaToken() {
       return new Promise(resolve => {
@@ -170,6 +193,7 @@ export default {
       const token = await this.recaptchaToken();
       this.setCaptcha(token);
       this.setLoadoutName(this.loadoutNameField);
+      this.setLoadoutDescription(this.loadoutDescriptionData);
       this.editLoadout();
     }
   },
@@ -178,11 +202,13 @@ export default {
     EditWeaponSelector,
     Tree,
     BuildListTable,
-    ConflictsPanel
+    ConflictsPanel,
+    TiptapEditor
   },
 
   data: () => ({
     loadoutNameField: "",
+    loadoutDescriptionData: "",
     showSnackbar: false,
     rules: [
       value => !!value || "Required.",

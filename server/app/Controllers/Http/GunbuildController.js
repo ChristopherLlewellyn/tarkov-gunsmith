@@ -86,7 +86,8 @@ class GunbuildController {
       ergonomics_final,
       build,
       all_items,
-      market_price
+      market_price,
+      description
     } = request.all()
 
     // JSON columns need to be stringified before going to the database
@@ -101,7 +102,8 @@ class GunbuildController {
       ergonomics_final,
       build,
       all_items,
-      market_price
+      market_price,
+      description
     })
 
     const voteCount = await VoteCount.create({
@@ -137,7 +139,8 @@ class GunbuildController {
       ergonomics_final,
       build,
       all_items,
-      market_price
+      market_price,
+      description
     } = request.post()
 
     // JSON columns need to be stringified before going to the database
@@ -152,7 +155,8 @@ class GunbuildController {
       ergonomics_final: ergonomics_final,
       build: build,
       all_items: all_items,
-      market_price: market_price
+      market_price: market_price,
+      description: description
     })
 
     await gunbuild.save()
