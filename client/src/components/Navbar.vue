@@ -175,7 +175,7 @@ export default {
       drawer: false,
       notRequiresSignIn: [
         {
-          title: "Virion's Loadouts",
+          title: "Virion's Guides",
           icon: "mdi-star",
           badge: {
             text: "FEATURED",
