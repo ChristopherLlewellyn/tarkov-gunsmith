@@ -47,6 +47,10 @@ class GunbuildService {
         if (query.priceRangeMin && query.priceRangeMax) {
           queryBuilder.whereBetween('market_price', [query.priceRangeMin, query.priceRangeMax])
         }
+
+        if (query.username) {
+          queryBuilder.where('users.username', query.username)
+        }
       })
 
     return gunbuilds

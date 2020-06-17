@@ -7,6 +7,7 @@ export default {
     loading: true,
     loadoutId: null,
     loadoutName: '',
+    loadoutDescription: '',
     username: null,
     votes: null,
     created: null,
@@ -88,6 +89,7 @@ export default {
       state.allItems = JSON.parse(data.gunbuild.gunbuild.all_items)
 
       state.loadoutName = data.gunbuild.gunbuild.name;
+      state.loadoutDescription = data.gunbuild.gunbuild.description;
       state.username = data.gunbuild.user.username;
       state.votes = data.gunbuild.gunbuild.voteCount.votes;
       state.created = data.gunbuild.gunbuild.created_at;
@@ -97,6 +99,7 @@ export default {
       state.loading = true;
       state.loadoutId = null;
       state.loadoutName = '';
+      state.loadoutDescription = '',
       state.username = null;
       state.votes = null;
       state.created = null;

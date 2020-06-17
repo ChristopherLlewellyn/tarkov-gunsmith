@@ -59,6 +59,19 @@
         ></conflicts-panel>
       </v-flex>
 
+      <!-- Description -->
+      <v-flex xs12 v-if="isSignedIn">
+        <v-card class="ma-3">
+          <v-card-title class="blue-grey darken-2 justify-center">
+            <v-icon class="pr-2" large>mdi-card-text</v-icon>
+            Description
+          </v-card-title>
+          <v-card-actions>
+            <tiptap-editor :disabled="false" :data="loadoutDescription" @update-description="updateDescription"></tiptap-editor>
+          </v-card-actions>
+        </v-card>
+      </v-flex>
+
       <!-- Build Tree -->
       <v-flex xs12>
         <template v-if="weaponsLoading || attachmentsLoading" class="ma-4">
@@ -99,6 +112,7 @@ import WeaponSelector from "@/components/WeaponSelector.vue";
 import BuildListTable from "@/components/BuildListTable.vue";
 import Tree from "@/components/Tree.vue";
 import ConflictsPanel from "@/components/ConflictsPanel.vue";
+import TiptapEditor from "@/components/TiptapEditor.vue";
 
 export default {
   mounted() {
@@ -151,10 +165,15 @@ export default {
 
     ...mapMutations("createLoadout", [
       "setLoadoutName",
+      "setLoadoutDescription",
       "reset",
       "setSnackbar",
       "setCaptcha"
     ]),
+
+    updateDescription(newDescription) {
+      this.loadoutDescription = newDescription;
+    },
 
     async recaptchaToken() {
       return new Promise(resolve => {
@@ -174,6 +193,7 @@ export default {
       const token = await this.recaptchaToken();
       this.setCaptcha(token);
       this.setLoadoutName(this.loadoutName);
+      this.setLoadoutDescription(this.loadoutDescription);
       this.createLoadout();
     }
   },
@@ -182,11 +202,13 @@ export default {
     WeaponSelector,
     Tree,
     BuildListTable,
-    ConflictsPanel
+    ConflictsPanel,
+    TiptapEditor
   },
 
   data: () => ({
     loadoutName: "",
+    loadoutDescription: "",
     showSnackbar: false,
     notSignedInSnackbar: false,
     rules: [

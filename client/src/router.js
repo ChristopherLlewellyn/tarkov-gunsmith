@@ -13,6 +13,7 @@ import ConfirmEmail from './views/ConfirmEmail.vue';
 import DiscordRedirect from './views/DiscordRedirect.vue';
 import Account from './views/Account.vue';
 import PrivacyPolicy from './views/PrivacyPolicy.vue';
+import VirionsLoadouts from './views/VirionsLoadouts.vue';
 
 Vue.use(Router);
 
@@ -120,6 +121,14 @@ export default new Router({
       component: EditLoadout,
       meta: {
         title: 'Edit Loadout - Tarkov Gunsmith'
+      },
+    },
+    {
+      path: '/user/virion',
+      name: 'virions-loadouts',
+      component: VirionsLoadouts,
+      meta: {
+        title: "Virion's Loadouts - Tarkov Gunsmith"
       },
     },
   ],

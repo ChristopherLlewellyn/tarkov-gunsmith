@@ -23,9 +23,12 @@
       <v-toolbar-items class="hidden-sm-and-down">
         <v-btn v-for="item in notRequiresSignIn" :key="item.title" :to="item.route" text>
           <v-icon left>{{ item.icon }}</v-icon>
-          {{
-          item.title
-          }}
+          <template v-if="item.badge">
+            <v-badge inline :content="item.badge.text" :color="item.badge.color">{{ item.title }}</v-badge>
+          </template>
+          <template v-else>
+            {{ item.title }}
+          </template>
         </v-btn>
 
         <template v-if="!isSignedIn">
@@ -33,9 +36,7 @@
             <template v-slot:activator="{ on }">
               <v-btn class="default grey--text" text v-on="on">
                 <v-icon color="grey darken-1" left>{{ item.icon }}</v-icon>
-                {{
-                item.title
-                }}
+                {{ item.title }}
               </v-btn>
             </template>
             <span>Sign in to access this feature</span>
@@ -45,9 +46,7 @@
         <template v-if="isSignedIn">
           <v-btn v-for="item in requiresSignIn" :key="item.title" :to="item.route" text>
             <v-icon left>{{ item.icon }}</v-icon>
-            {{
-            item.title
-            }}
+            {{ item.title }}
           </v-btn>
 
           <v-btn to="/account" text>
@@ -81,7 +80,15 @@
             </v-list-item-icon>
 
             <v-list-item-content>
-              <v-list-item-title>{{ item.title }}</v-list-item-title>
+              <template v-if="item.badge">
+                <v-badge inline :content="item.badge.text" :color="item.badge.color">
+                  <v-list-item-title>{{ item.title }}</v-list-item-title>
+                </v-badge>
+              </template>
+
+              <template v-else>
+                <v-list-item-title>{{ item.title }}</v-list-item-title>
+              </template>
             </v-list-item-content>
           </v-list-item>
 
@@ -167,6 +174,15 @@ export default {
     return {
       drawer: false,
       notRequiresSignIn: [
+        /*{
+          title: "Virion's Guides",
+          icon: "mdi-star",
+          badge: {
+            text: "FEATURED",
+            color: "blue"
+          },
+          route: "/user/virion"
+        },*/
         {
           title: "Search Loadouts",
           icon: "mdi-crosshairs",
