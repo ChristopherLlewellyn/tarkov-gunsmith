@@ -174,7 +174,7 @@ export default {
     return {
       drawer: false,
       notRequiresSignIn: [
-        {
+        /*{
           title: "Virion's Guides",
           icon: "mdi-star",
           badge: {
@@ -182,7 +182,7 @@ export default {
             color: "blue"
           },
           route: "/user/virion"
-        },
+        },*/
         {
           title: "Search Loadouts",
           icon: "mdi-crosshairs",
