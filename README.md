@@ -4,6 +4,8 @@ A web application providing community curated weapon builds complete with compat
 [Track the development on Trello](https://trello.com/b/e82gBsJD/tarkov-gunsmith)
 
 ## Features
+* Authentication - traditional email/password and verification email authentication, plus single sign on with Google and Discord authentication
+
 * Weapon builder with all weapon/attachment compatibility
 
 * Caliber, ergonomics, vertical/horizontal recoil, recoil modifiers and weight stats for all weapons and attachments
@@ -21,7 +23,7 @@ The client/frontend has been built with [Vue](https://vuejs.org/) and [Vuetify](
 
 **Server**
 
-The server/API has been built with [AdonisJs](https://adonisjs.com/) and connects to a [MYSQL](https://www.mysql.com/) database.
+The server is a REST API that has been built with [AdonisJs](https://adonisjs.com/) (a Node.js framework) and connects to a [MYSQL](https://www.mysql.com/) database.
 
 ## Screenshots
 ![Weapon builder](/Screenshots/weapon-builder.PNG)
