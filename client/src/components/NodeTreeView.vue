@@ -1,7 +1,7 @@
 <template>
   <div class="node-tree">
-    <!-- Checking that the node is not a firearm (or magazine, because we don't care about magazines) -->
-    <template v-if="node.kind !== 'firearm' && slotName !== 'magazine'">
+    <!-- Checking that the node is not a firearm -->
+    <template v-if="node.kind !== 'firearm'">
       <v-sheet color="blue" class="pl-1">
         <v-card class="mt-2 grey darken-3">
           <v-expansion-panels v-model="panel" hover readonly>

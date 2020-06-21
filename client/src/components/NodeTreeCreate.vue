@@ -1,7 +1,7 @@
 <template>
   <div class="node-tree">
-    <!-- Checking that the node is not a firearm (or magazine, because we don't care about magazines) -->
-    <template v-if="node.kind !== 'firearm' && slotName !== 'magazine'">
+    <!-- Checking that the node is not a firearm -->
+    <template v-if="node.kind !== 'firearm'">
       <v-sheet color="blue" class="pl-1">
         <v-card class="mt-2 grey darken-3">
           <v-expansion-panels hover v-model="panel">
@@ -18,6 +18,7 @@
                       <attachment-image
                         :imgUrl="node.selected.img"
                         :name="node.selected.name"
+                        :bsgId="node.selected.bsg_id"
                         :ergonomicsModifier="node.selected.ergonomics_modifier"
                         :recoilModifier="node.selected.recoil_modifier"
                         :weight="node.selected.weight"
@@ -95,6 +96,7 @@
                           @handle-click="handleSelection"
                           :imgUrl="attachment.img"
                           :name="attachment.name"
+                          :bsgId="attachment.bsg_id"
                           :ergonomicsModifier="attachment.ergonomics_modifier"
                           :recoilModifier="attachment.recoil_modifier"
                           :weight="attachment.weight"
@@ -225,11 +227,11 @@ export default {
         }
       }
     },
-    selectAttachment(attachmentName) {
+    selectAttachment(bsgId) {
       // Find the attachment we want to remove in the list of available attachments
       // If the attachment isn't found, it returns undefined
       const attachment = this.availableAttachments.find(
-        ({ name }) => name === attachmentName
+        ({ bsg_id }) => bsg_id === bsgId
       );
 
       // Update the build tree with the newly selected attachment, or 'undefined' if 'none' was selected
@@ -262,8 +264,8 @@ export default {
     closePanel() {
       this.panel = undefined;
     },
-    handleSelection(attachmentName) {
-      this.selectAttachment(attachmentName);
+    handleSelection(bsgId) {
+      this.selectAttachment(bsgId);
       this.closePanel();
     },
     guid() {

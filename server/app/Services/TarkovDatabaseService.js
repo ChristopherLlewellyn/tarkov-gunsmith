@@ -95,7 +95,10 @@ class TarkovDatabaseService {
     // Filter for modification kinds
     let modificationKinds = Object.keys(kindsObject).filter(kind => kind.includes('modification'))
 
-    // Get the attachments for every type of modification
+    // We also want magazines
+    modificationKinds.push('magazine')
+
+    // Get the attachments for every type of modification (+ magazines)
     let modifications = []
     for (let modificationKind of modificationKinds) {
       let items = await this.getItemsByKind(token, modificationKind)

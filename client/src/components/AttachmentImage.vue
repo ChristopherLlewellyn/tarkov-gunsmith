@@ -1,7 +1,7 @@
 <template>
   <v-tooltip bottom color="grey darken-4">
     <template v-slot:activator="{ on }">
-      <v-img @click="$emit('handle-click', name)" class="ml-4 pointer" v-on="on" v-on:error="onImgError" :src="img ? img : noImage" :alt="name ? name : 'Missing name'" max-height="60"
+      <v-img @click="$emit('handle-click', bsgId)" class="ml-4 pointer" v-on="on" v-on:error="onImgError" :src="img ? img : noImage" :alt="name ? name : 'Missing name'" max-height="60"
         max-width="175" contain>
         <template v-slot:placeholder>
           <v-row class="fill-height ma-0" align="center" justify="center">
@@ -54,6 +54,7 @@
     props: {
       imgUrl: String,
       name: String,
+      bsgId: String,
       ergonomicsModifier: Number,
       recoilModifier: Number,
       weight: Number,
