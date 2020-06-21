@@ -1,6 +1,6 @@
 'use strict'
 
-const Factory = use('Factory')
+const Database = use('Database')
 const Attachment = use('App/Models/Attachment')
 const TarkovDatabaseService = use('App/Services/TarkovDatabaseService')
 const TarkovMarketService = use('App/Services/TarkovMarketService')
@@ -51,7 +51,35 @@ class AttachmentUpdaterService {
         attachments[i].conflicts = JSON.stringify(attachments[i].conflicts)
 
         try {
-          const newAttachment = await Factory.model('App/Models/Attachment').create(attachments[i])
+          const newAttachment = await Database.table('attachments').insert({
+            // Tarkov-Database data
+            name:                       attachments[i].name,
+            type:                       attachments[i].type,
+            recoil_modifier:            attachments[i].recoil,
+            ergonomics_modifier:        attachments[i].ergonomics,
+            accuracy_modifier:          attachments[i].accuracy,
+            muzzle_velocity_modifier:   attachments[i].velocity,
+            bsg_id:                     attachments[i]._id,
+            short_name:                 attachments[i].shortName,
+            description:                attachments[i].description,
+            price:                      attachments[i].price,
+            weight:                     attachments[i].weight,
+            modified:                   attachments[i]._modified,
+            kind:                       attachments[i]._kind,
+            slots:                      attachments[i].slots ? attachments[i].slots : '{}',
+            compatibility:              attachments[i].compatibility,
+            conflicts:                  attachments[i].conflicts ? attachments[i].conflicts : '{}',
+            // Tarkov-Market data
+            avg_24h_price:              attachments[i].avg24hPrice,
+            trader_name:                attachments[i].traderName,
+            trader_price:               attachments[i].traderPrice,
+            trader_price_cur:           attachments[i].traderPriceCur,
+            icon:                       attachments[i].icon,
+            img:                        attachments[i].img,
+            img_big:                    attachments[i].imgBig,
+            tarkov_market_link:         attachments[i].tarkovMarketLink,
+            wiki_link:                  attachments[i].wikiLink
+          })
         } catch (err) {
           console.log(`\nError creating new attachment '${attachments[i].name}' with Factory (AttachmentUpdaterService). See error below:`)
           console.log(err + '\n')
@@ -111,9 +139,9 @@ class AttachmentUpdaterService {
           weight:                     attachments[i].weight,
           modified:                   attachments[i]._modified,
           kind:                       attachments[i]._kind,
-          slots:                      attachments[i].slots,
+          slots:                      attachments[i].slots ? attachments[i].slots : '{}',
           compatibility:              attachments[i].compatibility,
-          conflicts:                  attachments[i].conflicts,
+          conflicts:                  attachments[i].conflicts ? attachments[i].conflicts : '{}',
           // Tarkov-Market data
           avg_24h_price:              attachments[i].avg24hPrice,
           trader_name:                attachments[i].traderName,
