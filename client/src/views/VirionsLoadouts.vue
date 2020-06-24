@@ -5,7 +5,7 @@
       <v-card-title class="justify-center">
         <h2>Virion's Loadouts</h2>
       </v-card-title>
-      <v-card-text>Virion's guides are high quality, featuring best-in-slot and budget weapon builds complete with trader prices and optimal ammunition choices.</v-card-text>
+      <v-card-text>Virion's loadouts are high quality, featuring a variety of best-in-slot and budget weapon builds complete with optimal ammunition choices.</v-card-text>
     </v-card>
     <v-data-iterator class="ml-8 mr-8" :items="loadouts" :items-per-page="-1" :search="search" :sort-by="sortBy.toLowerCase()" :sort-desc="sortDesc"
       hide-default-footer>

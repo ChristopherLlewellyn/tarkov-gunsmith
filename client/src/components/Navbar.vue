@@ -174,15 +174,15 @@ export default {
     return {
       drawer: false,
       notRequiresSignIn: [
-        /*{
-          title: "Virion's Guides",
+        {
+          title: "Virion's Loadouts",
           icon: "mdi-star",
           badge: {
             text: "FEATURED",
             color: "blue"
           },
           route: "/user/virion"
-        },*/
+        },
         {
           title: "Search Loadouts",
           icon: "mdi-crosshairs",
