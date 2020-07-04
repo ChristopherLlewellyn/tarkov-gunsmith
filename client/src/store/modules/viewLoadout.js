@@ -4,6 +4,7 @@ import router from '../../router';
 export default {
   namespaced: true,
   state: {
+    //! Remember to change the values in reset() function when updating these default values
     loading: true,
     loadoutId: null,
     loadoutName: '',

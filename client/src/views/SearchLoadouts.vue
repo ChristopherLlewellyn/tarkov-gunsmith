@@ -33,6 +33,7 @@
             <v-select
               class="ml-4 mr-4"
               v-model="sortBy"
+              @change="fetchLoadouts"
               flat
               solo
               hide-details
@@ -41,7 +42,7 @@
               label="Sort by"
             ></v-select>
 
-            <v-btn-toggle class="ml-4 mr-4" v-model="sortDesc" mandatory>
+            <v-btn-toggle class="ml-4 mr-4" v-model="sortDesc" @change="fetchLoadouts" mandatory>
               <v-btn medium depressed color="blue-grey darken-1" :value="false">
                 <v-icon>mdi-arrow-up</v-icon>
               </v-btn>
@@ -85,6 +86,7 @@
             <v-select
               class="ml-4 mr-4"
               v-model="sortBy"
+              @change="fetchLoadouts"
               flat
               solo
               hide-details
@@ -96,7 +98,8 @@
 
           <v-toolbar flat>
             <v-spacer></v-spacer>
-            <v-btn-toggle class="ml-4 mr-4" v-model="sortDesc" mandatory>
+
+            <v-btn-toggle class="ml-4 mr-4" v-model="sortDesc" @change="fetchLoadouts" mandatory>
               <v-btn medium depressed color="blue" :value="false">
                 <v-icon>mdi-arrow-up</v-icon>
               </v-btn>
@@ -104,6 +107,7 @@
                 <v-icon>mdi-arrow-down</v-icon>
               </v-btn>
             </v-btn-toggle>
+            
             <v-spacer></v-spacer>
           </v-toolbar>
 
@@ -138,6 +142,10 @@
       </template>
     </v-data-iterator>
 
+    <v-row v-if="loadMore" class="fill-height ma-3" align="center" justify="center">
+      <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+    </v-row>
+
     <v-row class="justify-center" v-if="loadouts.length == 0 && !loading">
       <v-card>
         <h4 class="ma-2">No loadouts found</h4>
@@ -155,6 +163,9 @@ import LoadoutsFilter from "../components/LoadoutsFilter";
 
 export default {
   mounted() {
+    this.scroll()
+    this.setOffset(0);
+    this.setNoMoreLoadouts(false);
     this.fetchGuns();
     this.fetchLoadouts();
   },
@@ -167,10 +178,21 @@ export default {
   methods: {
     ...mapActions("searchLoadouts", ["fetchLoadouts", "fetchGuns"]),
 
+    ...mapGetters("searchLoadouts", [
+      "getSortBy", 
+      "getSortDesc", 
+      "getOffset", 
+      "getLimit"
+    ]),
+
     ...mapMutations("searchLoadouts", [
       "setGunToIndexBy",
       "setGunNamesFilter",
-      "setFilters"
+      "setFilters",
+      "setSortBy",
+      "setSortDesc",
+      "setOffset",
+      "setNoMoreLoadouts"
     ]),
 
     searchGunNames(val) {
@@ -188,6 +210,22 @@ export default {
     applyFilters(filters) {
       this.setFilters(filters);
       this.fetchLoadouts();
+    },
+
+    loadMoreLoadouts() {
+      let newOffset = this.getOffset() + this.getLimit();
+      this.setOffset(newOffset);
+      this.fetchLoadouts(true);
+    },
+
+    scroll() {
+      window.onscroll = () => {
+        let bottomOfWindow = Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop) + window.innerHeight === document.documentElement.offsetHeight;
+
+        if (bottomOfWindow && !this.noMoreLoadouts) {
+          this.loadMoreLoadouts();
+        }
+      }
     }
   },
 
@@ -199,11 +237,31 @@ export default {
     ...mapState("searchLoadouts", [
       "loadouts",
       "loading",
+      "loadMore",
       "guns",
       "gunNames",
       "gunNamesFilter",
-      "filters"
-    ])
+      "filters",
+      "noMoreLoadouts"
+    ]),
+
+    sortBy: {
+      get() {
+        return this.getSortBy();
+      },
+      set(newSortBy) {
+        return this.setSortBy(newSortBy);
+      }
+    },
+
+    sortDesc: {
+      get() {
+        return this.getSortDesc();
+      },
+      set(newSortDesc) {
+        return this.setSortDesc(newSortDesc);
+      }
+    }
   },
 
   data() {
@@ -213,8 +271,6 @@ export default {
 
       search: "",
       filter: {},
-      sortDesc: true,
-      sortBy: "votes",
       keys: [
         "Votes",
         "Name",

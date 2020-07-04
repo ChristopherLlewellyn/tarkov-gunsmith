@@ -38,7 +38,7 @@ class GunbuildService {
       .innerJoin("users", "users.id", "gunbuilds.user_id")
       .innerJoin("vote_counts", "vote_counts.gunbuild_id", "gunbuilds.id")
 
-      // Parameters in the GET request are applied to the query in .modify below
+      //* Parameters in the GET request are applied to the query in .modify below
       .modify(function (queryBuilder) {
         if (query.gun && query.gun != 'Any' && query.gun != '') {
           queryBuilder.where('guns.name', query.gun)
@@ -50,6 +50,23 @@ class GunbuildService {
 
         if (query.username) {
           queryBuilder.where('users.username', query.username)
+        }
+
+        //* Limit and Offset here
+        if (query.offset) {
+          queryBuilder.offset(parseInt(query.offset, 10))
+        }
+
+        if(query.limit) {
+          queryBuilder.limit(query.limit)
+        }
+
+        //* Order by and direction (desc/asc)
+        if(query.orderBy && query.orderByDirection) {
+          queryBuilder.orderBy(query.orderBy, query.orderByDirection)
+          // We use a second order by to prevent duplication - see the following for an explanation:
+          // https://stackoverflow.com/questions/2077803/paging-in-sql-with-limit-offset-sometimes-results-in-duplicates-on-different-pag
+          queryBuilder.orderBy('id', 'asc')
         }
       })
 
