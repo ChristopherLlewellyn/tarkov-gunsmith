@@ -13,6 +13,7 @@
 |
 */
 
+//! THROTTLING HAS BEEN REMOVED AS IT WAS NOT WORKING AS INTENDED
 /* THROTTLING
 | 'throttle:10' = 10 requests per 60 seconds
 | 'throttle:10,120' = 10 requests per 120 seconds
@@ -31,7 +32,7 @@ Route.group(() => {
     Route
       .post('auth/register', 'UserController.register')
       .validator('RegisterUser')
-      .middleware(['throttle:10', 'verifyCaptchaV3', 'profanityFilterUser'])
+      .middleware(['verifyCaptchaV3', 'profanityFilterUser'])
 
     // confirm email address
     Route
@@ -41,7 +42,7 @@ Route.group(() => {
     Route
       .post('auth/password/email', 'UserController.sendPasswordResetEmail')
       .validator('PasswordResetEmail')
-      .middleware('throttle:10', 'verifyCaptchaV3')
+      .middleware('verifyCaptchaV3')
 
     // confirm password reset
     Route
@@ -53,7 +54,7 @@ Route.group(() => {
     Route
       .post('auth/login', 'UserController.login')
       .validator('LoginUser')
-      .middleware('throttle:10', 'verifyCaptchaV3')
+      .middleware('verifyCaptchaV3')
 
     // social sign up/log in 
     // 'provider' is the 3rd party authenticator's name, e.g. 'google' or 'facebook'
@@ -64,67 +65,63 @@ Route.group(() => {
     Route
       .patch('auth/change-username', 'UserController.changeUsername')
       .validator('ChangeUsername')
-      .middleware(['throttle:10', 'profanityFilterUser'])
+      .middleware('profanityFilterUser')
 
     // get profile data
     Route
       .get('auth/profile', 'UserController.profile')
-      .middleware(['throttle:60'])
       
     // ----- Gunbuilds -----
     // get all
     Route
       .get('gunbuilds', 'GunbuildController.index')
-      .middleware(['throttle:60'])
 
     // get all for logged in user
     Route
       .get('gunbuilds/mine', 'GunbuildController.indexMine')
-      .middleware(['throttle:60', 'auth'])
+      .middleware(['auth'])
 
     // get all by gun (DEPRECATED - we can now make queries using parameters on the /gunbuilds endpoint)
     Route
       .get('gunbuilds/indexbygun/:id', 'GunbuildController.indexByGun')
-      .middleware(['throttle:60', 'findGun'])
+      .middleware(['findGun'])
 
     // get one
     Route
       .get('gunbuilds/:id', 'GunbuildController.show')
-      .middleware(['throttle:60', 'findGunbuild'])
+      .middleware(['findGunbuild'])
 
     // create one
     Route
       .post('gunbuilds', 'GunbuildController.create')
       .validator('Gunbuild')
-      .middleware(['throttle:3', 'auth', 'profanityFilterGunbuild', 'verifyCaptchaV3'])
+      .middleware(['auth', 'profanityFilterGunbuild', 'verifyCaptchaV3'])
 
     // update one
     Route
       .patch('gunbuilds/:id', 'GunbuildController.update')
       .validator('Gunbuild')
-      .middleware(['throttle:60', 'auth', 'findGunbuild', 'profanityFilterGunbuild', 'verifyCaptchaV3'])
+      .middleware(['auth', 'findGunbuild', 'profanityFilterGunbuild', 'verifyCaptchaV3'])
 
     // delete one
     Route
       .delete('gunbuilds/:id', 'GunbuildController.delete')
-      .middleware(['throttle:60', 'auth', 'findGunbuild'])
+      .middleware(['auth', 'findGunbuild'])
 
     // vote
     Route
       .patch('gunbuilds/:id/vote', 'GunbuildController.vote')
-      .middleware(['throttle:20', 'verifyCaptchaV2', 'findGunbuild']) // add captcha verification middleware
+      .middleware(['verifyCaptchaV2', 'findGunbuild']) // add captcha verification middleware
 
     // ----- Attachments -----
     // get all
     Route
       .get('attachments', 'AttachmentController.index')
-      .middleware(['throttle:60'])
 
     // ----- Guns -----
     // get all
     Route
       .get('guns', 'GunController.index')
-      .middleware(['throttle:60'])
 
   })
   .prefix('api')
