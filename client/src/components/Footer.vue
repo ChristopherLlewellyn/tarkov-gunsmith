@@ -20,6 +20,11 @@
                   rel="noopener noreferrer"
                 >Tarkov-Market</a> and are automatically kept up to date.
               </v-card-text>
+              <v-card-text>
+                <router-link to="/privacy-policy">
+                  <span>Privacy Policy</span>
+                </router-link>
+              </v-card-text>
             </v-card>
           </v-col>
 
@@ -37,10 +42,11 @@
                 {{ new Date().getFullYear() }}
               </v-card-title>
               <v-card-text class="justify-center">Version {{ version }}</v-card-text>
-              <v-card-text>
-                <router-link to="/privacy-policy">
-                  <span>Privacy Policy</span>
-                </router-link>
+              <v-card-text class="justify-center">
+                <p>
+                  <v-icon class="mr-1" color="#7289da">mdi-discord</v-icon>MrWelshLlama#5896
+                  <v-icon class="mr-1" color="#FF4500">mdi-reddit</v-icon>Welshllama
+                </p>
               </v-card-text>
             </v-card>
           </v-col>
@@ -99,6 +105,11 @@
                 rel="noopener noreferrer"
               >Tarkov-Market</a> and are automatically kept up to date.
             </v-card-text>
+            <v-card-text>
+              <router-link to="/privacy-policy">
+                <span>Privacy Policy</span>
+              </router-link>
+            </v-card-text>
           </v-card>
         </v-row>
 
@@ -116,10 +127,11 @@
               {{ new Date().getFullYear() }}
             </v-card-title>
             <v-card-text>Version {{ version }}</v-card-text>
-            <v-card-text>
-              <router-link to="/privacy-policy">
-                <span>Privacy Policy</span>
-              </router-link>
+            <v-card-text class="justify-center">
+              <p>
+                <v-icon class="mr-1" color="#7289da">mdi-discord</v-icon>MrWelshLlama#5896
+                <v-icon class="mr-1" color="#FF4500">mdi-reddit</v-icon>Welshllama
+              </p>
             </v-card-text>
           </v-card>
         </v-row>
@@ -175,11 +187,11 @@ a {
 
 #large {
   overflow: auto;
-  padding-top: 250px;
+  padding-top: 300px;
 }
 
 #small {
   overflow: auto;
-  padding-top: 500px;
+  padding-top: 600px;
 }
 </style>
