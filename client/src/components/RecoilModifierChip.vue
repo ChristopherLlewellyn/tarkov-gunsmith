@@ -1,7 +1,7 @@
 <template>
   <v-tooltip bottom>
     <template v-slot:activator="{ on }">
-      <v-badge overlap bordered left :color="badgeColor" :icon="badgeIcon">
+      <v-badge overlap bordered right :color="badgeColor" :icon="badgeIcon">
         <v-chip label class="ma-1" color="blue" v-on="on">
         <v-avatar left class="blue darken-4">
           <v-icon>mdi-arrow-all</v-icon>
