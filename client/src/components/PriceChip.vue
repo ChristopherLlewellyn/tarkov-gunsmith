@@ -5,7 +5,7 @@
         <v-avatar left class="teal darken-4">
           <v-icon>{{icon}}</v-icon>
         </v-avatar>
-        <h3 class="font-weight-medium">{{ value }}</h3>
+        <h3 class="font-weight-medium">{{ value ? value : '?' }}</h3>
       </v-chip>
     </template>
     <h3 class="font-weight-medium">{{source}} Price</h3>
