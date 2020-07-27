@@ -1,11 +1,13 @@
 <template>
   <v-container fluid>
     <span class="bg"></span>
-    <v-card class="mt-2 mb-4">
-      <v-card-title class="justify-center">
-        <h2>My Loadouts</h2>
-      </v-card-title>
-    </v-card>
+    <v-row justify="center">
+      <v-card class="mt-2 mb-4">
+        <v-card-title class="justify-center">
+          <h2>My Loadouts</h2>
+        </v-card-title>
+      </v-card>
+    </v-row>
     <v-data-iterator
       class="ml-8 mr-8"
       :items="loadouts"
