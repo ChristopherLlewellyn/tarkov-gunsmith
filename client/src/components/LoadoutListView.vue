@@ -5,6 +5,7 @@
       :key="loadout.id"
       :loadoutId="loadout.id"
       :gunImg="loadout.gun_img"
+      :gunImgBig="loadout.gun_img_big"
       :loadoutName="loadout.name"
       :gunName="loadout.gun_name"
       :gunType="loadout.gun_type"

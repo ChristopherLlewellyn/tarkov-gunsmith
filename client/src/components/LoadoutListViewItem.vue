@@ -4,10 +4,16 @@
       <v-row align="center">
         <v-col cols="4">
           <v-col align="center">
+              <v-sheet height="100" color="black" class="pl-1 pr-1">
+                <v-img :src="gunImgBig ? gunImgBig : null" class="white--text align-end pt-12"
+                  gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" max-height="100" contain>
+                </v-img>
+              </v-sheet>
+            <!--
             <v-avatar tile size="90" class="mb-1">
               <img :src="gunImg ? gunImg : null" alt="gun image">
             </v-avatar>
-            <br>
+            -->
             <span class="weapon-subtitle ml-2">{{ gunName ? gunName : 'Unknown gun name' }}</span>
           </v-col>
           <v-icon class="mr-1 ml-2">mdi-axis</v-icon>
@@ -90,6 +96,7 @@
     props: {
       loadoutId: Number,
       gunImg: String,
+      gunImgBig: String,
       gunName: String,
       gunType: String,
       gunRPM: Number,
@@ -113,13 +120,13 @@
 
     computed: {
       gunTypeFormatted() {
-        if(this.gunType) return this.camelCaseToSentenceCase(this.gunType);
+        if (this.gunType) return this.camelCaseToSentenceCase(this.gunType);
       }
     },
 
     methods: {
       camelCaseToSentenceCase(text) {
-        let result = text.replace( /([A-Z])/g, " $1" );
+        let result = text.replace(/([A-Z])/g, " $1");
         let finalResult = result.charAt(0).toUpperCase() + result.slice(1);
         return finalResult;
       }
@@ -211,4 +218,5 @@
     font-weight: bold;
     color: #F44336;
   }
+
 </style>
