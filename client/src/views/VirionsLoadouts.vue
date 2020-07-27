@@ -1,33 +1,75 @@
 <template>
   <v-container fluid>
     <span class="bg"></span>
-    <v-card class="mt-2 mb-4 text-center">
-      <v-card-title class="justify-center">
-        <h2>Virion's Loadouts</h2>
-      </v-card-title>
-      <v-card-text>Virion's loadouts are high quality, featuring a variety of best-in-slot and budget weapon builds complete with optimal ammunition choices.</v-card-text>
-    </v-card>
+    <v-row justify="center">
+      <v-card class="mt-2 mb-4 text-center">
+        <v-card-title class="justify-center">
+          <h2>Virion's Loadouts</h2>
+        </v-card-title>
+        <v-card-text>Virion's loadouts are high quality, featuring a variety of best-in-slot and budget weapon builds complete with optimal ammunition choices.</v-card-text>
+      </v-card>
+    </v-row>
     <v-data-iterator class="ml-8 mr-8" :items="loadouts" :items-per-page="-1" :search="search" :sort-by="sortBy.toLowerCase()" :sort-desc="sortDesc"
       hide-default-footer>
       <!-- Header -->
       <!-- DESKTOP VIEW (hide on small- screens) -->
       <template v-slot:header>
         <div class="d-none d-sm-block">
-          <v-toolbar flat>
-            <v-text-field v-model="search" clearable flat solo hide-details prepend-inner-icon="mdi-magnify" label="Loadout Name"></v-text-field>
+          <v-row justify="center">
+            <v-toolbar flat max-width="900">
+              <v-text-field v-model="search" clearable flat solo hide-details prepend-inner-icon="mdi-magnify" label="Loadout Name"></v-text-field>
 
-            <v-select class="ml-4 mr-4" v-model="sortBy" flat solo hide-details :items="keys" prepend-inner-icon="mdi-sort" label="Sort by">
-            </v-select>
+              <v-select class="ml-4 mr-4" v-model="sortBy" flat solo hide-details :items="keys" prepend-inner-icon="mdi-sort" label="Sort by">
+              </v-select>
 
-            <v-btn-toggle class="ml-4 mr-4" v-model="sortDesc" mandatory>
-              <v-btn medium depressed color="blue-grey darken-1" :value="false">
-                <v-icon>mdi-arrow-up</v-icon>
-              </v-btn>
-              <v-btn medium depressed color="blue-grey darken-1" :value="true">
-                <v-icon>mdi-arrow-down</v-icon>
-              </v-btn>
-            </v-btn-toggle>
-          </v-toolbar>
+              <v-btn-toggle class="ml-4 mr-4" v-model="sortDesc" mandatory>
+                <v-btn medium depressed color="blue-grey darken-1" :value="false">
+                  <v-icon>mdi-arrow-up</v-icon>
+                </v-btn>
+                <v-btn medium depressed color="blue-grey darken-1" :value="true">
+                  <v-icon>mdi-arrow-down</v-icon>
+                </v-btn>
+              </v-btn-toggle>
+
+              <v-btn-toggle class="ml-4 mr-4" v-model="viewMode" mandatory>
+                <v-btn medium depressed color="blue-grey darken-1" value="list">
+                  <v-icon>mdi-view-list</v-icon>
+                </v-btn>
+                <v-btn medium depressed color="blue-grey darken-1" value="grid">
+                  <v-icon>mdi-view-grid</v-icon>
+                </v-btn>
+              </v-btn-toggle>
+            </v-toolbar>
+          </v-row>
+
+          <v-row justify="center">
+            <v-toolbar flat max-width="900">
+              <loadouts-filter :gunNames="gunNames" @apply-filters="applyFilters"></loadouts-filter>
+            </v-toolbar>
+          </v-row>
+
+          <v-row justify="center">
+            <v-toolbar max-width="900" flat v-if="Object.keys(filters).length > 0">
+              <v-spacer></v-spacer>
+              <v-chip label class="ml-1 mr-1 indigo" v-if="filters.gun">
+                <v-avatar left class="indigo darken-4">
+                  <v-icon>mdi-pistol</v-icon>
+                </v-avatar>
+                {{ filters.gun }}
+              </v-chip>
+              <v-chip label class="ml-1 mr-1 teal" v-if="filters.priceRangeMin !== null && filters.priceRangeMax !== null">
+                <v-avatar left class="teal darken-4">
+                  <v-icon>mdi-currency-rub</v-icon>
+                </v-avatar>
+                {{ filters.priceRangeMin }} - {{ filters.priceRangeMax }}
+              </v-chip>
+              <v-spacer></v-spacer>
+            </v-toolbar>
+          </v-row>
+
+          <v-row justify="center">
+            <search-loadout-stat-key></search-loadout-stat-key>
+          </v-row>
         </div>
 
         <!-- MOBILE VIEW (hide on medium+ screens) -->
@@ -44,15 +86,26 @@
           <v-toolbar flat>
             <v-spacer></v-spacer>
             <v-btn-toggle class="ml-4 mr-4" v-model="sortDesc" mandatory>
-              <v-btn medium depressed color="blue" :value="false">
+              <v-btn medium depressed color="blue-grey darken-1" :value="false">
                 <v-icon>mdi-arrow-up</v-icon>
               </v-btn>
-              <v-btn medium depressed color="blue" :value="true">
+              <v-btn medium depressed color="blue-grey darken-1" :value="true">
                 <v-icon>mdi-arrow-down</v-icon>
+              </v-btn>
+            </v-btn-toggle>
+
+            <v-btn-toggle class="ml-4 mr-4" v-model="viewMode" mandatory>
+              <v-btn medium depressed color="blue-grey darken-1" value="list">
+                <v-icon>mdi-view-list</v-icon>
+              </v-btn>
+              <v-btn medium depressed color="blue-grey darken-1" value="grid">
+                <v-icon>mdi-view-grid</v-icon>
               </v-btn>
             </v-btn-toggle>
             <v-spacer></v-spacer>
           </v-toolbar>
+
+          <search-loadout-stat-key></search-loadout-stat-key>
         </div>
       </template>
 
@@ -63,9 +116,13 @@
         </v-row>
 
         <v-row v-else>
-          <v-col v-for="loadout in props.items" :key="loadout.id" cols="12" sm="6" md="4" lg="3">
-            <loadout-card :loadout="loadout"></loadout-card>
-          </v-col>
+          <loadout-list-view v-if="viewMode == 'list'" :loadouts="props.items" class="mt-2"></loadout-list-view>
+
+          <template v-else-if="viewMode == 'grid'">
+            <v-col v-for="loadout in props.items" :key="loadout.id" cols="12" sm="6" md="4" lg="3">
+              <loadout-card :loadout="loadout"></loadout-card>
+            </v-col>
+          </template>
         </v-row>
       </template>
     </v-data-iterator>
@@ -82,19 +139,32 @@
   import HTTP from "../http";
   import router from "../router";
   import LoadoutCard from "../components/LoadoutCard";
+  import LoadoutListView from "../components/LoadoutListView";
+  import SearchLoadoutStatKey from "../components/SearchLoadoutStatKey";
+  import LoadoutsFilter from "../components/LoadoutsFilter";
 
   export default {
     mounted() {
       this.fetchVirionsLoadouts();
+      this.fetchGuns();
     },
 
     components: {
-      LoadoutCard
+      LoadoutCard,
+      LoadoutListView,
+      SearchLoadoutStatKey,
+      LoadoutsFilter
     },
 
     methods: {
       fetchVirionsLoadouts() {
-        return HTTP().get('/gunbuilds?username=virion')
+        return HTTP().get('/gunbuilds?username=virion', {
+          params: {
+            gun: this.filters.gun,
+            priceRangeMin: this.filters.priceRangeMin,
+            priceRangeMax: this.filters.priceRangeMax,
+          }
+        })
           .then(({
             data
           }) => {
@@ -108,6 +178,27 @@
             this.loadouts = loadouts;
             this.loading = false;
           })
+      },
+
+      fetchGuns() {
+        return HTTP().get('/guns')
+          .then(({ data }) => {
+            let guns = data.guns;
+            let gunList = [];
+            for (let i = 0; i < guns.length; i++) {
+              let gun = guns[i].name;
+              gunList.push(gun);
+            }
+            gunList.unshift('Any');
+            this.gunNames = gunList;
+          });
+      },
+
+      applyFilters(filters) {
+        // Need to perform a clone in order to avoid "do not mutate outside the store"
+        this.filters = Object.assign(filters);
+        this.loading = true;
+        this.fetchVirionsLoadouts();
       },
 
       formatDate(date) {
@@ -144,9 +235,16 @@
     data() {
       return {
         loadouts: [],
+        gunNames: [],
         loading: true,
+        viewMode: 'list',
         search: "",
         filter: {},
+        filters: {
+          gun: 'Any',
+          priceRangeMin: 0,
+          priceRangeMax: 1500000
+        },
         sortDesc: true,
         sortBy: "votes",
         keys: [
