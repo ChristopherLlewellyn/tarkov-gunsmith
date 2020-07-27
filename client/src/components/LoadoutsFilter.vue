@@ -43,6 +43,13 @@
                   <template v-slot:thumb-label="{ value }">{{ (value / 1000) + "k" }}</template>
                 </v-range-slider>
               </v-col>
+
+              <v-col cols="12" align="center">
+                <v-btn text color="blue" @click="resetFilters()">
+                  <span>Reset Filters</span>
+                  <v-icon right>mdi-refresh</v-icon>
+                </v-btn>
+              </v-col>
             </v-row>
           </v-container>
         </v-card-text>
@@ -52,7 +59,7 @@
             <span>Close</span>
             <v-icon right>mdi-close</v-icon>
           </v-btn>
-          <v-btn color="blue" text @click="dialog = false, applyFilters()">
+          <v-btn color="green" text @click="dialog = false, applyFilters()">
             <span>Apply Filters</span>
             <v-icon right>mdi-check</v-icon>
           </v-btn>
@@ -76,6 +83,11 @@ export default {
       filters.priceRangeMax = this.priceRange[1];
 
       this.$emit("apply-filters", filters);
+    },
+
+    resetFilters() {
+      this.gun = 'Any';
+      this.priceRange = [0, 1500000];
     }
   },
 
