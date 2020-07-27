@@ -39,6 +39,7 @@
       <v-divider></v-divider>
 
       <v-card-actions class="justify-center">
+        <type-chip :value="loadout.gun_type"></type-chip>
         <caliber-chip :value="loadout.gun_caliber"></caliber-chip>
       </v-card-actions>
 
@@ -73,6 +74,7 @@ import HorizontalRecoilChip from "./HorizontalRecoilChip";
 import VerticalRecoilChip from "./VerticalRecoilChip";
 import CaliberChip from "./CaliberChip";
 import PriceChip from "./PriceChip";
+import TypeChip from "./TypeChip";
 
 export default {
   name: "card",
@@ -84,7 +86,8 @@ export default {
     HorizontalRecoilChip,
     VerticalRecoilChip,
     CaliberChip,
-    PriceChip
+    PriceChip,
+    TypeChip
   },
   data: () => ({
     isActive: false
