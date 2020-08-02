@@ -1,6 +1,6 @@
 <template>
   <div class="item-container pl-4 pr-4">
-    <router-link :to="`/loadout/${loadoutId}`" tag="div">
+    <a :href="`/loadout/${loadoutId}`">
       <v-row align="center">
         <v-col cols="4">
           <v-col align="center">
@@ -24,7 +24,7 @@
         </v-col>
 
         <v-col cols="4">
-          <h4>{{ loadoutName ? loadoutName : 'Unknown loadout name' }}</h4>
+          <h4 class="loadout-title">{{ loadoutName ? loadoutName : 'Unknown loadout name' }}</h4>
           <br>
           <span class="default-subtitle">By </span>
           <span class="username-subtitle">{{ username ? username : '?' }}</span>
@@ -80,7 +80,7 @@
       </v-row>
       <v-divider></v-divider>
       <v-divider></v-divider>
-    </router-link>
+    </a>
   </div>
 </template>
 
@@ -136,9 +136,18 @@
 </script>
 
 <style scoped>
+  a {
+    color: inherit;
+    text-decoration: inherit;
+  }
+
   .item-container:hover {
     background-color: #424242;
     cursor: pointer;
+  }
+
+  .loadout-title {
+    color: #FFFFFF;
   }
 
   .weapon-subtitle {
