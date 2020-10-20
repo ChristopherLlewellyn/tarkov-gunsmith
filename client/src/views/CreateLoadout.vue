@@ -1,5 +1,5 @@
 <template>
-  <v-container grid-list-xs>
+  <v-container class="relative" grid-list-xs>
     <span class="bg"></span>
     <v-layout row wrap>
       <!-- Error Snackbar -->
@@ -18,7 +18,19 @@
           >
             Close
           </v-btn>
-    </v-snackbar>
+      </v-snackbar>
+
+      <!-- Floating Info Panel -->
+      <floating-build-info-panel
+        v-if="showBuildInfoPanel"
+        :loading="(weaponsLoading || attachmentsLoading) ? true : false"
+        :conflicts="conflicts"
+        :calculatedErgonomics="calculatedErgonomics"
+        :calculatedVerticalRecoil="calculatedVerticalRecoil"
+        :calculatedHorizontalRecoil="calculatedHorizontalRecoil"
+        :calculatedWeight="calculatedWeight"
+        :market_price="market_price"
+      ></floating-build-info-panel>
 
       <!-- Loadout Title -->
       <v-flex xs12 v-if="isSignedIn">
@@ -35,7 +47,7 @@
 
       <!-- Weapon Selector -->
       <v-flex xs12>
-        <weapon-selector></weapon-selector>
+        <weapon-selector v-observe-visibility="weaponSelectorVisibilityChanged"></weapon-selector>
         <v-divider></v-divider>
         <v-layout v-if="isSignedIn" column align-center>
           <v-btn
@@ -73,34 +85,37 @@
       </v-flex>
 
       <!-- Build Tree -->
-      <v-flex xs12>
-        <template v-if="weaponsLoading || attachmentsLoading" class="ma-4">
-          <v-card>
-            <v-card-title class="blue-grey darken-2 justify-center">
-              <v-icon class="pr-2" large>mdi-pine-tree</v-icon>Build Tree
-            </v-card-title>
-            <v-row class="fill-height ma-0" align="center" justify="center">
-              <v-progress-circular class="mt-4 mb-4" indeterminate color="grey lighten-5"></v-progress-circular>
-            </v-row>
-          </v-card>
-        </template>
+      <template>
+        <v-flex xs12 v-observe-visibility="buildTreeVisibilityChanged">
+          <template v-if="weaponsLoading || attachmentsLoading" class="ma-4">
+            <v-card>
+              <v-card-title class="blue-grey darken-2 justify-center">
+                <v-icon class="pr-2" large>mdi-pine-tree</v-icon>Build Tree
+              </v-card-title>
+              <v-row class="fill-height ma-0" align="center" justify="center">
+                <v-progress-circular class="mt-4 mb-4" indeterminate color="grey lighten-5"></v-progress-circular>
+              </v-row>
+            </v-card>
+          </template>
 
-        <template v-if="!weaponsLoading && !attachmentsLoading">
-          <tree
-            v-if="!weaponsLoading && !attachmentsLoading"
-            treeType="create"
-            :tree-data="weapon"
-            :availableAttachments="availableAttachments"
-            class="mt-2"
-          ></tree>
-        </template>
-      </v-flex>
+          <template v-if="!weaponsLoading && !attachmentsLoading">
+            <tree
+              v-if="!weaponsLoading && !attachmentsLoading"
+              treeType="create"
+              :tree-data="weapon"
+              :availableAttachments="availableAttachments"
+              class="mt-2"
+            ></tree>
+          </template>
+        </v-flex>
+      </template>
 
       <!-- Build List Table -->
       <v-flex xs12>
         <build-list-table v-if="!weaponsLoading && !attachmentsLoading" :items="allItems"></build-list-table>
       </v-flex>
     </v-layout>
+  
   </v-container>
 </template>
 
@@ -112,6 +127,7 @@ import WeaponSelector from "@/components/WeaponSelector.vue";
 import BuildListTable from "@/components/BuildListTable.vue";
 import Tree from "@/components/Tree.vue";
 import ConflictsPanel from "@/components/ConflictsPanel.vue";
+import FloatingBuildInfoPanel from "@/components/FloatingBuildInfoPanel.vue";
 import TiptapEditor from "@/components/TiptapEditor.vue";
 
 export default {
@@ -129,6 +145,11 @@ export default {
 
     ...mapState("createLoadout", [
       "weapon",
+      "calculatedErgonomics",
+      "calculatedHorizontalRecoil",
+      "calculatedVerticalRecoil",
+      "market_price",
+      "calculatedWeight",
       "error",
       "availableAttachments",
       "weaponsLoading",
@@ -171,6 +192,24 @@ export default {
       "setCaptcha"
     ]),
 
+    weaponSelectorVisibilityChanged(isVisible, entry) {
+      this.weaponSelectorVisibility = isVisible;
+      if (isVisible) {
+        this.showBuildInfoPanel = false;
+      } else {
+        this.showBuildInfoPanel = true;
+      }
+    },
+
+    buildTreeVisibilityChanged(isVisible, entry) {
+      this.buildTreeVisible = isVisible;
+      if (this.buildTreeVisible == false) {
+        this.showBuildInfoPanel = false;
+      } else if (this.buildTreeVisible == true && !this.weaponSelectorVisibility == true) {
+        this.showBuildInfoPanel = true;
+      }
+    },
+
     updateDescription(newDescription) {
       this.loadoutDescription = newDescription;
     },
@@ -203,6 +242,7 @@ export default {
     Tree,
     BuildListTable,
     ConflictsPanel,
+    FloatingBuildInfoPanel,
     TiptapEditor
   },
 
@@ -211,6 +251,9 @@ export default {
     loadoutDescription: "",
     showSnackbar: false,
     notSignedInSnackbar: false,
+    showBuildInfoPanel: false,
+    weaponSelectorVisibility: true,
+    buildTreeVisible: false,
     rules: [
       value => !!value || "Required.",
       value => (value && value.length <= 45) || "Max 45 characters"
@@ -230,5 +273,9 @@ export default {
   background-size: cover;
   background-color: black;
   transform: scale(1);
+}
+
+.relative {
+  position: relative;
 }
 </style>

@@ -4,7 +4,7 @@
       <v-flex xs12>
         <!-- Shown if loading -->
         <v-card v-if="loading">
-          <v-card-title class="blue-grey darken-2 justify-center">
+          <v-card-title v-if="!hideTitle" class="blue-grey darken-2 justify-center">
             <v-icon class="pr-2" large>mdi-help-circle-outline</v-icon>
             Conflicts
           </v-card-title>
@@ -17,7 +17,7 @@
 
         <!-- Shown if not loading -->
         <v-card v-else>
-          <v-card-title class="blue-grey darken-2 justify-center">
+          <v-card-title v-if="!hideTitle" class="blue-grey darken-2 justify-center">
             <v-icon v-if="Object.keys(conflicts).length > 0" class="pr-2" large color="red">mdi-close-circle-outline</v-icon>
             <v-icon v-else class="pr-2" large color="green">mdi-check-circle-outline</v-icon>
             Conflicts
@@ -36,6 +36,7 @@
           </v-card-actions>
 
           <v-card-actions v-if="Object.keys(conflicts).length == 0" class="pa-4 justify-center">
+            <v-icon v-if="hideTitle" class="pr-2" large color="green">mdi-check-circle-outline</v-icon>
             <h3 class="green--text">No conflicts detected.</h3>
           </v-card-actions>
         </v-card>
@@ -48,7 +49,11 @@
   export default {
     props: {
       loading: Boolean,
-      conflicts: Array
+      conflicts: Array,
+      hideTitle: {
+        default: false,
+        type: Boolean
+      }
     },
     components: {
 

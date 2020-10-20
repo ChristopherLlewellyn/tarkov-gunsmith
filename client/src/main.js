@@ -7,8 +7,11 @@ import store from './store';
 import vuetify from './plugins/vuetify';
 import { TiptapVuetifyPlugin } from 'tiptap-vuetify'
 import VueAnalytics from 'vue-analytics';
+import VueObserveVisibility from 'vue-observe-visibility'
 
 Vue.config.productionTip = false;
+
+Vue.use(VueObserveVisibility)
 
 Vue.use(Vuetify);
 
