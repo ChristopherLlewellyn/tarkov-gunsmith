@@ -2,8 +2,8 @@
 
 const Env = use('Env')
 const axios = use('axios')
-const APP_NAME = Env.get('APP_NAME')
-const APP_VERSION = Env.get('APP_VERSION')
+const APP_NAME = process.env.APP_NAME || Env.get('APP_NAME')
+const APP_VERSION = process.env.APP_VERSION || Env.get('APP_VERSION')
 
 class TarkovDatabaseService {
 
@@ -12,7 +12,7 @@ class TarkovDatabaseService {
   // Tarkov-Database auth tokens last for a limited time - currently 30 minutes (16/04/2020)
   // A new token can be created using any of our previously existing tokens
   async getNewAuthToken() {
-    let initialAuthToken = Env.get('TARKOV_DATABASE_INITIAL_AUTH_TOKEN')
+    let initialAuthToken = process.env.TARKOV_DATABASE_INITIAL_AUTH_TOKEN || Env.get('TARKOV_DATABASE_INITIAL_AUTH_TOKEN')
     axios.defaults.headers.common['Authorization'] = `Bearer ${initialAuthToken}`
     axios.defaults.headers.common['User-Agent'] = `${APP_NAME}/${APP_VERSION}`
 

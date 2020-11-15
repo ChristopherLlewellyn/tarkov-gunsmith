@@ -1,6 +1,6 @@
 'use strict'
 const Env = use('Env')
-const CLIENT_ID = Env.get('GOOGLE_CLIENT_ID')
+const CLIENT_ID = process.env.GOOGLE_CLIENT_ID || Env.get('GOOGLE_CLIENT_ID')
 
 const {OAuth2Client} = require('google-auth-library')
 const client = new OAuth2Client(CLIENT_ID)

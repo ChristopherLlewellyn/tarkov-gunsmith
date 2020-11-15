@@ -1,6 +1,6 @@
 'use strict'
 const Env = use('Env')
-const CLIENT_ID = Env.get('DISCORD_CLIENT_ID')
+const CLIENT_ID = process.env.DISCORD_CLIENT_ID || Env.get('DISCORD_CLIENT_ID')
 const CLIENT_SECRET = Env.get('DISCORD_CLIENT_SECRET')
 
 const DiscordOauth2 = require('discord-oauth2')

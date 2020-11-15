@@ -18,7 +18,7 @@ class VerifyCaptchaV3 {
     const data = request.only(['captcha'])
 
   try {
-    const data_request = await axios.post('https://www.google.com/recaptcha/api/siteverify', querystring.stringify({ secret: Env.get('RECAPTCHA_V3_SECRET_KEY'), response: data['captcha'] }))
+    const data_request = await axios.post('https://www.google.com/recaptcha/api/siteverify', querystring.stringify({ secret: process.env.RECAPTCHA_V3_SECRET_KEY || Env.get('RECAPTCHA_V3_SECRET_KEY'), response: data['captcha'] }))
     if (!data_request.data.success) {
       console.log(data_request.data)
       // If the recaptcha check fails

@@ -27,9 +27,9 @@ module.exports = {
     |
     */
     facebook: {
-      clientId: Env.get('FB_CLIENT_ID'),
-      clientSecret: Env.get('FB_CLIENT_SECRET'),
-      redirectUri: `${Env.get('APP_URL')}/api/authenticated/facebook`
+      clientId: process.env.FB_CLIENT_ID || Env.get('FB_CLIENT_ID'),
+      clientSecret: process.env.FB_CLIENT_SECRET || Env.get('FB_CLIENT_SECRET'),
+      redirectUri: `${process.env.APP_URL || Env.get('APP_URL')}/api/authenticated/facebook`
     },
 
     /*
@@ -42,9 +42,9 @@ module.exports = {
     |
     */
     google: {
-      clientId: Env.get('GOOGLE_CLIENT_ID'),
-      clientSecret: Env.get('GOOGLE_CLIENT_SECRET'),
-      redirectUri: `${Env.get('APP_URL')}/api/authenticated/google`
+      clientId: process.env.GOOGLE_CLIENT_ID || Env.get('GOOGLE_CLIENT_ID'),
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || Env.get('GOOGLE_CLIENT_SECRET'),
+      redirectUri: `${process.env.APP_URL || Env.get('APP_URL')}/api/authenticated/google`
     },
 
     /*
@@ -57,9 +57,9 @@ module.exports = {
     |
     */
     github: {
-      clientId: Env.get('GITHUB_CLIENT_ID'),
-      clientSecret: Env.get('GITHUB_CLIENT_SECRET'),
-      redirectUri: `${Env.get('APP_URL')}/api/authenticated/github`
+      clientId: process.env.GITHUB_CLIENT_ID || Env.get('GITHUB_CLIENT_ID'),
+      clientSecret: process.env.GITHUB_CLIENT_SECRET || Env.get('GITHUB_CLIENT_SECRET'),
+      redirectUri: `${process.env.APP_URL || Env.get('APP_URL')}/api/authenticated/github`
     },
 
     /*
@@ -72,9 +72,9 @@ module.exports = {
      |
      */
     instagram: {
-      clientId: Env.get('INSTAGRAM_CLIENT_ID'),
-      clientSecret: Env.get('INSTAGRAM_CLIENT_SECRET'),
-      redirectUri: `${Env.get('APP_URL')}/api/authenticated/instagram`
+      clientId: process.env.INSTAGRAM_CLIENT_ID || Env.get('INSTAGRAM_CLIENT_ID'),
+      clientSecret: process.env.INSTAGRAM_CLIENT_SECRET || Env.get('INSTAGRAM_CLIENT_SECRET'),
+      redirectUri: `${process.env.APP_URL || Env.get('APP_URL')}/api/authenticated/instagram`
     },
 
     /*
@@ -87,9 +87,9 @@ module.exports = {
      |
      */
     foursquare: {
-      clientId: Env.get('FOURSQUARE_ID'),
-      clientSecret: Env.get('FOURSQUARE_SECRET'),
-      redirectUri: `${Env.get('APP_URL')}/api/authenticated/foursquare`
+      clientId: process.env.FOURSQUARE_ID || Env.get('FOURSQUARE_ID'),
+      clientSecret: process.env.FOURSQUARE_SECRET || Env.get('FOURSQUARE_SECRET'),
+      redirectUri: `${process.env.APP_URL || Env.get('APP_URL')}/api/authenticated/foursquare`
     },
     
     /*
@@ -102,9 +102,9 @@ module.exports = {
      |
      */
     discord: {
-      clientId: Env.get('DISCORD_CLIENT_ID'),
-      clientSecret: Env.get('DISCORD_CLIENT_SECRET'),
-      redirectUri: `${Env.get('APP_URL')}/authenticated/discord`
+      clientId: process.env.DISCORD_CLIENT_ID || Env.get('DISCORD_CLIENT_ID'),
+      clientSecret: process.env.DISCORD_CLIENT_SECRET || Env.get('DISCORD_CLIENT_SECRET'),
+      redirectUri: `${process.env.APP_URL || Env.get('APP_URL')}/authenticated/discord`
     }
   }
 }

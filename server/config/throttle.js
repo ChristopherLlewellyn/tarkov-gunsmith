@@ -14,7 +14,7 @@ module.exports = {
   | For `redis` driver, make sure to install and register `@adonisjs/redis`
   |
   */
-  driver: Env.get('THROTTLE_DRIVER', 'memory'),
+  driver: process.env.THROTTLE_DRIVER || Env.get('THROTTLE_DRIVER', 'memory'),
 
   /*
   |--------------------------------------------------------------------------

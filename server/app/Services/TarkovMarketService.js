@@ -2,7 +2,7 @@
 
 const Env = use('Env')
 const axios = use('axios')
-const TARKOV_MARKET_API_KEY = Env.get('TARKOV_MARKET_API_KEY')
+const TARKOV_MARKET_API_KEY = process.env.TARKOV_MARKET_API_KEY || Env.get('TARKOV_MARKET_API_KEY')
 
 // Limit of 300 requests per minute
 
