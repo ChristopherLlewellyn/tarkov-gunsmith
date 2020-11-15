@@ -8,4 +8,4 @@ COPY . .
 RUN cd client && npm run build
 RUN cd server && npm install
 EXPOSE 3333
-CMD [ "node", "server/index.js" ]
+CMD [ "node", "server/server.js" ]
