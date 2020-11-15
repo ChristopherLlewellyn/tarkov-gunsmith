@@ -6,6 +6,6 @@ COPY client/package*.json ./client
 RUN cd client && npm install
 COPY . .
 RUN cd client && npm run build
-RUN cd server && npm install
+RUN cd server && npm install && touch .env
 EXPOSE 3333
 CMD [ "node", "server/server.js" ]
