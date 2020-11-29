@@ -77,6 +77,11 @@
   import GoogleSignIn from "@/components/GoogleSignIn.vue";
 
   export default {
+    metaInfo: {
+      title: "Sign In",
+      titleTemplate: "%s - Tarkov Gunsmith"
+    },
+
     mounted() {
       (this.email = this.signInEmail), (this.password = this.signInPassword);
       this.setSignInError(null);

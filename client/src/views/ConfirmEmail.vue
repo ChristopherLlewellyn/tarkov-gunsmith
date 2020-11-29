@@ -20,11 +20,15 @@
   </v-container>
 </template>
 
-
 <script>
 import HTTP from "../http";
 
 export default {
+  metaInfo: {
+    title: "Confirm Email",
+    titleTemplate: "%s - Tarkov Gunsmith"
+  },
+
   mounted() {
     this.token = this.$route.params.token;
     this.confirmEmail();

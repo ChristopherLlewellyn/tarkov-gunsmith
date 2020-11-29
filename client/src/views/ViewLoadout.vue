@@ -158,6 +158,11 @@ import Tree from "@/components/Tree.vue";
 import TiptapEditor from "@/components/TiptapEditor.vue";
 
 export default {
+  metaInfo: {
+    title: "Loadout",
+    titleTemplate: "%s - Tarkov Gunsmith"
+  },
+  
   components: {
     ViewWeapon,
     BuildListTable,
