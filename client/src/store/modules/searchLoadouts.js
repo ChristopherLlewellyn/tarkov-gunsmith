@@ -1,5 +1,5 @@
-import HTTP from '../../http';
-import router from '../../router';
+import HTTP from "../../http";
+import router from "../../router";
 
 export default {
   namespaced: true,
@@ -10,13 +10,15 @@ export default {
     noMoreLoadouts: false,
     loadouts: [],
     filters: {},
-    sortBy: 'votes',
+    sortBy: "votes",
     sortDesc: true,
     offset: 0,
     limit: 20,
     guns: [],
     gunNames: [],
     gunNamesFilter: [],
+    caliberNames: [],
+    caliberNamesFilter: []
   },
 
   getters: {
@@ -37,20 +39,21 @@ export default {
   actions: {
     fetchLoadouts({ commit, state }, loadMore = false) {
       if (loadMore) {
-        commit('setLoadMore', true);
+        commit("setLoadMore", true);
       } else {
-        commit('setLoading', true);
+        commit("setLoading", true);
       }
 
       let gun = state.filters.gun; // 'Any' or '' are acceptable values for the gun parameter
       let priceRangeMin = state.filters.priceRangeMin;
       let priceRangeMax = state.filters.priceRangeMax;
       let orderBy = state.sortBy;
-      let orderByDescOrAsc = state.sortDesc == true ? 'desc' : 'asc';
+      let orderByDescOrAsc = state.sortDesc == true ? "desc" : "asc";
       let offset = state.offset;
       let limit = state.limit; // Max number of loadouts grabbed from the API each call
 
-      return HTTP().get('/gunbuilds', {
+      return HTTP()
+        .get("/gunbuilds", {
           params: {
             gun: gun,
             priceRangeMin: priceRangeMin,
@@ -61,36 +64,32 @@ export default {
             limit: limit
           }
         })
-        .then(({
-          data
-        }) => {
+        .then(({ data }) => {
           if (state.offset == 0) {
-            commit('setLoadouts', data.gunbuilds);
+            commit("setLoadouts", data.gunbuilds);
           } else {
-            commit('appendLoadouts', data.gunbuilds);
+            commit("appendLoadouts", data.gunbuilds);
           }
 
           if (data.gunbuilds.length == 0) {
-            commit('setNoMoreLoadouts', true);
+            commit("setNoMoreLoadouts", true);
           }
 
-          commit('formatDates');
-          commit('setLoading', false);
-          commit('setLoadMore', false);
+          commit("formatDates");
+          commit("setLoading", false);
+          commit("setLoadMore", false);
         });
     },
 
-    fetchGuns({
-      commit
-    }) {
-      return HTTP().get('/guns')
-        .then(({
-          data
-        }) => {
-          commit('setGuns', data.guns);
-          commit('setGunNames', data.guns);
+    fetchGuns({ commit }) {
+      return HTTP()
+        .get("/guns")
+        .then(({ data }) => {
+          commit("setGuns", data.guns);
+          commit("setGunNames", data.guns);
+          commit("setCaliberNames", data.guns);
         });
-    },
+    }
   },
 
   mutations: {
@@ -102,7 +101,9 @@ export default {
       state.guns = [];
       state.gunNames = [];
       state.gunNamesFilter = [];
-      state.sortBy = 'votes';
+      state.caliberNames = [];
+      state.caliberNamesFilter = [];
+      state.sortBy = "votes";
       state.sortDesc = true;
       state.offset = 0;
       state.limit = 20;
@@ -156,11 +157,26 @@ export default {
       }
       state.gunNames = gunList;
       state.gunNamesFilter = gunList;
-      state.gunNamesFilter.unshift('Any');
+      state.gunNamesFilter.unshift("Any");
+    },
+
+    setCaliberNames(state, guns) {
+      const caliberList = [];
+      for (let i = 0; i < guns.length; i++) {
+        const gun = guns[i].caliber;
+        caliberList.push(gun);
+      }
+      state.caliberList = caliberList;
+      state.caliberNamesFilter = caliberList;
+      state.caliberNamesFilter.unshift("Any");
     },
 
     setGunNamesFilter(state, gunNamesFilter) {
       state.gunNamesFilter = gunNamesFilter;
+    },
+
+    setCaliberNamesFilter(state, caliberNamesFilter) {
+      state.caliberNamesFilter = caliberNamesFilter;
     },
 
     setSortBy(state, sortBy) {
@@ -185,9 +201,9 @@ export default {
 
     formatDates(state) {
       const options = {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
+        year: "numeric",
+        month: "long",
+        day: "numeric"
       };
 
       for (let i = 0; i < state.loadouts.length; i++) {
@@ -203,6 +219,6 @@ export default {
         dateNew = dateNew.toLocaleDateString(undefined, options);
         state.loadouts[i].created_at = dateNew;
       }
-    },
-  },
+    }
+  }
 };

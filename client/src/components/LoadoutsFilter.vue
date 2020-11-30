@@ -16,13 +16,12 @@
             <v-row>
               <!-- Gun -->
               <v-col cols="12">
-                <v-autocomplete
-                  v-model="gun"
-                  :items="gunNames"
-                  label="Gun"
-                  prepend-icon="mdi-pistol"
-                  clearable
-                ></v-autocomplete>
+                <v-autocomplete v-model="gun" :items="gunNames" label="Gun" prepend-icon="mdi-pistol" clearable></v-autocomplete>
+              </v-col>
+
+              <!-- Caliber -->
+              <v-col cols="12">
+                <v-autocomplete v-model="caliber" :items="caliberNames" label="Caliber" prepend-icon="mdi-bullet" clearable></v-autocomplete>
               </v-col>
 
               <!-- Price Range -->
@@ -40,7 +39,7 @@
                   thumb-label="always"
                   :thumb-size="30"
                 >
-                  <template v-slot:thumb-label="{ value }">{{ (value / 1000) + "k" }}</template>
+                  <template v-slot:thumb-label="{ value }">{{ value / 1000 + "k" }}</template>
                 </v-range-slider>
               </v-col>
 
@@ -59,7 +58,7 @@
             <span>Close</span>
             <v-icon right>mdi-close</v-icon>
           </v-btn>
-          <v-btn color="green" text @click="dialog = false, applyFilters()">
+          <v-btn color="green" text @click="(dialog = false), applyFilters()">
             <span>Apply Filters</span>
             <v-icon right>mdi-check</v-icon>
           </v-btn>
@@ -72,13 +71,15 @@
 <script>
 export default {
   props: {
-    gunNames: Array
+    gunNames: Array,
+    caliberNames: Array
   },
 
   methods: {
     applyFilters(event) {
       let filters = {};
       filters.gun = this.gun;
+      filter.caliber = this.caliber;
       filters.priceRangeMin = this.priceRange[0];
       filters.priceRangeMax = this.priceRange[1];
 
@@ -86,7 +87,8 @@ export default {
     },
 
     resetFilters() {
-      this.gun = 'Any';
+      this.gun = "Any";
+      this.caliber = "Any";
       this.priceRange = [0, 1500000];
     }
   },
@@ -94,6 +96,9 @@ export default {
   data: () => ({
     gun: "Any",
     priceRange: [0, 1500000],
+
+    // caliber
+    caliber: "Any",
 
     // Price Range
     min: 0,

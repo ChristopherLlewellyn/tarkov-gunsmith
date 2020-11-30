@@ -23,15 +23,7 @@
         <div class="d-none d-sm-block">
           <v-row justify="center">
             <v-toolbar flat max-width="900">
-              <v-text-field
-                v-model="search"
-                clearable
-                flat
-                solo
-                hide-details
-                prepend-inner-icon="mdi-magnify"
-                label="Loadout Name"
-              ></v-text-field>
+              <v-text-field v-model="search" clearable flat solo hide-details prepend-inner-icon="mdi-magnify" label="Loadout Name"></v-text-field>
 
               <v-select
                 class="ml-4 mr-4"
@@ -67,7 +59,7 @@
 
           <v-row justify="center">
             <v-toolbar flat max-width="900">
-              <loadouts-filter :gunNames="gunNamesFilter" @apply-filters="applyFilters"></loadouts-filter>
+              <loadouts-filter :gunNames="gunNamesFilter" :caliberNames="caliberNamesFilter" @apply-filters="applyFilters"></loadouts-filter>
             </v-toolbar>
           </v-row>
 
@@ -98,15 +90,7 @@
         <!-- MOBILE VIEW (hide on medium+ screens) -->
         <div class="d-sm-none">
           <v-toolbar flat>
-            <v-text-field
-              v-model="search"
-              clearable
-              flat
-              solo
-              hide-details
-              prepend-inner-icon="mdi-magnify"
-              label="Loadout Name"
-            ></v-text-field>
+            <v-text-field v-model="search" clearable flat solo hide-details prepend-inner-icon="mdi-magnify" label="Loadout Name"></v-text-field>
           </v-toolbar>
 
           <v-toolbar flat>
@@ -143,12 +127,12 @@
                 <v-icon>mdi-view-grid</v-icon>
               </v-btn>
             </v-btn-toggle>
-            
+
             <v-spacer></v-spacer>
           </v-toolbar>
 
           <v-toolbar flat>
-            <loadouts-filter :gunNames="gunNamesFilter" @apply-filters="applyFilters"></loadouts-filter>
+            <loadouts-filter :gunNames="gunNamesFilter" :caliberNames="caliberNamesFilter" @apply-filters="applyFilters"></loadouts-filter>
           </v-toolbar>
 
           <v-toolbar flat v-if="Object.keys(filters).length > 0">
@@ -253,9 +237,9 @@ export default {
     title: "Search",
     titleTemplate: "%s - Tarkov Gunsmith"
   },
-  
+
   mounted() {
-    this.scroll()
+    this.scroll();
     this.setOffset(0);
     this.setNoMoreLoadouts(false);
     this.fetchGuns();
@@ -272,16 +256,12 @@ export default {
   methods: {
     ...mapActions("searchLoadouts", ["fetchLoadouts", "fetchGuns"]),
 
-    ...mapGetters("searchLoadouts", [
-      "getSortBy", 
-      "getSortDesc", 
-      "getOffset", 
-      "getLimit"
-    ]),
+    ...mapGetters("searchLoadouts", ["getSortBy", "getSortDesc", "getOffset", "getLimit"]),
 
     ...mapMutations("searchLoadouts", [
       "setGunToIndexBy",
       "setGunNamesFilter",
+      "setCaliberNamesFilter",
       "setFilters",
       "setSortBy",
       "setSortDesc",
@@ -291,13 +271,18 @@ export default {
 
     searchGunNames(val) {
       if (val) {
-        this.setGunNamesFilter(
-          this.gunNamesFilter.filter(
-            gunName => gunName.toLowerCase().indexOf(val) !== -1
-          )
-        );
+        this.setGunNamesFilter(this.gunNamesFilter.filter(gunName => gunName.toLowerCase().indexOf(val) !== -1));
       } else {
         this.setGunNamesFilter(this.gunNames);
+      }
+    },
+
+    // Searches by caliber
+    searchCaliberNames(val) {
+      if (val) {
+        this.setCaliberNamesFilter(this.setCaliberNamesFilter.filter(caliberName => caliberName.toLowerCase().indexOf(val) !== -1));
+      } else {
+        this.setCaliberNamesFilter(this.caliberNames);
       }
     },
 
@@ -314,12 +299,14 @@ export default {
 
     scroll() {
       window.onscroll = () => {
-        let bottomOfWindow = Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop) + window.innerHeight === document.documentElement.offsetHeight;
+        let bottomOfWindow =
+          Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop) + window.innerHeight ===
+          document.documentElement.offsetHeight;
 
         if (bottomOfWindow && !this.noMoreLoadouts) {
           this.loadMoreLoadouts();
         }
-      }
+      };
     }
   },
 
@@ -335,6 +322,8 @@ export default {
       "guns",
       "gunNames",
       "gunNamesFilter",
+      "caliberNames",
+      "caliberNamesFilter",
       "filters",
       "noMoreLoadouts"
     ]),
@@ -366,14 +355,7 @@ export default {
 
       search: "",
       filter: {},
-      keys: [
-        "Votes",
-        "Name",
-        "Ergonomics_Final",
-        "Vertical_Recoil_Final",
-        "Horizontal_Recoil_Final",
-        "Market_Price"
-      ],
+      keys: ["Votes", "Name", "Ergonomics_Final", "Vertical_Recoil_Final", "Horizontal_Recoil_Final", "Market_Price"],
       dialog: false
     };
   }
@@ -393,45 +375,45 @@ export default {
   transform: scale(1);
 }
 
-  .weapon-key {
-    font-size: 16px;
-    font-weight: bold;
-    color: #5C6BC0;
-  }
+.weapon-key {
+  font-size: 16px;
+  font-weight: bold;
+  color: #5c6bc0;
+}
 
-  .type-key {
-    font-size: 16px;
-    font-weight: bold;
-    color: #F44336;
-  }
+.type-key {
+  font-size: 16px;
+  font-weight: bold;
+  color: #f44336;
+}
 
-  .caliber-key {
-    font-size: 16px;
-    font-weight: bold;
-    color: #AB47BC;
-  }
+.caliber-key {
+  font-size: 16px;
+  font-weight: bold;
+  color: #ab47bc;
+}
 
-  .ergonomics-key {
-    font-size: 16px;
-    font-weight: bold;
-    color: #66BB6A;
-  }
+.ergonomics-key {
+  font-size: 16px;
+  font-weight: bold;
+  color: #66bb6a;
+}
 
-  .recoil-key {
-    font-size: 16px;
-    font-weight: bold;
-    color: #42A5F5;
-  }
+.recoil-key {
+  font-size: 16px;
+  font-weight: bold;
+  color: #42a5f5;
+}
 
-  .rpm-key {
-    font-size: 16px;
-    font-weight: bold;
-    color: #795548;
-  }
+.rpm-key {
+  font-size: 16px;
+  font-weight: bold;
+  color: #795548;
+}
 
-  .price-key {
-    font-size: 16px;
-    font-weight: bold;
-    color: #26A69A;
-  }
+.price-key {
+  font-size: 16px;
+  font-weight: bold;
+  color: #26a69a;
+}
 </style>
