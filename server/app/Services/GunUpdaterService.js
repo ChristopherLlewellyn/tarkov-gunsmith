@@ -1,6 +1,6 @@
 'use strict'
 
-const Factory = use('Factory')
+const Database = use('Database')
 const Gun = use('App/Models/Gun')
 const TarkovDatabaseService = use('App/Services/TarkovDatabaseService')
 const TarkovMarketService = use('App/Services/TarkovMarketService')
@@ -23,7 +23,7 @@ class GunUpdaterService {
 
     // Find and merge the Tarkov-Market data into our list of guns
     for (let i in guns) {
-      let index = tarkovMarketItems.findIndex( ({ bsgId }) => bsgId === guns[i]._id )
+      let index = tarkovMarketItems.findIndex(x => x.bsgId === guns[i]._id && x.isFunctional)
 
       // If the gun is found...
       if ( !(index === -1) ) {
@@ -47,11 +47,39 @@ class GunUpdaterService {
       if (!gun) {
         // JSON values must be stringified before being added to the database
         guns[i].slots = JSON.stringify(guns[i].slots)
-
+        const gunToCreate = JSON.parse(JSON.stringify(guns[i]))
         try {
-          const newGun = await Factory.model('App/Models/Gun').create(guns[i])
+          const newGun = await Database.table('guns').insert({
+            // Tarkov-Database data
+            name:                     gunToCreate.name,
+            type:                     gunToCreate.class,
+            horizontal_recoil:        gunToCreate.recoilHorizontal,
+            vertical_recoil:          gunToCreate.recoilVertical,
+            ergonomics:               gunToCreate.ergonomics,
+            rpm:                      gunToCreate.rof,
+            caliber:                  gunToCreate.caliber,
+            short_name:               gunToCreate.shortName,
+            description:              gunToCreate.description,
+            price:                    gunToCreate.price,
+            weight:                   gunToCreate.weight,
+            modified:                 gunToCreate._modified,
+            kind:                     gunToCreate._kind,
+            slots:                    gunToCreate.slots,
+            bsg_id:                   gunToCreate._id,
+            // Tarkov-Market data
+            avg_24h_price:        gunToCreate.avg24hPrice,
+            trader_name:          gunToCreate.traderName,
+            trader_price:         gunToCreate.traderPrice,
+            trader_price_cur:     gunToCreate.traderPriceCur,
+            icon:                 gunToCreate.icon,
+            img:                  gunToCreate.img,
+            img_big:              gunToCreate.imgBig,
+            tarkov_market_link:   gunToCreate.tarkovMarketLink,
+            wiki_link:            gunToCreate.wikiLink
+          })
+
         } catch (err) {
-          console.log(`\nError creating new gun '${guns[i].name}' with Factory (GunUpdaterService). See error below:`)
+          console.log(`\nError creating new gun '${gunToCreate.name}' with Factory (GunUpdaterService). See error below:`)
           console.log(err + '\n')
         }
       }   
@@ -70,7 +98,7 @@ class GunUpdaterService {
 
     // Find and merge the Tarkov-Market data into our list of guns
     for (let i in guns) {
-      let index = tarkovMarketItems.findIndex( ({ bsgId }) => bsgId === guns[i]._id )
+      let index = tarkovMarketItems.findIndex(x => x.bsgId === guns[i]._id && x.isFunctional)
 
       // If the gun is found...
       if ( !(index === -1) ) {
