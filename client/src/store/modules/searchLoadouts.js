@@ -45,6 +45,7 @@ export default {
       }
 
       let gun = state.filters.gun; // 'Any' or '' are acceptable values for the gun parameter
+      let caliber = state.filters.caliber;
       let priceRangeMin = state.filters.priceRangeMin;
       let priceRangeMax = state.filters.priceRangeMax;
       let orderBy = state.sortBy;
@@ -56,6 +57,7 @@ export default {
         .get("/gunbuilds", {
           params: {
             gun: gun,
+            caliber: caliber,
             priceRangeMin: priceRangeMin,
             priceRangeMax: priceRangeMax,
             orderBy: orderBy,
@@ -163,8 +165,8 @@ export default {
     setCaliberNames(state, guns) {
       const caliberList = [];
       for (let i = 0; i < guns.length; i++) {
-        const gun = guns[i].caliber;
-        caliberList.push(gun);
+        const caliber = guns[i].caliber;
+        caliberList.push(caliber);
       }
       state.caliberList = caliberList;
       state.caliberNamesFilter = caliberList;

@@ -72,6 +72,12 @@
                 </v-avatar>
                 {{ filters.gun }}
               </v-chip>
+              <v-chip label class="ml-1 mr-1 purple" v-if="filters.caliber">
+                <v-avatar left class="purple darken-4">
+                  <v-icon>mdi-bullet</v-icon>
+                </v-avatar>
+                {{ filters.caliber }}
+              </v-chip>
               <v-chip label class="ml-1 mr-1 teal" v-if="filters.priceRangeMin !== null && filters.priceRangeMax !== null">
                 <v-avatar left class="teal darken-4">
                   <v-icon>mdi-currency-rub</v-icon>

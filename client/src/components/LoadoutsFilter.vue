@@ -79,7 +79,7 @@ export default {
     applyFilters(event) {
       let filters = {};
       filters.gun = this.gun;
-      filter.caliber = this.caliber;
+      filters.caliber = this.caliber;
       filters.priceRangeMin = this.priceRange[0];
       filters.priceRangeMax = this.priceRange[1];
 
