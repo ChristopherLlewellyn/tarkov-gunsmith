@@ -75,6 +75,11 @@ import { mapState, mapMutations, mapActions } from "vuex";
 import GoogleSignIn from "@/components/GoogleSignIn.vue";
 
 export default {
+  metaInfo: {
+    title: "Sign Up",
+    titleTemplate: "%s - Tarkov Gunsmith"
+  },
+  
   mounted() {
     this.resetSignUp();
   },

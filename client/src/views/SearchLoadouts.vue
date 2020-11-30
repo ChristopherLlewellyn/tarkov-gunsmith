@@ -249,6 +249,11 @@ import LoadoutListView from "../components/LoadoutListView";
 import SearchLoadoutStatKey from "../components/SearchLoadoutStatKey";
 
 export default {
+  metaInfo: {
+    title: "Search",
+    titleTemplate: "%s - Tarkov Gunsmith"
+  },
+  
   mounted() {
     this.scroll()
     this.setOffset(0);

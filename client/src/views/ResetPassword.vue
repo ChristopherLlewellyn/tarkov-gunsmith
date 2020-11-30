@@ -53,6 +53,11 @@
 import HTTP from "../http";
 
 export default {
+  metaInfo: {
+    title: "Reset Password",
+    titleTemplate: "%s - Tarkov Gunsmith"
+  },
+  
   computed: {},
   methods: {
     sendPasswordReset(email) {

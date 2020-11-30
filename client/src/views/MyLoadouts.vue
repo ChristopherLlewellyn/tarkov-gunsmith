@@ -138,6 +138,11 @@ import PriceChip from "../components/PriceChip";
 import LoadoutCard from "../components/LoadoutCard";
 
 export default {
+  metaInfo: {
+    title: "My Loadouts",
+    titleTemplate: "%s - Tarkov Gunsmith"
+  },
+  
   mounted() {
     if (!this.isSignedIn) {
       return router.push("/sign-in");

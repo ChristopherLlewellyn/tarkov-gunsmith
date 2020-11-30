@@ -131,6 +131,11 @@ import FloatingBuildInfoPanel from "@/components/FloatingBuildInfoPanel.vue";
 import TiptapEditor from "@/components/TiptapEditor.vue";
 
 export default {
+  metaInfo: {
+    title: "Create Loadout",
+    titleTemplate: "%s - Tarkov Gunsmith"
+  },
+  
   mounted() {
     if(!this.isSignedIn) {
       this.notSignedInSnackbar = true;

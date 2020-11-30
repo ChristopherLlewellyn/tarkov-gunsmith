@@ -31,6 +31,11 @@
   } from "vuex";
 
   export default {
+    metaInfo: {
+      title: "Discord Auth",
+      titleTemplate: "%s - Tarkov Gunsmith"
+    },
+    
     mounted() {
       if (this.$route.query.code) {
         let code = this.$route.query.code

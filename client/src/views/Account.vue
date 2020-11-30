@@ -88,6 +88,11 @@
   } from "vuex";
 
   export default {
+    metaInfo: {
+      title: "Account",
+      titleTemplate: "%s - Tarkov Gunsmith"
+    },
+    
     mounted() {
       if (!this.isSignedIn) {
         return router.push("/sign-in");

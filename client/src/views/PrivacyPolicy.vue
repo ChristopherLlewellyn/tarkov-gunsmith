@@ -24,6 +24,15 @@
   </v-container>
 </template>
 
+<script>
+export default {
+  metaInfo: {
+    title: "Privacy Policy",
+    titleTemplate: "%s - Tarkov Gunsmith"
+  }
+}
+</script>
+
 <style scoped>
   .bg {
     width: 100%;

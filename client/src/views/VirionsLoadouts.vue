@@ -144,6 +144,11 @@
   import LoadoutsFilter from "../components/LoadoutsFilter";
 
   export default {
+    metaInfo: {
+      title: "Virion's Loadouts",
+      titleTemplate: "%s - Tarkov Gunsmith"
+    },
+
     mounted() {
       this.fetchVirionsLoadouts();
       this.fetchGuns();

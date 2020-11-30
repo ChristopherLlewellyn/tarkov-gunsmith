@@ -75,6 +75,11 @@
 import HTTP from "../http";
 
 export default {
+  metaInfo: {
+    title: "Confirm",
+    titleTemplate: "%s - Tarkov Gunsmith"
+  },
+  
   mounted() {
     this.token = this.$route.params.token;
   },
