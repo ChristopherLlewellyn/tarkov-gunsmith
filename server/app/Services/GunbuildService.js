@@ -52,6 +52,10 @@ class GunbuildService {
           queryBuilder.where('users.username', query.username)
         }
 
+        if (query.caliber && query.caliber != 'Any' && query.caliber != '') {
+          queryBuilder.where('guns.caliber', query.caliber)
+        }
+
         //* Limit and Offset here
         if (query.offset) {
           queryBuilder.offset(parseInt(query.offset, 10))
