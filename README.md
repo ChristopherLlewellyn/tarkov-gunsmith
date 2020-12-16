@@ -3,8 +3,6 @@
 
 A web application providing community curated weapon builds complete with compatibility, stats and flea market prices for [Escape from Tarkov](https://www.escapefromtarkov.com/).
 
-[Track the development on Trello](https://trello.com/b/e82gBsJD/tarkov-gunsmith)
-
 ## Features
 * Authentication - traditional email/password and verification email authentication, plus single sign on with Google and Discord authentication
 
