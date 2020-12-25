@@ -155,30 +155,32 @@ class GunbuildUpdaterService {
           bsg_id,
         }) => bsg_id === item.bsg_id);
 
-        // Update the attachment in the build tree with the attachment's new details
-        item.accuracy_modifier = attachment.accuracy_modifier
-        item.avg_24h_price = attachment.avg_24h_price
-        item.compatibility = attachment.compatibility
-        item.conflicts = attachment.conflicts
-        item.description = attachment.description
-        item.ergonomics_modifier = attachment.ergonomics_modifier
-        item.icon = attachment.icon
-        item.img = attachment.img
-        item.img_big = attachment.img_big
-        item.kind = attachment.kind
-        item.modified = attachment.modified
-        item.muzzle_velocity_modifier = attachment.muzzle_velocity_modifier
-        item.name = attachment.name
-        item.price = attachment.price
-        item.recoil_modifier = attachment.recoil_modifier
-        item.short_name = attachment.short_name
-        item.tarkov_market_link = attachment.tarkov_market_link
-        item.trader_name = attachment.trader_name
-        item.trader_price = attachment.trader_price
-        item.trader_price_cur = attachment.trader_price_cur
-        item.type = attachment.type
-        item.weight = attachment.weight
-        item.wiki_link = attachment.wiki_link
+        if (attachment !== null && attachment !== undefined) {
+          // Update the attachment in the build tree with the attachment's new details
+          item.accuracy_modifier = attachment.accuracy_modifier
+          item.avg_24h_price = attachment.avg_24h_price
+          item.compatibility = attachment.compatibility
+          item.conflicts = attachment.conflicts
+          item.description = attachment.description
+          item.ergonomics_modifier = attachment.ergonomics_modifier
+          item.icon = attachment.icon
+          item.img = attachment.img
+          item.img_big = attachment.img_big
+          item.kind = attachment.kind
+          item.modified = attachment.modified
+          item.muzzle_velocity_modifier = attachment.muzzle_velocity_modifier
+          item.name = attachment.name
+          item.price = attachment.price
+          item.recoil_modifier = attachment.recoil_modifier
+          item.short_name = attachment.short_name
+          item.tarkov_market_link = attachment.tarkov_market_link
+          item.trader_name = attachment.trader_name
+          item.trader_price = attachment.trader_price
+          item.trader_price_cur = attachment.trader_price_cur
+          item.type = attachment.type
+          item.weight = attachment.weight
+          item.wiki_link = attachment.wiki_link
+        }
       }
     }
     return allItems
