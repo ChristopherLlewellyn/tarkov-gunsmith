@@ -41,7 +41,7 @@ class GunbuildUpdaterService {
         bsg_id,
       }) => bsg_id === node.bsg_id);
 
-      if (gun !== null && attachment != undefined) {
+      if (gun !== null && gun != undefined) {
         node.avg_24h_price = gun.avg_24h_price
         node.caliber = gun.caliber
         node.description = gun.description
