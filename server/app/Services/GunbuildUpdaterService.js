@@ -41,27 +41,29 @@ class GunbuildUpdaterService {
         bsg_id,
       }) => bsg_id === node.bsg_id);
 
-      node.avg_24h_price = gun.avg_24h_price
-      node.caliber = gun.caliber
-      node.description = gun.description
-      node.ergonomics = gun.ergonomics
-      node.horizontal_recoil = gun.horizontal_recoil
-      node.icon = gun.icon
-      node.img = gun.img
-      node.img_big = gun.img_big
-      node.modified = gun.modified
-      node.name = gun.name
-      node.price = gun.price
-      node.rpm = gun.rpm
-      node.short_name = gun.short_name
-      node.tarkov_market_link = gun.tarkov_market_link
-      node.trader_name = gun.trader_name
-      node.trader_price = gun.trader_price
-      node.trader_price_cur = gun.trader_price_cur
-      node.type = gun.type
-      node.vertical_recoil = gun.vertical_recoil
-      node.weight = gun.weight
-      node.wiki_link = gun.wiki_link
+      if (gun !== null && attachment != undefined) {
+        node.avg_24h_price = gun.avg_24h_price
+        node.caliber = gun.caliber
+        node.description = gun.description
+        node.ergonomics = gun.ergonomics
+        node.horizontal_recoil = gun.horizontal_recoil
+        node.icon = gun.icon
+        node.img = gun.img
+        node.img_big = gun.img_big
+        node.modified = gun.modified
+        node.name = gun.name
+        node.price = gun.price
+        node.rpm = gun.rpm
+        node.short_name = gun.short_name
+        node.tarkov_market_link = gun.tarkov_market_link
+        node.trader_name = gun.trader_name
+        node.trader_price = gun.trader_price
+        node.trader_price_cur = gun.trader_price_cur
+        node.type = gun.type
+        node.vertical_recoil = gun.vertical_recoil
+        node.weight = gun.weight
+        node.wiki_link = gun.wiki_link
+      }
     }
 
     // If not a firearm, it must be an attachment - update attachment details
@@ -71,30 +73,32 @@ class GunbuildUpdaterService {
         bsg_id,
       }) => bsg_id === node.bsg_id);
 
-      // Update the attachment in the build tree with the attachment's new details
-      node.accuracy_modifier = attachment.accuracy_modifier
-      node.avg_24h_price = attachment.avg_24h_price
-      node.compatibility = attachment.compatibility
-      node.conflicts = attachment.conflicts
-      node.description = attachment.description
-      node.ergonomics_modifier = attachment.ergonomics_modifier
-      node.icon = attachment.icon
-      node.img = attachment.img
-      node.img_big = attachment.img_big
-      node.kind = attachment.kind
-      node.modified = attachment.modified
-      node.muzzle_velocity_modifier = attachment.muzzle_velocity_modifier
-      node.name = attachment.name
-      node.price = attachment.price
-      node.recoil_modifier = attachment.recoil_modifier
-      node.short_name = attachment.short_name
-      node.tarkov_market_link = attachment.tarkov_market_link
-      node.trader_name = attachment.trader_name
-      node.trader_price = attachment.trader_price
-      node.trader_price_cur = attachment.trader_price_cur
-      node.type = attachment.type
-      node.weight = attachment.weight
-      node.wiki_link = attachment.wiki_link
+      if (attachment !== null && attachment != undefined) {
+        // Update the attachment in the build tree with the attachment's new details
+        node.accuracy_modifier = attachment.accuracy_modifier
+        node.avg_24h_price = attachment.avg_24h_price
+        node.compatibility = attachment.compatibility
+        node.conflicts = attachment.conflicts
+        node.description = attachment.description
+        node.ergonomics_modifier = attachment.ergonomics_modifier
+        node.icon = attachment.icon
+        node.img = attachment.img
+        node.img_big = attachment.img_big
+        node.kind = attachment.kind
+        node.modified = attachment.modified
+        node.muzzle_velocity_modifier = attachment.muzzle_velocity_modifier
+        node.name = attachment.name
+        node.price = attachment.price
+        node.recoil_modifier = attachment.recoil_modifier
+        node.short_name = attachment.short_name
+        node.tarkov_market_link = attachment.tarkov_market_link
+        node.trader_name = attachment.trader_name
+        node.trader_price = attachment.trader_price
+        node.trader_price_cur = attachment.trader_price_cur
+        node.type = attachment.type
+        node.weight = attachment.weight
+        node.wiki_link = attachment.wiki_link
+      }
     }
 
     // Check for slots
@@ -119,27 +123,29 @@ class GunbuildUpdaterService {
           bsg_id,
         }) => bsg_id === item.bsg_id);
 
-        item.avg_24h_price = gun.avg_24h_price
-        item.caliber = gun.caliber
-        item.description = gun.description
-        item.ergonomics = gun.ergonomics
-        item.horizontal_recoil = gun.horizontal_recoil
-        item.icon = gun.icon
-        item.img = gun.img
-        item.img_big = gun.img_big
-        item.modified = gun.modified
-        item.name = gun.name
-        item.price = gun.price
-        item.rpm = gun.rpm
-        item.short_name = gun.short_name
-        item.tarkov_market_link = gun.tarkov_market_link
-        item.trader_name = gun.trader_name
-        item.trader_price = gun.trader_price
-        item.trader_price_cur = gun.trader_price_cur
-        item.type = gun.type
-        item.vertical_recoil = gun.vertical_recoil
-        item.weight = gun.weight
-        item.wiki_link = gun.wiki_link
+        if (gun !== null && gun !== undefined) {
+          item.avg_24h_price = gun.avg_24h_price
+          item.caliber = gun.caliber
+          item.description = gun.description
+          item.ergonomics = gun.ergonomics
+          item.horizontal_recoil = gun.horizontal_recoil
+          item.icon = gun.icon
+          item.img = gun.img
+          item.img_big = gun.img_big
+          item.modified = gun.modified
+          item.name = gun.name
+          item.price = gun.price
+          item.rpm = gun.rpm
+          item.short_name = gun.short_name
+          item.tarkov_market_link = gun.tarkov_market_link
+          item.trader_name = gun.trader_name
+          item.trader_price = gun.trader_price
+          item.trader_price_cur = gun.trader_price_cur
+          item.type = gun.type
+          item.vertical_recoil = gun.vertical_recoil
+          item.weight = gun.weight
+          item.wiki_link = gun.wiki_link
+        }
       }
 
       // Item is an Attachment - update attachment details
