@@ -71,7 +71,7 @@ class GunbuildUpdaterService {
         node.wiki_link = gun.wiki_link
       }
       else {
-        console.log("Missing bsgID in: " + node);
+        console.log("Missing bsgID in: " + node.name);
       }
     }
 
@@ -109,7 +109,7 @@ class GunbuildUpdaterService {
         node.wiki_link = attachment.wiki_link
       }
       else {
-        console.log("Missing bsgID in: " + node);
+        console.log("Missing bsgID in: " + node.name);
       }
     }
 
@@ -159,7 +159,7 @@ class GunbuildUpdaterService {
           item.wiki_link = gun.wiki_link
         }
         else {
-          console.log("Missing bsgID in: " + node);
+          console.log("Missing bsgID in: " + node.name);
         }
       }
 
@@ -197,7 +197,7 @@ class GunbuildUpdaterService {
           item.wiki_link = attachment.wiki_link
         }
         else {
-          console.log("Missing bsgID in: " + node);
+          console.log("Missing bsgID in: " + node.name);
         }
       }
     }
