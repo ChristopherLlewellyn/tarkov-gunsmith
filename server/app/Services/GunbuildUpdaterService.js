@@ -64,6 +64,9 @@ class GunbuildUpdaterService {
         node.weight = gun.weight
         node.wiki_link = gun.wiki_link
       }
+      else {
+        console.log("Missing: " + node.bsg_id);
+      }
     }
 
     // If not a firearm, it must be an attachment - update attachment details
@@ -98,6 +101,9 @@ class GunbuildUpdaterService {
         node.type = attachment.type
         node.weight = attachment.weight
         node.wiki_link = attachment.wiki_link
+      }
+      else {
+        console.log("Missing: " + node.bsg_id);
       }
     }
 
@@ -146,6 +152,9 @@ class GunbuildUpdaterService {
           item.weight = gun.weight
           item.wiki_link = gun.wiki_link
         }
+        else {
+          console.log("Missing: " + node.bsg_id);
+        }
       }
 
       // Item is an Attachment - update attachment details
@@ -180,6 +189,9 @@ class GunbuildUpdaterService {
           item.type = attachment.type
           item.weight = attachment.weight
           item.wiki_link = attachment.wiki_link
+        }
+        else {
+          console.log("Missing: " + node.bsg_id);
         }
       }
     }
