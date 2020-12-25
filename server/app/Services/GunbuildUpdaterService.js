@@ -117,8 +117,11 @@ class GunbuildUpdaterService {
     if (node.slots && node.slots != undefined) {
       for (let slot of Object.keys(node.slots)) {
         // Go deeper down the build tree
-        if (node.slots[slot].selected && node.slots[slot].selected != undefined) {
+        if (node.slots[slot].selected && node.slots[slot].selected != undefined && node.slots[slot].selected.bsg_id !== undefined) {
           node.slots[slot].selected = this.updateBuildTree(node.slots[slot].selected, guns, attachments);
+        }
+        else if (node.slots[slot].selected.bsg_id == undefined) {
+          console.log(`This slot has a selected attachment with an undefined bsg_id. Item: ${node.name}, Slot: ${node.slots[slot].name}`)
         }
       }
     }
@@ -159,7 +162,7 @@ class GunbuildUpdaterService {
           item.wiki_link = gun.wiki_link
         }
         else {
-          console.log("Missing bsgID in: " + node.name);
+          console.log("Missing bsgID in: " + item.name);
         }
       }
 
@@ -197,7 +200,7 @@ class GunbuildUpdaterService {
           item.wiki_link = attachment.wiki_link
         }
         else {
-          console.log("Missing bsgID in: " + node.name);
+          console.log("Missing bsgID in: " + item.name);
         }
       }
     }
