@@ -24,6 +24,9 @@ class GunbuildUpdaterService {
 
       if (weaponStatsCalculated.error == true) {
         console.log(`Failed calculating gunbuild stats: Id = ${gunbuild.id}, Name = ${gunbuild.name}`)
+        console.log(`Data in this gunbuild is somehow corrupt - deleting gunbuild`)
+        console.log("\n")
+        await gunbuild.delete();
       }
 
       else {
