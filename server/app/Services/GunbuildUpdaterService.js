@@ -71,7 +71,9 @@ class GunbuildUpdaterService {
         node.wiki_link = gun.wiki_link
       }
       else {
-        console.log("Missing bsgID in: " + node.name);
+        console.log("updateBuildTree: Missing bsgID")
+        console.log("Setting item to null.")
+        node = null
       }
     }
 
@@ -109,12 +111,14 @@ class GunbuildUpdaterService {
         node.wiki_link = attachment.wiki_link
       }
       else {
-        console.log("Missing bsgID in: " + node.name);
+        console.log("updateBuildTree: Missing bsgID")
+        console.log("Setting item to null.")
+        node = null
       }
     }
 
     // Check for slots
-    if (node.slots && node.slots != undefined) {
+    if (node != null && node.slots && node.slots != undefined) {
       for (let slot of Object.keys(node.slots)) {
         // Go deeper down the build tree
         if (node.slots[slot].selected && node.slots[slot].selected != undefined && node.slots[slot].selected.bsg_id !== undefined) {
@@ -162,7 +166,9 @@ class GunbuildUpdaterService {
           item.wiki_link = gun.wiki_link
         }
         else {
-          console.log("Missing bsgID in: " + item.name);
+          console.log("updateAllItems: Missing bsgID")
+          console.log("Setting item to null.")
+          item = null
         }
       }
 
@@ -200,10 +206,20 @@ class GunbuildUpdaterService {
           item.wiki_link = attachment.wiki_link
         }
         else {
-          console.log("Missing bsgID in: " + item.name);
+          console.log("updateAllItems: Missing bsgID")
+          console.log("Setting item to null.")
+          item = null
         }
       }
     }
+
+    // Remove nulls
+    for (var i = 0; i < allItems.length; i++) {
+      if (allItems[i] == null) {
+        allItems.splice(i, 1)
+      }
+    }
+
     return allItems
   }
 
