@@ -22,14 +22,20 @@ class GunbuildUpdaterService {
       let all_items = this.updateAllItems(JSON.parse(gunbuild.all_items), guns, attachments)
       let weaponStatsCalculated = this.calculateWeaponStats(all_items)
 
-      gunbuild.build = JSON.stringify(build)
-      gunbuild.all_items = JSON.stringify(all_items)
-      gunbuild.horizontal_recoil_final = weaponStatsCalculated.horizontal_recoil
-      gunbuild.vertical_recoil_final = weaponStatsCalculated.vertical_recoil
-      gunbuild.ergonomics_final = weaponStatsCalculated.ergonomics
-      gunbuild.market_price = weaponStatsCalculated.price
+      if (weaponStatsCalculated.error == true) {
+        console.log(`Failed calculating gunbuild stats: Id = ${gunbuild.id}, Name = ${gunbuild.name}`)
+      }
 
-      await gunbuild.save()
+      else {
+        gunbuild.build = JSON.stringify(build)
+        gunbuild.all_items = JSON.stringify(all_items)
+        gunbuild.horizontal_recoil_final = weaponStatsCalculated.horizontal_recoil
+        gunbuild.vertical_recoil_final = weaponStatsCalculated.vertical_recoil
+        gunbuild.ergonomics_final = weaponStatsCalculated.ergonomics
+        gunbuild.market_price = weaponStatsCalculated.price
+  
+        await gunbuild.save()
+      }
     }
   }
 
@@ -65,7 +71,7 @@ class GunbuildUpdaterService {
         node.wiki_link = gun.wiki_link
       }
       else {
-        console.log("Missing: " + node.bsg_id);
+        console.log("Missing bsgID in: " + node);
       }
     }
 
@@ -103,7 +109,7 @@ class GunbuildUpdaterService {
         node.wiki_link = attachment.wiki_link
       }
       else {
-        console.log("Missing: " + node.bsg_id);
+        console.log("Missing bsgID in: " + node);
       }
     }
 
@@ -153,7 +159,7 @@ class GunbuildUpdaterService {
           item.wiki_link = gun.wiki_link
         }
         else {
-          console.log("Missing: " + node.bsg_id);
+          console.log("Missing bsgID in: " + node);
         }
       }
 
@@ -191,7 +197,7 @@ class GunbuildUpdaterService {
           item.wiki_link = attachment.wiki_link
         }
         else {
-          console.log("Missing: " + node.bsg_id);
+          console.log("Missing bsgID in: " + node);
         }
       }
     }
@@ -200,6 +206,14 @@ class GunbuildUpdaterService {
 
   calculateWeaponStats(allItems) {
     let weapon = allItems[0]
+
+    if (weapon == null || weapon == undefined) {
+      let defaultStats = {
+        error: true
+      }
+      return defaultStats
+    }
+
     let ergonomics = weapon.ergonomics
     let horizontal_recoil = weapon.horizontal_recoil
     let vertical_recoil = weapon.vertical_recoil
@@ -227,7 +241,8 @@ class GunbuildUpdaterService {
       ergonomics: ergonomics,
       horizontal_recoil: horizontal_recoil,
       vertical_recoil: vertical_recoil,
-      price: price
+      price: price,
+      error: false
     }
 
     return calculatedWeaponStats
