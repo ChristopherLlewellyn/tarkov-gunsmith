@@ -120,7 +120,7 @@ class GunbuildUpdaterService {
         if (node.slots[slot].selected && node.slots[slot].selected != undefined && node.slots[slot].selected.bsg_id !== undefined) {
           node.slots[slot].selected = this.updateBuildTree(node.slots[slot].selected, guns, attachments);
         }
-        else if (node.slots[slot].selected.bsg_id == undefined) {
+        else if (node.slots[slot].selected && node.slots[slot].selected.bsg_id == undefined) {
           console.log(`This slot has a selected attachment with an undefined bsg_id. Item: ${node.name}, Slot: ${node.slots[slot].name}`)
         }
       }
