@@ -29,7 +29,7 @@
     "@adonisjs/validator": "^5.0.6",
     "adonis-scheduler": "^3.0.2",
     "adonis-throttle": "^2.3.6",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "bad-words": "^3.0.3",
     "badwords-list": "^1.0.0",
     "discord-oauth2": "^2.2.0",
