@@ -15,6 +15,7 @@ import DiscordRedirect from "./views/DiscordRedirect.vue";
 import Account from "./views/Account.vue";
 import PrivacyPolicy from "./views/PrivacyPolicy.vue";
 import VirionsLoadouts from "./views/VirionsLoadouts.vue";
+import Donate from "./views/Donate.vue";
 
 Vue.use(Router);
 Vue.use(Meta);
@@ -91,6 +92,11 @@ export default new Router({
       path: "/user/virion",
       name: "virions-loadouts",
       component: VirionsLoadouts
+    },
+    {
+      path: "/donate",
+      name: "donate",
+      component: Donate
     }
   ]
 });

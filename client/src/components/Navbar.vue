@@ -175,6 +175,11 @@ export default {
       drawer: false,
       notRequiresSignIn: [
         {
+          title: "Donate/Contact",
+          icon: "mdi-heart",
+          route: "/donate"
+        },
+        {
           title: "Virion's Loadouts",
           icon: "mdi-star",
           badge: {

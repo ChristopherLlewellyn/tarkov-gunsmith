@@ -42,18 +42,12 @@
                 {{ new Date().getFullYear() }}
               </v-card-title>
               <v-card-text class="justify-center">Version {{ version }}</v-card-text>
-              <v-card-text class="justify-center">
-                <p>
-                  <v-icon class="mr-1" color="#7289da">mdi-discord</v-icon>MrWelshLlama#5896
-                  <v-icon class="mr-1" color="#FF4500">mdi-reddit</v-icon>Welshllama
-                </p>
-              </v-card-text>
             </v-card>
           </v-col>
 
           <v-col class="text-center">
             <v-card color="grey darken-4" outlined>
-              <v-card-title class="justify-center">❤️ Support Me ❤️</v-card-title>
+              <v-card-title class="justify-center">❤️ Donate ❤️</v-card-title>
               <v-card-text
                 class="justify-center"
               >If you like this project, and would like to support me.</v-card-text>
@@ -61,12 +55,14 @@
                 <v-btn
                   class="mr-2"
                   rounded
-                  color="amber lighten-1"
+                  color="white"
                   href="https://www.paypal.me/welshllama"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <b class="black--text">Donate</b>
+                  <v-icon left color="blue darken-2">mdi-credit-card-outline</v-icon>
+                  <span class="blue--text text--darken-2 donate-button-text">Pay</span>
+                  <span class="blue--text text--lighten-2 donate-button-text">Pal</span>
                 </v-btn>
 
                 <span>or</span>
@@ -127,18 +123,12 @@
               {{ new Date().getFullYear() }}
             </v-card-title>
             <v-card-text>Version {{ version }}</v-card-text>
-            <v-card-text class="justify-center">
-              <p>
-                <v-icon class="mr-1" color="#7289da">mdi-discord</v-icon>MrWelshLlama#5896
-                <v-icon class="mr-1" color="#FF4500">mdi-reddit</v-icon>Welshllama
-              </p>
-            </v-card-text>
           </v-card>
         </v-row>
 
         <v-row class="justify-center">
           <v-card color="grey darken-4" outlined>
-            <v-card-title class="justify-center">❤️ Support Me ❤️</v-card-title>
+            <v-card-title class="justify-center">❤️ Donate ❤️</v-card-title>
             <v-card-text
               class="justify-center"
             >If you like this project, and would like to support me.</v-card-text>
@@ -146,24 +136,26 @@
               <v-btn
                 class="mr-2"
                 rounded
-                color="amber lighten-1"
+                color="white"
                 href="https://www.paypal.me/welshllama"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <b class="black--text">Donate</b>
+                <v-icon left color="blue darken-2">mdi-credit-card-outline</v-icon>
+                <span class="blue--text text--darken-2 donate-button-text">Pay</span>
+                <span class="blue--text text--lighten-2 donate-button-text">Pal</span>
               </v-btn>
 
               <span>or</span>
 
-                <v-btn class="ml-2" color="teal"
-                  rounded
-                  href="https://www.buymeacoffee.com/ChrisLlewellyn"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <b class="grey--text text--lighten-3">☕ Buy me a coffee</b>
-                </v-btn>
+              <v-btn class="ml-2" color="teal"
+                rounded
+                href="https://www.buymeacoffee.com/ChrisLlewellyn"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <b class="grey--text text--lighten-3">☕ Buy me a coffee</b>
+              </v-btn>
             </v-card-actions>
           </v-card>
         </v-row>
@@ -193,5 +185,9 @@ a {
 #small {
   overflow: auto;
   padding-top: 600px;
+}
+
+.donate-button-text {
+  font-weight: bold;
 }
 </style>
