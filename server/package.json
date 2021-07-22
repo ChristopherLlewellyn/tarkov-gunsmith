@@ -38,7 +38,7 @@
     "random-string": "^0.2.0",
     "set-value": "^3.0.1",
     "username-generator": "^1.1.0",
-    "xlsx": "^0.15.1"
+    "xlsx": "^0.17.0"
   },
   "devDependencies": {},
   "autoload": {
