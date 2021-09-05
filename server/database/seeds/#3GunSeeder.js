@@ -14,7 +14,7 @@
 const Factory = use('Factory')
 const Database = use('Database')
 const TarkovDatabaseService = use('App/Services/TarkovDatabaseService')
-const TarkovMarketService = use('App/Services/TarkovMarketService')
+const TarkovLensService = use('App/Services/TarkovLensService')
 
 class GunSeeder {
   async run () {
@@ -23,25 +23,24 @@ class GunSeeder {
     let token = await TarkovDatabaseService.getNewAuthToken()
     let guns = await TarkovDatabaseService.getItemsByKind(token, 'firearm')
 
-    // Tarkov-Market has additional data that we want, such as market prices, trader prices and images
-    // Can't get items by kind like with Tarkov-Database, so we have to get every item and filter the data
-    let tarkovMarketItems = await TarkovMarketService.getAllItems()
+    // TarkovLens has additional data that we want, such as market prices and images
+    let tarkovLensItems = await TarkovLensService.getItemsBasicInfo()
 
-    // Find and merge the Tarkov-Market data into our list of guns
+    // Find and merge the TarkovLens data into our list of guns
     for (let i in guns) {
-      let index = tarkovMarketItems.findIndex( ({ bsgId }) => bsgId === guns[i]._id )
+      let index = tarkovLensItems.findIndex( ({ _id }) => _id === guns[i]._id )
 
       // If the gun is found...
       if ( !(index === -1) ) {
-        guns[i].avg24hPrice =       tarkovMarketItems[index].avg24hPrice
-        guns[i].traderName =        tarkovMarketItems[index].traderName
-        guns[i].traderPrice =       tarkovMarketItems[index].traderPrice
-        guns[i].traderPriceCur =    tarkovMarketItems[index].traderPriceCur
-        guns[i].icon =              tarkovMarketItems[index].icon
-        guns[i].img =               tarkovMarketItems[index].img
-        guns[i].imgBig =            tarkovMarketItems[index].imgBig
-        guns[i].tarkovMarketLink =  tarkovMarketItems[index].link
-        guns[i].wikiLink =          tarkovMarketItems[index].wikiLink
+        guns[i].avg24hPrice =       tarkovLensItems[index].avg24hPrice
+        guns[i].traderName =        null // not used
+        guns[i].traderPrice =       null // not used
+        guns[i].traderPriceCur =    null // not used
+        guns[i].icon =              tarkovLensItems[index].icon
+        guns[i].img =               tarkovLensItems[index].img
+        guns[i].imgBig =            tarkovLensItems[index].imgBig
+        guns[i].tarkovMarketLink =  null // not used
+        guns[i].wikiLink =          tarkovLensItems[index].wikiLink
       }
     }
 

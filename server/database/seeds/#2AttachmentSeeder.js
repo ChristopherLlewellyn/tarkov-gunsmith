@@ -14,7 +14,7 @@
 const Factory = use('Factory')
 const Database = use('Database')
 const TarkovDatabaseService = use('App/Services/TarkovDatabaseService')
-const TarkovMarketService = use('App/Services/TarkovMarketService')
+const TarkovLensService = use('App/Services/TarkovLensService')
 
 class AttachmentSeeder {
   async run () {
@@ -22,25 +22,24 @@ class AttachmentSeeder {
     let token = await TarkovDatabaseService.getNewAuthToken()
     let attachments = await TarkovDatabaseService.getModifications(token)
 
-    // Tarkov-Market has additional data that we want, such as market prices, trader prices and images
-    // Can't get items by kind like with Tarkov-Database, so we have to get every item and filter the data
-    let tarkovMarketItems = await TarkovMarketService.getAllItems()
+    // TarkovLens has additional data that we want, such as market prices and images
+    let tarkovLensService = await TarkovLensService.getItemsBasicInfo()
 
-    // Find and merge the Tarkov-Market data into our list of attachments
+    // Find and merge the TarkovLens data into our list of attachments
     for (let i in attachments) {
-      let index = tarkovMarketItems.findIndex( ({ bsgId }) => bsgId === attachments[i]._id )
+      let index = tarkovLensService.findIndex( ({ _id }) => _id === attachments[i]._id )
 
       // If the attachment is found...
       if ( !(index === -1) ) {
-        attachments[i].avg24hPrice =       tarkovMarketItems[index].avg24hPrice
-        attachments[i].traderName =        tarkovMarketItems[index].traderName
-        attachments[i].traderPrice =       tarkovMarketItems[index].traderPrice
-        attachments[i].traderPriceCur =    tarkovMarketItems[index].traderPriceCur
-        attachments[i].icon =              tarkovMarketItems[index].icon
-        attachments[i].img =               tarkovMarketItems[index].img
-        attachments[i].imgBig =            tarkovMarketItems[index].imgBig
-        attachments[i].tarkovMarketLink =  tarkovMarketItems[index].link
-        attachments[i].wikiLink =          tarkovMarketItems[index].wikiLink
+        attachments[i].avg24hPrice =       tarkovLensService[index].avg24hPrice
+        attachments[i].traderName =        null // not used
+        attachments[i].traderPrice =       null // not used
+        attachments[i].traderPriceCur =    null // not used
+        attachments[i].icon =              tarkovLensService[index].icon
+        attachments[i].img =               tarkovLensService[index].img
+        attachments[i].imgBig =            tarkovLensService[index].imgBig
+        attachments[i].tarkovMarketLink =  null // not used
+        attachments[i].wikiLink =          tarkovLensService[index].wikiLink
       }
     }
 

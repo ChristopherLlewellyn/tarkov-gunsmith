@@ -3,9 +3,9 @@
 const Database = use('Database')
 const Attachment = use('App/Models/Attachment')
 const TarkovDatabaseService = use('App/Services/TarkovDatabaseService')
-const TarkovMarketService = use('App/Services/TarkovMarketService')
+const TarkovLensService = use('App/Services/TarkovLensService')
 
-// This service updates the 'attachments' database table by fetching data from Tarkov-Database and Tarkov-Market
+// This service updates the 'attachments' database table by fetching data from Tarkov-Database and TarkovLens
 // It adds any new attachments and updates all the data of existing attachments
 // This service was primarily made for the 'AttachmentUpdater' automatic task 
 
@@ -17,25 +17,24 @@ class AttachmentUpdaterService {
     let token = await TarkovDatabaseService.getNewAuthToken()
     let attachments = await TarkovDatabaseService.getModifications(token)
 
-    // Tarkov-Market has additional data that we want, such as market prices, trader prices and images
-    // Can't get items by kind like with Tarkov-Database, so we have to get every item and filter the data
-    let tarkovMarketItems = await TarkovMarketService.getAllItems()
+    // TarkovLens has additional data that we want, such as market prices and images
+    let tarkovLensItems = await TarkovLensService.getItemsBasicInfo()
 
-    // Find and merge the Tarkov-Market data into our list of attachments
+    // Find and merge the TarkovLens data into our list of attachments
     for (let i in attachments) {
-      let index = tarkovMarketItems.findIndex( ({ bsgId }) => bsgId === attachments[i]._id )
+      let index = tarkovLensItems.findIndex( ({ _id }) => _id === attachments[i]._id )
 
       // If the attachment is found...
       if ( !(index === -1) ) {
-        attachments[i].avg24hPrice =       tarkovMarketItems[index].avg24hPrice
-        attachments[i].traderName =        tarkovMarketItems[index].traderName
-        attachments[i].traderPrice =       tarkovMarketItems[index].traderPrice
-        attachments[i].traderPriceCur =    tarkovMarketItems[index].traderPriceCur
-        attachments[i].icon =              tarkovMarketItems[index].icon
-        attachments[i].img =               tarkovMarketItems[index].img
-        attachments[i].imgBig =            tarkovMarketItems[index].imgBig
-        attachments[i].tarkovMarketLink =  tarkovMarketItems[index].link
-        attachments[i].wikiLink =          tarkovMarketItems[index].wikiLink
+        attachments[i].avg24hPrice =       tarkovLensItems[index].avg24hPrice
+        attachments[i].traderName =        null // not used
+        attachments[i].traderPrice =       null // not used
+        attachments[i].traderPriceCur =    null // not used
+        attachments[i].icon =              tarkovLensItems[index].icon
+        attachments[i].img =               tarkovLensItems[index].img
+        attachments[i].imgBig =            tarkovLensItems[index].imgBig
+        attachments[i].tarkovMarketLink =  null // not used
+        attachments[i].wikiLink =          tarkovLensItems[index].wikiLink
       }
     }
 
@@ -69,15 +68,15 @@ class AttachmentUpdaterService {
             slots:                      attachments[i].slots ? attachments[i].slots : '{}',
             compatibility:              attachments[i].compatibility,
             conflicts:                  attachments[i].conflicts ? attachments[i].conflicts : '{}',
-            // Tarkov-Market data
+            // TarkovLens data
             avg_24h_price:              attachments[i].avg24hPrice,
-            trader_name:                attachments[i].traderName,
-            trader_price:               attachments[i].traderPrice,
-            trader_price_cur:           attachments[i].traderPriceCur,
+            trader_name:                null, // not used
+            trader_price:               null, // not used
+            trader_price_cur:           null, // not used
             icon:                       attachments[i].icon,
             img:                        attachments[i].img,
             img_big:                    attachments[i].imgBig,
-            tarkov_market_link:         attachments[i].tarkovMarketLink,
+            tarkov_market_link:         null, // not used
             wiki_link:                  attachments[i].wikiLink
           })
         } catch (err) {
@@ -94,25 +93,24 @@ class AttachmentUpdaterService {
     let token = await TarkovDatabaseService.getNewAuthToken()
     let attachments = await TarkovDatabaseService.getModifications(token)
 
-    // Tarkov-Market has additional data that we want, such as market prices, trader prices and images
-    // Can't get items by kind like with Tarkov-Database, so we have to get every item and filter the data
-    let tarkovMarketItems = await TarkovMarketService.getAllItems()
+    // TarkovLens has additional data that we want, such as market prices and images
+    let tarkovLensItems = await TarkovLensService.getItemsBasicInfo()
 
-    // Find and merge the Tarkov-Market data into our list of attachments
+    // Find and merge the TarkovLens data into our list of attachments
     for (let i in attachments) {
-      let index = tarkovMarketItems.findIndex( ({ bsgId }) => bsgId === attachments[i]._id )
+      let index = tarkovLensItems.findIndex( ({ _id }) => _id === attachments[i]._id )
 
       // If the attachment is found...
       if ( !(index === -1) ) {
-        attachments[i].avg24hPrice =       tarkovMarketItems[index].avg24hPrice
-        attachments[i].traderName =        tarkovMarketItems[index].traderName
-        attachments[i].traderPrice =       tarkovMarketItems[index].traderPrice
-        attachments[i].traderPriceCur =    tarkovMarketItems[index].traderPriceCur
-        attachments[i].icon =              tarkovMarketItems[index].icon
-        attachments[i].img =               tarkovMarketItems[index].img
-        attachments[i].imgBig =            tarkovMarketItems[index].imgBig
-        attachments[i].tarkovMarketLink =  tarkovMarketItems[index].link
-        attachments[i].wikiLink =          tarkovMarketItems[index].wikiLink
+        attachments[i].avg24hPrice =       tarkovLensItems[index].avg24hPrice
+        attachments[i].traderName =        null // not used
+        attachments[i].traderPrice =       null // not used
+        attachments[i].traderPriceCur =    null // not used
+        attachments[i].icon =              tarkovLensItems[index].icon
+        attachments[i].img =               tarkovLensItems[index].img
+        attachments[i].imgBig =            tarkovLensItems[index].imgBig
+        attachments[i].tarkovMarketLink =  null // not used
+        attachments[i].wikiLink =          tarkovLensItems[index].wikiLink
       }
     }
 
@@ -142,15 +140,15 @@ class AttachmentUpdaterService {
           slots:                      attachments[i].slots ? attachments[i].slots : '{}',
           compatibility:              attachments[i].compatibility,
           conflicts:                  attachments[i].conflicts ? attachments[i].conflicts : '{}',
-          // Tarkov-Market data
+          // TarkovLens data
           avg_24h_price:              attachments[i].avg24hPrice,
-          trader_name:                attachments[i].traderName,
-          trader_price:               attachments[i].traderPrice,
-          trader_price_cur:           attachments[i].traderPriceCur,
+          trader_name:                null, // not used
+          trader_price:               null, // not used
+          trader_price_cur:           null, // not used
           icon:                       attachments[i].icon,
           img:                        attachments[i].img,
           img_big:                    attachments[i].imgBig,
-          tarkov_market_link:         attachments[i].tarkovMarketLink,
+          tarkov_market_link:         null, // not used
           wiki_link:                  attachments[i].wikiLink
         })
     }

@@ -13,12 +13,12 @@
                   href="https://tarkov-database.com/"
                   target="_blank"
                   rel="noopener noreferrer"
-                >Tarkov-Database</a> and
+                >Tarkov Database</a> and
                 <a
-                  href="https://tarkov-market.com/"
+                  href="https://tarkov-tools.com/"
                   target="_blank"
                   rel="noopener noreferrer"
-                >Tarkov-Market</a> and are automatically kept up to date.
+                >Tarkov Tools</a> and are automatically kept up to date.
               </v-card-text>
               <v-card-text>
                 <router-link to="/privacy-policy">
@@ -94,12 +94,12 @@
                 href="https://tarkov-database.com/"
                 target="_blank"
                 rel="noopener noreferrer"
-              >Tarkov-Database</a> and
+              >Tarkov Database</a> and
               <a
-                href="https://tarkov-market.com/"
+                href="https://tarkov-tools.com/"
                 target="_blank"
                 rel="noopener noreferrer"
-              >Tarkov-Market</a> and are automatically kept up to date.
+              >Tarkov Tools</a> and are automatically kept up to date.
             </v-card-text>
             <v-card-text>
               <router-link to="/privacy-policy">

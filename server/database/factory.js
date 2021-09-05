@@ -42,7 +42,7 @@ Factory.blueprint('App/Models/Gun', (faker, i, data) => {
     kind:                     data._kind,
     slots:                    data.slots,
     bsg_id:                   data._id,
-    // Tarkov-Market data
+    // TarkovLens data
     avg_24h_price:        data.avg24hPrice,
     trader_name:          data.traderName,
     trader_price:         data.traderPrice,
@@ -74,7 +74,7 @@ Factory.blueprint('App/Models/Attachment', (faker, i, data) => {
     slots:                      data.slots,
     compatibility:              data.compatibility,
     conflicts:                  data.conflicts,
-    // Tarkov-Market data
+    // TarkovLens data
     avg_24h_price:          data.avg24hPrice,
     trader_name:            data.traderName,
     trader_price:           data.traderPrice,

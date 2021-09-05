@@ -3,9 +3,9 @@
 const Database = use('Database')
 const Gun = use('App/Models/Gun')
 const TarkovDatabaseService = use('App/Services/TarkovDatabaseService')
-const TarkovMarketService = use('App/Services/TarkovMarketService')
+const TarkovLensService = use('App/Services/TarkovLensService')
 
-// This service updates the 'guns' database table by fetching data from Tarkov-Database and Tarkov-Market
+// This service updates the 'guns' database table by fetching data from Tarkov-Database and TarkovLens
 // It adds any new guns and updates all the data of existing guns
 // This service was primarily made for the 'GunUpdater' automatic task 
 
@@ -17,25 +17,29 @@ class GunUpdaterService {
     let token = await TarkovDatabaseService.getNewAuthToken()
     let guns = await TarkovDatabaseService.getItemsByKind(token, 'firearm')
 
-    // Tarkov-Market has additional data that we want, such as market prices, trader prices and images
-    // Can't get items by kind like with Tarkov-Database, so we have to get every item and filter the data
-    let tarkovMarketItems = await TarkovMarketService.getAllItems()
+    // TarkovLens has additional data that we want, such as market prices and images
+    let tarkovLensGuns = await TarkovLensService.getItemsByKind("firearm")
 
-    // Find and merge the Tarkov-Market data into our list of guns
+    // Find and merge the TarkovLens data into our list of guns
     for (let i in guns) {
-      let index = tarkovMarketItems.findIndex(x => x.bsgId === guns[i]._id && x.isFunctional)
+      let index = tarkovLensGuns.findIndex(x => x._id === guns[i]._id)
+      if (guns[i].name.includes("Mutant")) {
+        console.log(guns[i].name)
+        console.log(guns[i]._id)
+        console.log(index)
+      }
 
       // If the gun is found...
       if ( !(index === -1) ) {
-        guns[i].avg24hPrice =       tarkovMarketItems[index].avg24hPrice
-        guns[i].traderName =        tarkovMarketItems[index].traderName
-        guns[i].traderPrice =       tarkovMarketItems[index].traderPrice
-        guns[i].traderPriceCur =    tarkovMarketItems[index].traderPriceCur
-        guns[i].icon =              tarkovMarketItems[index].icon
-        guns[i].img =               tarkovMarketItems[index].img
-        guns[i].imgBig =            tarkovMarketItems[index].imgBig
-        guns[i].tarkovMarketLink =  tarkovMarketItems[index].link
-        guns[i].wikiLink =          tarkovMarketItems[index].wikiLink
+        guns[i].avg24hPrice =       tarkovLensGuns[index].avg24hPrice
+        guns[i].traderName =        null // not used
+        guns[i].traderPrice =       null // not used
+        guns[i].traderPriceCur =    null // not used
+        guns[i].icon =              tarkovLensGuns[index].icon
+        guns[i].img =               tarkovLensGuns[index].img
+        guns[i].imgBig =            tarkovLensGuns[index].imgBig
+        guns[i].tarkovMarketLink =  null // not used
+        guns[i].wikiLink =          tarkovLensGuns[index].wikiLink
       }
     }
 
@@ -66,16 +70,16 @@ class GunUpdaterService {
             kind:                     gunToCreate._kind,
             slots:                    gunToCreate.slots,
             bsg_id:                   gunToCreate._id,
-            // Tarkov-Market data
-            avg_24h_price:        gunToCreate.avg24hPrice,
-            trader_name:          gunToCreate.traderName,
-            trader_price:         gunToCreate.traderPrice,
-            trader_price_cur:     gunToCreate.traderPriceCur,
-            icon:                 gunToCreate.icon,
-            img:                  gunToCreate.img,
-            img_big:              gunToCreate.imgBig,
-            tarkov_market_link:   gunToCreate.tarkovMarketLink,
-            wiki_link:            gunToCreate.wikiLink
+            // TarkovLens data
+            avg_24h_price:            gunToCreate.avg24hPrice,
+            trader_name:              gunToCreate.traderName,
+            trader_price:             gunToCreate.traderPrice,
+            trader_price_cur:         gunToCreate.traderPriceCur,
+            icon:                     gunToCreate.icon,
+            img:                      gunToCreate.img,
+            img_big:                  gunToCreate.imgBig,
+            tarkov_market_link:       gunToCreate.tarkovMarketLink,
+            wiki_link:                gunToCreate.wikiLink
           })
 
         } catch (err) {
@@ -92,25 +96,24 @@ class GunUpdaterService {
     let token = await TarkovDatabaseService.getNewAuthToken()
     let guns = await TarkovDatabaseService.getItemsByKind(token, 'firearm')
 
-    // Tarkov-Market has additional data that we want, such as market prices, trader prices and images
-    // Can't get items by kind like with Tarkov-Database, so we have to get every item and filter the data
-    let tarkovMarketItems = await TarkovMarketService.getAllItems()
+    // TarkovLens has additional data that we want, such as market prices and images
+    let tarkovLensItems = await TarkovLensService.getItemsByKind("firearm")
 
-    // Find and merge the Tarkov-Market data into our list of guns
+    // Find and merge the TarkovLens data into our list of guns
     for (let i in guns) {
-      let index = tarkovMarketItems.findIndex(x => x.bsgId === guns[i]._id && x.isFunctional)
+      let index = tarkovLensItems.findIndex(x => x._id === guns[i]._id)
 
       // If the gun is found...
       if ( !(index === -1) ) {
-        guns[i].avg24hPrice =       tarkovMarketItems[index].avg24hPrice
-        guns[i].traderName =        tarkovMarketItems[index].traderName
-        guns[i].traderPrice =       tarkovMarketItems[index].traderPrice
-        guns[i].traderPriceCur =    tarkovMarketItems[index].traderPriceCur
-        guns[i].icon =              tarkovMarketItems[index].icon
-        guns[i].img =               tarkovMarketItems[index].img
-        guns[i].imgBig =            tarkovMarketItems[index].imgBig
-        guns[i].tarkovMarketLink =  tarkovMarketItems[index].link
-        guns[i].wikiLink =          tarkovMarketItems[index].wikiLink
+        guns[i].avg24hPrice =       tarkovLensItems[index].avg24hPrice
+        guns[i].traderName =        null // not used
+        guns[i].traderPrice =       null // not used
+        guns[i].traderPriceCur =    null // not used
+        guns[i].icon =              tarkovLensItems[index].icon
+        guns[i].img =               tarkovLensItems[index].img
+        guns[i].imgBig =            tarkovLensItems[index].imgBig
+        guns[i].tarkovMarketLink =  null // not used
+        guns[i].wikiLink =          tarkovLensItems[index].wikiLink
       }
     }
 
@@ -137,7 +140,7 @@ class GunUpdaterService {
           kind:                     guns[i]._kind,
           slots:                    guns[i].slots,
           bsg_id:                   guns[i]._id,
-          // Tarkov-Market data
+          // TarkovLens data
           avg_24h_price:            guns[i].avg24hPrice,
           trader_name:              guns[i].traderName,
           trader_price:             guns[i].traderPrice,
